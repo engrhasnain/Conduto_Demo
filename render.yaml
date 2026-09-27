@@ -1,0 +1,22 @@
+# Render blueprint for the API (free plan). The frontend deploys to Vercel.
+services:
+  - type: web
+    name: conduto-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    # the demo dataset is generated at build time so a cold start (free plan sleeps when idle) only has to boot
+    buildCommand: pip install -r requirements.txt && python -m app.seed.run
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: ANTHROPIC_API_KEY   # optional: without it the app runs in offline mode
+        sync: false
+      - key: ANTHROPIC_MODEL
+        value: claude-opus-5
+      - key: ANTHROPIC_EFFORT
+        value: medium
+      - key: CORS_ORIGINS        # set to your Vercel URL once you know it
+        value: "*"
