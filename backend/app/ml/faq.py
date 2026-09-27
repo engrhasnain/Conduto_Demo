@@ -1,8 +1,6 @@
 """Built-in knowledge base for general questions: project-control concepts, how the
 system works, and small talk. Retrieved with a TF-IDF similarity model, so the
 assistant can answer "what is a change order?" or "is this real data?" offline."""
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.pipeline import make_union
 
 from ..services.ingestion.normalize import norm
 
@@ -152,14 +150,17 @@ FAQ = [
 ]
 
 OUT_OF_SCOPE = (
-    "Esa pregunta está fuera de lo que puedo responder sin una IA externa: estoy preparado para los proyectos de Conduto y los conceptos de control de proyectos. Con una clave de IA (Claude) activa, también respondo preguntas generales de cualquier tema.",
-    "That question is outside what I can answer without an external AI: I'm prepared for Conduto's projects and project-control concepts. With an AI key (Claude) configured, I also answer general questions on any topic.",
-    "Essa pergunta está fora do que posso responder sem uma IA externa: estou preparado para os projetos da Conduto e conceitos de controle de projetos. Com uma chave de IA (Claude) ativa, também respondo perguntas gerais de qualquer tema.",
+    "Esa pregunta está fuera de lo que puedo responder sin servicios externos: estoy preparado para los proyectos de Conduto y los conceptos de control de proyectos. Si se conecta Claude, también respondo preguntas generales de cualquier tema.",
+    "That question is outside what I can answer without outside services: I'm prepared for Conduto's projects and project-control concepts. If Claude is connected, I also answer general questions on any topic.",
+    "Essa pergunta está fora do que posso responder sem serviços externos: estou preparado para os projetos da Conduto e conceitos de controle de projetos. Se o Claude estiver conectado, também respondo perguntas gerais de qualquer tema.",
 )
 
 
 class FaqIndex:
     def __init__(self):
+        from sklearn.feature_extraction.text import TfidfVectorizer  # loaded on the first question
+        from sklearn.pipeline import make_union
+
         self.texts, self.owner = [], []
         for i, e in enumerate(FAQ):
             for q in e["q"]:

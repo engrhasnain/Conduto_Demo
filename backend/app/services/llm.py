@@ -1,10 +1,15 @@
-"""Thin wrapper around the Anthropic SDK."""
+"""Thin wrapper around the Anthropic SDK.
+
+The SDK is imported on first use: without an API key it is never needed, and skipping it keeps cold starts fast.
+"""
 import json
 import logging
-
-import anthropic
+from typing import TYPE_CHECKING
 
 from ..config import ANTHROPIC_MODEL
+
+if TYPE_CHECKING:
+    import anthropic
 
 log = logging.getLogger("conduto.llm")
 
@@ -12,14 +17,16 @@ log = logging.getLogger("conduto.llm")
 # request on a fallback model inside the same call.
 FALLBACK_MODELS = {"claude-opus-5", "claude-fable-5-1"}
 
-_client: anthropic.Anthropic | None = None
+_client: "anthropic.Anthropic | None" = None
 
 
 class LLMError(RuntimeError):
     pass
 
 
-def client() -> anthropic.Anthropic:
+def client() -> "anthropic.Anthropic":
+    import anthropic
+
     global _client
     if _client is None:
         _client = anthropic.Anthropic(max_retries=2, timeout=120.0)
@@ -39,6 +46,8 @@ def create(**params):
 
 def extract_json(system: str, content, schema: dict, max_tokens: int = 8000, effort: str = "low") -> dict:
     """Single call with a JSON-schema constrained response."""
+    import anthropic
+
     try:
         resp = create(
             max_tokens=max_tokens,

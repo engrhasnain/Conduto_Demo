@@ -6,7 +6,6 @@ The response carries the full trace so the UI can show exactly how an answer was
 import json
 import re
 
-import anthropic
 from sqlalchemy.orm import Session
 
 from ...config import ANTHROPIC_EFFORT
@@ -98,6 +97,8 @@ def _run_tool(db: Session, name: str, args: dict, trace: list) -> tuple[str, boo
 
 
 def ask(db: Session, question: str, lang: str, history: list[dict] | None = None) -> dict:
+    import anthropic  # only reached when an API key is configured
+
     messages = []
     for turn in (history or [])[-6:]:
         if turn.get("role") in ("user", "assistant") and turn.get("content"):

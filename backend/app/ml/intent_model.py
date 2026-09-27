@@ -5,9 +5,6 @@ masked, so it learns the shape of a question rather than project names. Accuracy
 is measured on questions written by hand that are not in the templates."""
 import random
 
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import make_pipeline, make_union
 
 from ..seed.specs import PROJECTS
 from .entities import ProjectIndex, extract, mask
@@ -193,6 +190,10 @@ def training_data(index: ProjectIndex, seed: int = 11, per_tpl: int = 6) -> tupl
 
 
 def train():
+    # scikit-learn is only needed to train (at build time); prediction unpickles the saved model
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.pipeline import make_pipeline, make_union
     index = project_index()
     X, y = training_data(index)
     model = make_pipeline(

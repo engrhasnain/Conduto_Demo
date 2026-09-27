@@ -105,7 +105,7 @@ def test_ask_general_questions(client, question, lang, faq_id):
 
 def test_ask_out_of_scope_is_honest(client):
     r = client.post("/api/ask", json=dict(question="¿cuál es la capital de Francia?", lang="es")).json()
-    assert "IA" in r["answer"] and r["suggestions"]
+    assert "servicios externos" in r["answer"] and "Claude" in r["answer"] and r["suggestions"]
 
 
 def test_ask_never_dead_ends(client):

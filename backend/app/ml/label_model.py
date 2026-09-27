@@ -7,9 +7,6 @@ dropped accents, codes in front, typos). Accuracy is measured on labels written 
 hand that the generator never produces."""
 import random
 
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import make_pipeline
 
 from ..i18n import ACTIVITY_NAMES
 from ..seed.templates import TEMPLATES
@@ -112,6 +109,10 @@ def training_data(seed: int = 7, per_base: int = 10) -> tuple[list[str], list[st
 
 
 def train():
+    # scikit-learn is only needed to train (at build time); prediction unpickles the saved model
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.pipeline import make_pipeline
     X, y = training_data()
     model = make_pipeline(
         TfidfVectorizer(analyzer="char_wb", ngram_range=(2, 5), sublinear_tf=True, preprocessor=norm),
