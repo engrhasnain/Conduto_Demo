@@ -1,9 +1,23 @@
 """Runtime configuration, read from environment variables."""
 import os
+import shutil
+import tempfile
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-DATA_DIR = Path(os.getenv("DATA_DIR", BASE_DIR / "data"))
+BUNDLED_DATA_DIR = BASE_DIR / "data"  # generated at build time (build.py) and shipped with the deployment
+ON_VERCEL = bool(os.getenv("VERCEL"))
+
+if os.getenv("DATA_DIR"):
+    DATA_DIR = Path(os.environ["DATA_DIR"])
+elif ON_VERCEL:
+    # The deployed code is read-only on Vercel; only the temporary folder is writable. Each server instance
+    # starts from the dataset generated at build time, so imports and resets last while that instance lives.
+    DATA_DIR = Path(tempfile.gettempdir()) / "conduto-data"
+    if not (DATA_DIR / "conduto.db").exists() and (BUNDLED_DATA_DIR / "conduto.db").exists():
+        shutil.copytree(BUNDLED_DATA_DIR, DATA_DIR, dirs_exist_ok=True)
+else:
+    DATA_DIR = BUNDLED_DATA_DIR
 SOURCES_DIR = DATA_DIR / "sources"   # generated "raw" project files (xlsx, xml, pdf)
 INBOX_DIR = DATA_DIR / "inbox"       # sample files for the live-ingestion demo
 UPLOADS_DIR = DATA_DIR / "uploads"   # files uploaded through the Ingest screen

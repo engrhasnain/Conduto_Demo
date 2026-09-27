@@ -350,7 +350,7 @@ const D: Record<string, [string, string, string]> = {
   "in.analyze": ["Leer este archivo", "Read this file", "Ler este arquivo"],
   "in.download": ["Ver el original", "See the original", "Ver o original"],
   "in.drop": ["Arrastre un archivo aquí o haga clic para elegirlo", "Drag a file here or click to choose it", "Arraste um arquivo aqui ou clique para escolhê-lo"],
-  "in.drop_types": ["Excel, PDF o Microsoft Project (formato XML) · hasta 15 megabytes", "Excel, PDF or Microsoft Project (XML format) · up to 15 megabytes", "Excel, PDF ou Microsoft Project (formato XML) · até 15 megabytes"],
+  "in.drop_types": ["Excel, PDF o Microsoft Project (formato XML) · hasta 4 megabytes", "Excel, PDF or Microsoft Project (XML format) · up to 4 megabytes", "Excel, PDF ou Microsoft Project (formato XML) · até 4 megabytes"],
   "in.step.upload": ["Archivo recibido", "File received", "Arquivo recebido"],
   "in.step.read": ["Lectura y mapeo", "Read & map", "Leitura e mapeamento"],
   "in.step.review": ["Revisión humana", "Human review", "Revisão humana"],
@@ -662,6 +662,9 @@ const D: Record<string, [string, string, string]> = {
   // benchmark wording
   "bm.click_dot": ["Haga clic en un punto para abrir el proyecto", "Click a dot to open the project", "Clique num ponto para abrir o projeto"],
   "bm.d.delay": ["Atraso", "Delay", "Atraso"],
+
+  // upload size
+  "in.too_big": ["Este archivo pesa {mb} megabytes. El máximo es 4 megabytes.", "This file is {mb} megabytes. The maximum is 4 megabytes.", "Este arquivo tem {mb} megabytes. O máximo é 4 megabytes."],
 };
 
 const IDX: Record<Lang, number> = { es: 0, en: 1, pt: 2 };

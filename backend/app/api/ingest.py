@@ -14,7 +14,7 @@ from ..seed.inbox import SAMPLES
 from ..services.ingestion.service import IngestError, analyze, confirm
 
 router = APIRouter(prefix="/api/ingest")
-MAX_BYTES = 15 * 1024 * 1024
+MAX_BYTES = 4 * 1024 * 1024  # Vercel rejects request bodies above 4.5 MB
 ALLOWED = {".xlsx", ".xlsm", ".pdf", ".xml"}
 
 
@@ -60,7 +60,7 @@ async def upload(file: UploadFile = File(...), db: Session = Depends(get_db)):
         raise HTTPException(400, "Supported files: Excel (.xlsx), PDF and Microsoft Project (.xml)")
     data = await file.read(MAX_BYTES + 1)
     if len(data) > MAX_BYTES:
-        raise HTTPException(413, "File too large (max 15 MB)")
+        raise HTTPException(413, "File too large (maximum 4 megabytes)")
     with tempfile.TemporaryDirectory() as tmp:
         tmp_path = Path(tmp) / Path(name).name
         tmp_path.write_bytes(data)

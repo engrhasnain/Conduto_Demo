@@ -1,0 +1,25 @@
+# Used by Vercel to deploy the API (FastAPI). Keep the dependency list in sync with requirements.txt,
+# which is what local development installs.
+[project]
+name = "conduto-api"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi==0.141.1",
+    "uvicorn[standard]==0.54.0",
+    "SQLAlchemy==2.1.1",
+    "pydantic==2.13.5",
+    "python-multipart==0.0.32",
+    "openpyxl==3.1.5",
+    "reportlab==5.0.1",
+    "pypdf==6.19.0",
+    "anthropic==1.8.0",
+    "scikit-learn==1.9.1",
+]
+
+[tool.vercel]
+entrypoint = "app.main:app"
+
+[tool.vercel.scripts]
+# generates the demo dataset and trained models so they ship with the deployment
+build = "python build.py"

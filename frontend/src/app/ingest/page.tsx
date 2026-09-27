@@ -23,6 +23,7 @@ const KIND_ICON: Record<string, typeof FileText> = { cost_workbook: FileSpreadsh
 const WORKBOOK = new Set(["cost_workbook", "legacy_workbook"]);
 const PDF = new Set(["change_order_pdf", "document_pdf"]);
 const MIN_ANALYZE_MS = 1600; // long enough to see what the system is doing
+const MAX_UPLOAD_BYTES = 4 * 1024 * 1024; // same limit as the API (the hosting rejects larger requests)
 
 /* ---------------------------------------------------------------- guide */
 
@@ -572,6 +573,11 @@ export default function IngestPage() {
 
   const analyzeSample = (f: string) => run(f, () => api<Job>(`/api/ingest/samples/${encodeURIComponent(f)}`, { method: "POST" }));
   const upload = (file: File) => {
+    if (file.size > MAX_UPLOAD_BYTES) {
+      setJob(null);
+      setErr(t("in.too_big", { mb: (file.size / 1024 / 1024).toFixed(1) }));
+      return;
+    }
     const fd = new FormData();
     fd.append("file", file);
     return run(file.name, () => api<Job>("/api/ingest/upload", { method: "POST", body: fd }));
