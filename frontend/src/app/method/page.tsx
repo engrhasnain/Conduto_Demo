@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight, Calculator, Cloud, FileSearch, Layers, ShieldCheck, UserCheck } from "lucide-react";
+import Link from "next/link";
 import { useApp } from "@/components/providers";
 import { Card, PageHeader } from "@/components/ui";
 import type { Lang } from "@/lib/api";
@@ -23,8 +24,8 @@ const C = {
   ],
   flowTitle: tx("Arquitectura", "Architecture", "Arquitetura"),
   flow: [
-    [tx("Fuentes", "Sources", "Fontes"), tx("Excel · Microsoft Project · PDF · Dynamics GP (hoy) · SAP o Dynamics 365 (mañana)", "Excel · Microsoft Project · PDF · Dynamics GP (today) · SAP or Dynamics 365 (tomorrow)", "Excel · Microsoft Project · PDF · Dynamics GP (hoje) · SAP ou Dynamics 365 (amanhã)")],
-    [tx("Carga de datos", "Loading the data", "Carga de dados"), tx("Reglas y un modelo entrenado llevan cada formato a la estructura común; una persona revisa y confirma", "Rules and a trained model bring each format into the common structure; a person reviews and confirms", "Regras e um modelo treinado levam cada formato para a estrutura comum; uma pessoa revisa e confirma")],
+    [tx("Fuentes", "Sources", "Fontes"), tx("Excel · Microsoft Project · PDF · Dynamics GP (hoy) · SAP o Dynamics 365 (mañana) · sistema comercial", "Excel · Microsoft Project · PDF · Dynamics GP (today) · SAP or Dynamics 365 (tomorrow) · sales system", "Excel · Microsoft Project · PDF · Dynamics GP (hoje) · SAP ou Dynamics 365 (amanhã) · sistema comercial")],
+    [tx("Conectores y carga", "Connectors and loading", "Conectores e carga"), tx("Conectores de solo lectura traen los datos solos; reglas y un modelo entrenado llevan cada formato a la estructura común; una persona revisa y confirma", "Read-only connectors bring the data automatically; rules and a trained model bring each format into the common structure; a person reviews and confirms", "Conectores somente leitura trazem os dados sozinhos; regras e um modelo treinado levam cada formato para a estrutura comum; uma pessoa revisa e confirma")],
     [tx("Modelo común", "Common model", "Modelo comum"), tx("Proyectos, actividades, costos, avance, órdenes de cambio y eventos, con trazabilidad a la celda o página", "Projects, activities, costs, progress, change orders and events, traced to the cell or page", "Projetos, atividades, custos, avanço, ordens de alteração e ocorrências, rastreados até a célula ou página")],
     [tx("Indicadores", "Intelligence", "Indicadores"), tx("Valor ganado, margen pronosticado, alertas, benchmarks históricos", "Earned value, forecast margin, alerts, historical benchmarks", "Valor agregado, margem prevista, alertas, benchmarks históricos")],
     [tx("Uso", "Use", "Uso"), tx("Tablero, preguntas en lenguaje natural, exportación a Power BI o al sistema contable", "Dashboard, natural-language questions, export to Power BI or the accounting system", "Painel, perguntas em linguagem natural, exportação para Power BI ou para o sistema contábil")],
@@ -33,7 +34,7 @@ const C = {
   principles: [
     [Calculator, tx("Los números se calculan, no se adivinan", "Numbers are calculated, never guessed", "Os números são calculados, nunca adivinhados"), tx("Las cifras se calculan en la base de datos. La inteligencia artificial solo lee documentos, reconoce formatos y redacta respuestas; nunca inventa un número.", "Figures are computed in the database. Artificial intelligence only reads documents, recognizes formats and writes answers; it never invents a number.", "Os números são calculados no banco de dados. A inteligência artificial só lê documentos, reconhece formatos e redige respostas; nunca inventa um número.")],
     [FileSearch, tx("Todo número es trazable", "Every number is traceable", "Todo número é rastreável"), tx("Cada valor apunta a la celda, página o tarea del archivo original. La auditoría es un clic.", "Every value points to the cell, page or task of the original file. Auditing is one click.", "Cada valor aponta para a célula, página ou tarefa do arquivo original. Auditar é um clique.")],
-    [Layers, tx("Independiente del sistema contable", "Works with any accounting system", "Independente do sistema contábil"), tx("Funciona hoy sobre Dynamics GP y sobrevive a la migración a SAP o Dynamics 365. Los datos históricos limpios también ayudan a esa migración.", "Works today on top of Dynamics GP and survives the move to SAP or Dynamics 365. Clean historical data also helps that migration.", "Funciona hoje sobre o Dynamics GP e sobrevive à migração para SAP ou Dynamics 365. Dados históricos limpos também ajudam nessa migração.")],
+    [Layers, tx("Independiente del sistema contable", "Works with any accounting system", "Independente do sistema contábil"), tx("Funciona hoy sobre Dynamics GP y sobrevive a la migración a SAP o Dynamics 365: solo se cambia un conector. Los datos históricos limpios también ayudan a esa migración.", "Works today on top of Dynamics GP and survives the move to SAP or Dynamics 365: only one connector changes. Clean historical data also helps that migration.", "Funciona hoje sobre o Dynamics GP e sobrevive à migração para SAP ou Dynamics 365: só um conector muda. Dados históricos limpos também ajudam nessa migração.")],
     [UserCheck, tx("Humano en el ciclo", "Human in the loop", "Humano no ciclo"), tx("Nada se importa sin revisión. Cada formato nuevo se aprende una vez y se reutiliza.", "Nothing is imported without review. Each new format is learned once and reused.", "Nada é importado sem revisão. Cada formato novo é aprendido uma vez e reutilizado.")],
     [Cloud, tx("En su nube", "In your cloud", "Na sua nuvem"), tx("Se instala en la nube de Conduto (por ejemplo, Microsoft Azure). Los datos no salen de su control.", "Installed in Conduto's own cloud account (for example, Microsoft Azure). Data stays under your control.", "Instalado na nuvem da própria Conduto (por exemplo, Microsoft Azure). Os dados ficam sob seu controle.")],
     [ShieldCheck, tx("Acceso de solo lectura", "Read-only access", "Acesso somente leitura"), tx("Las consultas a sistemas fuente y a la base consolidada son de solo lectura, con controles de tiempo y volumen.", "Queries to source systems and the consolidated store are read-only, with time and volume limits.", "As consultas aos sistemas fonte e à base consolidada são somente leitura, com limites de tempo e volume.")],
@@ -55,6 +56,7 @@ const C = {
     [tx("Dynamics GP", "Dynamics GP", "Dynamics GP"), tx("Exportación del libro mayor por proyecto (Excel o texto)", "General-ledger export by project (Excel or text file)", "Exportação do razão por projeto (Excel ou arquivo de texto)"), tx("Acceso de solo lectura a la base de datos contable", "Read-only access to the accounting database", "Acesso somente leitura ao banco de dados contábil")],
     [tx("Personas", "People", "Pessoas"), tx("2 horas con control de proyectos, 1 hora con tecnología, 1 hora con finanzas", "2 hours with project controls, 1 hour with technology, 1 hour with finance", "2 horas com controle de projetos, 1 hora com tecnologia, 1 hora com finanças"), tx("Un responsable de datos por país", "One data owner per country", "Um responsável de dados por país")],
   ],
+  connectorsLink: tx("Ver los conectores", "See the connectors", "Ver os conectores"),
   note: tx("Todos los datos de esta demo son sintéticos: proyectos, clientes y cifras son ficticios y fueron generados para ilustrar el método.", "All data in this demo is synthetic: projects, clients and figures are fictitious and were generated to illustrate the method.", "Todos os dados desta demo são sintéticos: projetos, clientes e números são fictícios e foram gerados para ilustrar o método."),
 };
 
@@ -71,7 +73,7 @@ export default function MethodPage() {
           </ul>
         </Card>
 
-        <Card title={L(C.flowTitle)}>
+        <Card title={L(C.flowTitle)} actions={<Link href="/connectors" className="inline-flex items-center gap-1 text-[13px] font-medium text-[#2a78d6] hover:underline">{L(C.connectorsLink)} <ArrowRight className="h-3.5 w-3.5" /></Link>}>
           <div className="flex flex-col gap-2 xl:flex-row xl:items-stretch">
             {C.flow.map(([h, d], i) => (
               <div key={i} className="flex flex-1 items-center gap-2">

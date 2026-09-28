@@ -59,7 +59,7 @@ def test_benchmarks_and_estimate(client):
 @pytest.mark.parametrize("lang", ["es", "en", "pt"])
 def test_ask_local_suggestions(client, lang):
     sugg = client.get("/api/ask/suggestions", params={"lang": lang}).json()["suggestions"]
-    assert len(sugg) == 9
+    assert len(sugg) == 10
     for s in sugg:
         r = client.post("/api/ask", json=dict(question=s["text"], lang=lang)).json()
         assert r["engine"] == "local", s

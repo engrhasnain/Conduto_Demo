@@ -25,6 +25,12 @@ export function useChatIntro() {
   if (path.startsWith("/data")) {
     return { welcome: t("chat.welcome"), starters: [t("chat.q.quality"), t("chat.q.what"), t("chat.q.real"), t("chat.q.how")] };
   }
+  if (path.startsWith("/bids")) {
+    return { welcome: t("chat.welcome"), starters: [t("chat.q.bids"), t("chat.q.bids_source"), t("chat.q.benchmark"), t("chat.q.how")] };
+  }
+  if (path.startsWith("/connectors")) {
+    return { welcome: t("chat.welcome"), starters: [t("chat.q.connectors"), t("chat.q.erp_change"), t("chat.q.bids_source"), t("chat.q.quality")] };
+  }
   const base = (sugg?.suggestions ?? []).slice(0, 3).map((s) => s.text);
   return { welcome: t("chat.welcome"), starters: [...base, t("chat.q.how")] };
 }

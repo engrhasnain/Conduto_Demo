@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { BarChart3, Cpu, Database, LayoutDashboard, MessageSquareText, RotateCcw, ShieldCheck, Sparkles, UploadCloud, Workflow } from "lucide-react";
+import { BarChart3, Cpu, Database, Handshake, LayoutDashboard, MessageSquareText, Plug, RotateCcw, ShieldCheck, Sparkles, UploadCloud, Workflow } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -15,9 +15,11 @@ import { Segmented } from "./ui";
 
 const NAV = [
   { href: "/", key: "nav.portfolio", icon: LayoutDashboard },
+  { href: "/bids", key: "nav.bids", icon: Handshake },
   { href: "/data", key: "nav.data", icon: ShieldCheck },
-  { href: "/ask", key: "nav.ask", icon: MessageSquareText },
+  { href: "/connectors", key: "nav.connectors", icon: Plug },
   { href: "/ingest", key: "nav.ingest", icon: UploadCloud },
+  { href: "/ask", key: "nav.ask", icon: MessageSquareText },
   { href: "/benchmarks", key: "nav.benchmarks", icon: BarChart3 },
   { href: "/method", key: "nav.method", icon: Workflow },
 ];

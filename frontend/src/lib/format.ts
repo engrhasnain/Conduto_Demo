@@ -45,3 +45,15 @@ export function date(d: string | null | undefined, lang: Lang): string {
 export function ratio(x: number | null | undefined): string {
   return x === null || x === undefined ? "–" : x.toFixed(2);
 }
+
+/** "12 minutes ago" in the viewer's language, measured against `now` (defaults to the browser clock). */
+export function ago(iso: string | null | undefined, lang: Lang, now: number = Date.now()): string {
+  if (!iso) return "–";
+  const secs = Math.round((Date.parse(iso) - now) / 1000);
+  const rtf = new Intl.RelativeTimeFormat(LOCALE[lang], { numeric: "auto" });
+  const abs = Math.abs(secs);
+  if (abs < 60) return rtf.format(Math.round(secs), "second");
+  if (abs < 3600) return rtf.format(Math.round(secs / 60), "minute");
+  if (abs < 86400) return rtf.format(Math.round(secs / 3600), "hour");
+  return rtf.format(Math.round(secs / 86400), "day");
+}

@@ -124,11 +124,24 @@ TEMPLATES = {
         "¿cómo subo un archivo?", "¿cuánto cuesta implementarlo?", "¿en qué idiomas funciona?", "¿qué es Conduto?",
         "how does this system work?", "where does the data come from?", "is this real data?", "how accurate is it?", "do you need internet?",
         "how do I upload a file?", "how long does it take to implement?", "como funciona o sistema?", "de onde vêm os dados?", "os dados são reais?",
+        "¿qué son los conectores?", "¿con qué sistemas se conecta?", "¿qué pasa si cambiamos a SAP?", "¿sirve si migramos a Dynamics 365?",
+        "¿de dónde salen las ofertas?", "what are connectors?", "which systems can it connect to?", "what if we move to SAP?",
+        "does it still work after the Dynamics 365 migration?", "where do the bids come from?", "o que são os conectores?",
+        "e se mudarmos para o SAP?",
     ],
     "document_search": [
         "busca en los documentos {k}", "¿qué dicen los informes sobre {k}?", "muéstrame el informe de {p} de mayo", "documentos sobre deslizamiento en {p}",
         "¿dónde se menciona el río Coca?", "search documents for {k}", "what do the reports say about {k}", "show me the monthly report for {p}",
         "procure nos documentos {k}", "o que dizem os relatórios sobre {k}",
+    ],
+    "bids": [
+        "¿Qué ofertas están por debajo del histórico?", "¿qué ofertas en curso tienen riesgo?", "¿cómo van las ofertas comerciales?",
+        "ofertas abiertas en {c}", "¿qué licitaciones estamos preparando?", "¿alguna oferta está mal cotizada?",
+        "¿cuánto suman las oportunidades abiertas?", "revisa nuestras ofertas contra el histórico", "oportunidades del sistema comercial",
+        "Which bids are priced below history?", "how are our open bids looking?", "open bids in {c}", "which tenders are we preparing?",
+        "is any bid underpriced?", "check our bids against past projects", "what is in the sales pipeline?",
+        "Quais propostas estão abaixo do histórico?", "como estão as propostas comerciais?", "propostas abertas no {c}",
+        "alguma proposta está mal precificada?", "licitações em andamento",
     ],
 }
 
@@ -160,6 +173,8 @@ TEST_SET = [
     ("compare the three countries by margin", "country_compare"), ("¿cuánto nos falta cobrar por adicionales en Perú?", "pending_cos"),
     ("¿qué quiere decir eficiencia de plazo?", "general"), ("what exactly is earned value?", "general"),
     ("o que é uma ordem de alteração?", "general"), ("¿estos números son de verdad?", "general"),
+    ("¿qué ofertas debería revisar antes de presentarlas?", "bids"), ("are any of our open tenders too cheap?", "bids"),
+    ("propostas comerciais em risco", "bids"),
 ]
 
 PREFIX = ["", "", "", "oye ", "por favor ", "dime ", "quisiera saber ", "can you tell me ", "please ", "me diz ", "quero saber "]

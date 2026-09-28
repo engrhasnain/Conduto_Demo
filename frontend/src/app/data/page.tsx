@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { AlertTriangle, ArrowRight, Brain, CheckCircle2, ChevronRight, Download, FileSpreadsheet, FileText, GanttChart, Landmark, Layers, ShieldCheck, XCircle } from "lucide-react";
+import { AlertTriangle, ArrowRight, Brain, CheckCircle2, ChevronRight, Download, FileSpreadsheet, FileText, GanttChart, Handshake, Landmark, Layers, ShieldCheck, XCircle } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useApp } from "@/components/providers";
@@ -140,7 +140,7 @@ function DocList({ query }: { query: string }) {
       <thead className="border-b border-slate-200"><tr><Th>{t("pf.col.project")}</Th><Th>{t("pj.col.doc")}</Th><Th>{t("pj.col.month")}</Th></tr></thead>
       <tbody className="divide-y divide-slate-100">
         {data.map((d) => {
-          const Icon = d.doc_type.includes("workbook") || d.doc_type === "erp_export" ? FileSpreadsheet : d.doc_type === "schedule" ? GanttChart : FileText;
+          const Icon = d.doc_type.includes("workbook") || d.doc_type.endsWith("_export") ? FileSpreadsheet : d.doc_type === "schedule" ? GanttChart : FileText;
           return (
             <tr key={d.id} className="cursor-pointer hover:bg-blue-50/40" onClick={() => openSource({ kind: "source", document_id: d.id, locator: d.pages ? "p.1" : null })}>
               <Td className="whitespace-nowrap font-semibold text-slate-800">{d.project ?? "—"}</Td>
@@ -166,7 +166,7 @@ const DOC_COLS: [string, typeof FileText][] = [
   ["cost_workbook", FileSpreadsheet], ["schedule", GanttChart], ["contract", FileText], ["change_order", FileText],
   ["progress_report", FileText], ["closeout_report", FileText], ["legacy_workbook", FileSpreadsheet],
 ];
-const RECORD_KINDS = ["cost_actuals", "budget_lines", "progress", "production", "change_orders", "issues", "schedule_tasks", "erp_transactions", "document_pages"];
+const RECORD_KINDS = ["cost_actuals", "budget_lines", "progress", "production", "change_orders", "issues", "schedule_tasks", "erp_transactions", "opportunities", "document_pages"];
 
 type Panel =
   | null
@@ -233,6 +233,7 @@ export default function DataPage() {
           <button className={chip} onClick={() => docs(t("doc.schedule"), "doc_type=schedule")}><GanttChart className="h-3.5 w-3.5" /> Microsoft Project · {bt.schedule ?? 0}</button>
           <button className={chip} onClick={() => docs(t("dh.chip.pdf"), "doc_type=contract,change_order,progress_report,closeout_report")}><FileText className="h-3.5 w-3.5" /> PDF · {pdfs}</button>
           <button className={chip} onClick={() => docs(t("doc.erp_export"), "doc_type=erp_export")}><Landmark className="h-3.5 w-3.5" /> Dynamics GP · {bt.erp_export ?? 0}</button>
+          {!!bt.sales_export && <button className={chip} onClick={() => docs(t("doc.sales_export"), "doc_type=sales_export")}><Handshake className="h-3.5 w-3.5" /> {t("dh.chip.sales")} · {bt.sales_export}</button>}
           <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1"><Layers className="h-3.5 w-3.5" /> {t("dh.langs")}</span>
           <a href={`${API_URL}/api/export/consolidated.xlsx?lang=${lang}`} className="ml-auto inline-flex items-center gap-2 rounded-lg bg-white px-3.5 py-2 text-[13px] font-semibold text-[#132a45] hover:bg-sky-50" title={t("dh.export_hint")}>
             <Download className="h-4 w-4" /> {t("dh.export")}

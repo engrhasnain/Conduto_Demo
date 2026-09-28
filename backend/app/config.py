@@ -24,7 +24,7 @@ UPLOADS_DIR = DATA_DIR / "uploads"   # files uploaded through the Ingest screen
 DB_PATH = DATA_DIR / "conduto.db"
 
 # Bump when the synthetic dataset changes so deployments reseed automatically.
-SEED_VERSION = "2026.09.28-6"
+SEED_VERSION = "2026.09.29-1"
 
 # Month of the latest closed cost cut-off in the synthetic dataset.
 STATUS_PERIOD = "2026-08"

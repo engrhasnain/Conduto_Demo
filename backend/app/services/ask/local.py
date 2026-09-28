@@ -20,6 +20,7 @@ from ...ml.intent_model import classify
 from ...utils import add_months, last_day
 from ..anomalies import portfolio_anomalies
 from ..benchmarks import benchmarks
+from ..bids import pipeline as bid_pipeline
 from ..projects import project_detail
 from ..quality import report_crosscheck
 from ..reconciliation import reconcile
@@ -39,6 +40,7 @@ SUGGESTIONS = [
     ("anomalies", "¿Dónde estamos gastando sin avanzar?", "Where are we spending without making progress?", "Onde estamos gastando sem avançar?"),
     ("days", "¿Qué eventos nos hicieron perder más días en los últimos 12 meses?", "Which events cost us the most lost days in the last 12 months?", "Quais ocorrências nos fizeram perder mais dias nos últimos 12 meses?"),
     ("benchmark", "¿Cuál es nuestro costo histórico por kilómetro en Amazonía frente a la costa?", "What is our historical cost per kilometre in the rainforest compared with the coast?", "Qual é o nosso custo histórico por quilômetro na Amazônia comparado com o litoral?"),
+    ("bids", "¿Qué ofertas en curso están por debajo de lo que costaron obras parecidas?", "Which open bids are priced below what similar jobs cost?", "Quais propostas em andamento estão abaixo do que obras parecidas custaram?"),
     ("contract", "¿Qué dice el contrato de EC-2503 sobre trabajos adicionales sin orden aprobada?", "What does the EC-2503 contract say about extra work without an approved change order?", "O que diz o contrato do EC-2503 sobre serviços adicionais sem ordem aprovada?"),
 ]
 
@@ -252,6 +254,48 @@ def h_pending(ctx: Ctx, q: str):
                        f"- **{r['code']} {r['number']}** ({usd(r['amount_usd'], lang)}, {r['age']} dias): {title} [doc:{r['document_id']} p.1]"))
     table = dict(columns=H(lang, ("País", "Country", "País"), ("Órdenes", "Orders", "Ordens"), "USD", ("Más antigua (días)", "Oldest (days)", "Mais antiga (dias)")),
                  rows=[[c, v[0], usd(v[1], lang), v[2]] for c, v in sorted(by_c.items(), key=lambda kv: -kv[1][1])])
+    return "\n".join(lines), table
+
+
+STAGE_NAMES = {"prospecting": ("Identificada", "Identified", "Identificada"), "preparing": ("En preparación", "Being prepared", "Em preparação"),
+               "submitted": ("Presentada", "Submitted", "Apresentada"), "negotiation": ("En negociación", "In negotiation", "Em negociação")}
+RISK_NAMES = {"red": ("Por debajo del histórico", "Below history", "Abaixo do histórico"), "amber": ("Justa", "Tight", "Justa"),
+              "green": ("Sana", "Sound", "Saudável"), "none": ("Sin histórico comparable", "No comparable history", "Sem histórico comparável")}
+
+
+def h_bids(ctx: Ctx, q: str):
+    lang = ctx.lang
+    ctx.note("bids.pipeline(): open bids from the sales system, each checked against the cost of comparable closed pipelines")
+    p = bid_pipeline(ctx.db)
+    rows = [r for r in p["bids"] if r.get("check")]
+    if ctx.e.get("countries"):
+        rows = [r for r in rows if r["country"] in ctx.e["countries"]]
+    if not rows:
+        return L(lang, "No hay ofertas abiertas con esos filtros.", "There are no open bids with those filters.", "Não há propostas abertas com esses filtros."), None
+    order = {"red": 0, "amber": 1, "green": 2, "none": 3}
+    rows.sort(key=lambda r: (order[r["check"]["risk"]], -r["value_usd"]))
+    red = [r for r in rows if r["check"]["risk"] == "red"]
+    amber = [r for r in rows if r["check"]["risk"] == "amber"]
+    total = sum(r["value_usd"] for r in rows)
+    n = len(rows)
+    lines = [L(lang,
+               f"Hay **{n} ofertas abiertas** por **{usd(total, lang)}**. **{len(red)}** {'está' if len(red) == 1 else 'están'} por debajo de lo que costaron obras parecidas y {len(amber)} {'está justa' if len(amber) == 1 else 'están justas'}.",
+               f"There are **{n} open bids** worth **{usd(total, lang)}**. **{len(red)}** {'is' if len(red) == 1 else 'are'} priced below what similar jobs cost, and {len(amber)} {'is' if len(amber) == 1 else 'are'} tight.",
+               f"Há **{n} propostas abertas** somando **{usd(total, lang)}**. **{len(red)}** {'está' if len(red) == 1 else 'estão'} abaixo do que obras parecidas custaram e {len(amber)} {'está justa' if len(amber) == 1 else 'estão justas'}."), ""]
+    for r in (red + amber)[:4]:
+        c = r["check"]
+        cite = f"[src:{r['document_id']}|{r['locator']}]" if r.get("document_id") else ""
+        lines.append(L(lang,
+                       f"- **{r['crm_id']} {r['name']}** ({usd(r['value_usd'], lang)}, margen planificado {pct(r['bid_margin_pct'], lang)}): si cuesta como el histórico, el margen queda en **{pct(c['margin_left'], lang)}**. Para sostener el margen planificado, el precio debería ser {usd(c['price_needed_usd'], lang)}. {cite}",
+                       f"- **{r['crm_id']} {r['name']}** ({usd(r['value_usd'], lang)}, planned margin {pct(r['bid_margin_pct'], lang)}): if it costs what history says, the margin left is **{pct(c['margin_left'], lang)}**. To keep the planned margin the price would need to be {usd(c['price_needed_usd'], lang)}. {cite}",
+                       f"- **{r['crm_id']} {r['name']}** ({usd(r['value_usd'], lang)}, margem planejada {pct(r['bid_margin_pct'], lang)}): se custar como o histórico, a margem fica em **{pct(c['margin_left'], lang)}**. Para manter a margem planejada, o preço deveria ser {usd(c['price_needed_usd'], lang)}. {cite}"))
+    idx = {"es": 0, "en": 1, "pt": 2}[lang]
+    table = dict(columns=H(lang, ("Oferta", "Bid", "Proposta"), ("Etapa", "Stage", "Etapa"), ("Valor", "Value", "Valor"),
+                           ("Margen planificado", "Planned margin", "Margem planejada"),
+                           ("Margen si cuesta como el histórico", "Margin at historical cost", "Margem ao custo histórico"), ("Revisión", "Check", "Revisão")),
+                 rows=[[f"{r['crm_id']} {r['name']}", STAGE_NAMES[r["stage"]][idx], usd(r["value_usd"], lang), pct(r["bid_margin_pct"], lang),
+                        pct(r["check"].get("margin_left"), lang) if r["check"]["risk"] != "none" else "–", RISK_NAMES[r["check"]["risk"]][idx]]
+                       for r in rows])
     return "\n".join(lines), table
 
 
@@ -651,14 +695,15 @@ def h_search(ctx: Ctx, q: str, low_confidence: bool = False):
 HANDLERS = {
     "portfolio_summary": h_portfolio, "overruns": h_overruns, "margin_project": h_margin, "pending_cos": h_pending,
     "benchmark": h_benchmark, "lost_days": h_days, "contract": h_contract, "project_status": h_status, "delays": h_delays,
-    "country_compare": h_countries, "weld_quality": h_welds, "top_risks": h_risks, "activity_costs": h_activities,
+    "country_compare": h_countries, "weld_quality": h_welds, "top_risks": h_risks, "activity_costs": h_activities, "bids": h_bids,
     "lessons": h_lessons, "project_list": h_list, "anomalies": h_anomalies, "data_quality": h_quality, "general": h_general,
     "document_search": h_search,
 }
 DATA_INTENTS = set(HANDLERS) - {"general", "document_search"}
 PROJECT_INTENTS = {"margin_project", "project_status", "activity_costs", "contract", "pending_cos", "anomalies"}
 SUGGESTION_INTENT = {"margin": "margin_project", "pending": "pending_cos", "status": "project_status", "overruns": "overruns",
-                     "quality": "data_quality", "anomalies": "anomalies", "days": "lost_days", "benchmark": "benchmark", "contract": "contract"}
+                     "quality": "data_quality", "anomalies": "anomalies", "days": "lost_days", "benchmark": "benchmark", "contract": "contract",
+                     "bids": "bids"}
 
 DEFINITION_RE = re.compile(r"^(que es|que son|que significa|que quiere decir|what is|what are|what does|whats|what s|o que e|o que sao|o que significa|define|explain|explica|explique|explicame|meaning of|significado de)\b")
 FOLLOWUP_RE = re.compile(r"^(y|e|and|what about|how about|y que tal|ahora|now|agora|tambien|also|e quanto)\b")
@@ -687,7 +732,10 @@ FOLLOWUPS = {
     "anomalies": [("¿Cuadra la contabilidad con el Excel?", "Does the accounting system match the Excel?", "A contabilidade bate com o Excel?"),
                   ("¿Qué es el costo sin avance?", "What is cost without progress?", "O que é custo sem avanço?")],
     "benchmark": [("Lecciones aprendidas en la sierra", "Lessons learned in the highlands", "Lições aprendidas na serra"),
-                  ("¿Qué es el costo por pulgada-km?", "What is cost per inch-km?", "O que é custo por polegada-km?")],
+                  ("¿Qué ofertas en curso están por debajo del histórico?", "Which open bids are below history?", "Quais propostas em andamento estão abaixo do histórico?")],
+    "bids": [("¿Cuál es nuestro costo histórico por kilómetro en Amazonía frente a la costa?", "What is our historical cost per kilometre in the rainforest compared with the coast?", "Qual é o nosso custo histórico por quilômetro na Amazônia comparado com o litoral?"),
+             ("¿Por qué cayó el margen de EC-2503?", "Why did the margin drop on EC-2503?", "Por que a margem do EC-2503 caiu?"),
+             ("¿Qué son los conectores?", "What are connectors?", "O que são os conectores?")],
     "top_risks": [("¿Por qué cayó el margen de {code}?", "Why did the margin drop on {code}?", "Por que a margem do {code} caiu?"),
                   ("¿Cuánto tenemos en órdenes de cambio pendientes?", "How much is in pending change orders?", "Quanto temos em ordens de alteração pendentes?")],
     "country_compare": [("¿Qué proyectos están en riesgo?", "Which projects are at risk?", "Quais projetos estão em risco?")],
@@ -715,6 +763,9 @@ def _merge(previous: dict, new: dict) -> dict:
     out["project_alias"] = new.get("project_alias")
     out["activity"] = new.get("activity")
     return out
+
+
+SYSTEM_FAQ = {"connectors", "erp_change", "sales_system"}
 
 
 def answer(db: Session, question: str, lang: str, context: dict | None = None) -> dict:
@@ -754,6 +805,9 @@ def answer(db: Session, question: str, lang: str, context: dict | None = None) -
                 intent, conf = alt
             else:
                 route = "knowledge"
+    elif entry and entry["id"] in SYSTEM_FAQ and faq_score >= 0.6 and not ents.get("project"):
+        # questions about how the system connects ("what if we move to SAP?") name systems, not data to fetch
+        intent, route = "general", "knowledge"
     elif DEFINITION_RE.match(nq) and not has_data_entity and faq_score >= 0.75:
         # "what is X?" without a project or country is a definition, not a data query
         intent, route = "general", "knowledge"

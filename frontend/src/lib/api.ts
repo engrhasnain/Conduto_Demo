@@ -342,3 +342,115 @@ export interface Health_ {
   projects: number;
   documents: number;
 }
+
+// ---------- connectors and bids ----------
+export type ConnectorStatus = "connected" | "available" | "planned";
+
+export interface SyncRun {
+  id: number;
+  trigger: "schedule" | "manual";
+  at: string;
+  duration_ms: number;
+  status: "ok" | "attention" | "error";
+  read: number;
+  new: number;
+  updated: number;
+  issues: number;
+  details: {
+    waiting?: string[];
+    folders?: number;
+    exports?: number;
+    matched?: number;
+    cells?: number;
+    differences?: number;
+    changes?: { crm_id: string; name: string; kind: "new" | "updated"; currency?: string; fields?: { field: string; old: unknown; new: unknown }[] }[];
+  };
+  document_id: number | null;
+}
+
+export interface Connector {
+  key: string;
+  name: Tri;
+  category: "files" | "accounting" | "sales" | "schedules" | "email" | "reporting" | "field";
+  status: ConnectorStatus;
+  direction: "in" | "out";
+  every_minutes: number;
+  phase: "today" | "pilot" | "after_decision" | "rollout";
+  summary: Tri;
+  reads: Tri[];
+  method: Tri;
+  mapping: { source: Tri; target: Tri }[];
+  setup: Tri[];
+  note?: Tri;
+  records: number;
+  last_run?: SyncRun | null;
+  next_in_minutes?: number;
+  runs?: SyncRun[];
+}
+
+export interface ConnectorsResp {
+  now: string;
+  connectors: Connector[];
+  summary: { connected: number; available: number; planned: number; records: number; attention: number; waiting_files: number };
+}
+
+export interface BidCheck {
+  risk: "red" | "amber" | "green" | "none";
+  reason?: string;
+  affordable_cost_usd?: number;
+  history_cost_usd?: number;
+  history_low_usd?: number;
+  history_high_usd?: number;
+  gap?: number;
+  margin_left?: number;
+  typical_erosion?: number;
+  contingency?: number;
+  price_needed_usd?: number;
+  price_gap_usd?: number;
+  sample?: string[];
+}
+
+export interface Bid extends SourceRef {
+  crm_id: string;
+  name: string;
+  client: string;
+  country: "EC" | "PE" | "BR";
+  kind: "pipeline" | "civil";
+  terrain: "coast" | "highlands" | "rainforest";
+  region: string;
+  diameter_in: number | null;
+  length_km: number | null;
+  stage: "prospecting" | "preparing" | "submitted" | "negotiation" | "won" | "lost";
+  currency: string;
+  value: number;
+  value_usd: number;
+  bid_margin_pct: number;
+  probability: number;
+  weighted_usd: number;
+  expected_decision: string;
+  owner: string;
+  next_step: Tri;
+  project_code: string | null;
+  lost_reason: string | null;
+  modified_on: string;
+  check?: BidCheck;
+  comparables?: { code: string; name: string; country: string; diameter_in: number; length_km: number; cost_per_km_usd: number; margin_delta_pts: number; overrun_pct: number | null }[];
+}
+
+export interface BidsResp {
+  bids: Bid[];
+  summary: {
+    open_count: number;
+    open_value_usd: number;
+    weighted_usd: number;
+    red_count: number;
+    red_value_usd: number;
+    amber_count: number;
+    amber_value_usd: number;
+    won_count: number;
+    won_value_usd: number;
+    lost_count: number;
+    win_rate: number | null;
+  };
+  last_sync: SyncRun | null;
+}

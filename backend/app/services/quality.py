@@ -11,14 +11,14 @@ from sqlalchemy.orm import Session
 
 from ..config import ai_enabled
 from ..ml import registry
-from ..models import (BudgetLine, ChangeOrder, CostActual, Document, DocumentChunk, ErpTransaction, IngestionJob, Issue,
+from ..models import (BudgetLine, ChangeOrder, CostActual, Document, DocumentChunk, ErpTransaction, IngestionJob, Issue, Opportunity,
                       MappingTemplate, Production, Progress, Project, ProjectKpi, ScheduleTask)
 from .anomalies import portfolio_anomalies
 from .ingestion.normalize import parse_number
 from .reconciliation import reconcile
 
 CUM_RE = re.compile(r"(?:Costo real acumulado|Custo realizado acumulado)\s*:\s*(?:USD|S/|R\$)\s*([\d.,]+)")
-FACT_MODELS = (CostActual, BudgetLine, Progress, Production, ChangeOrder, Issue, ScheduleTask, ErpTransaction)
+FACT_MODELS = (CostActual, BudgetLine, Progress, Production, ChangeOrder, Issue, ScheduleTask, ErpTransaction, Opportunity)
 
 
 def report_crosscheck(db: Session) -> dict:

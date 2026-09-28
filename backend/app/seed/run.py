@@ -21,6 +21,7 @@ from .documents import (write_change_order, write_contract, write_final_report, 
 from .excel_writer import write_cost_workbook
 from .fx import build_fx
 from .inbox import build_inbox
+from .sales import seed_connectors
 from .simulate import simulate
 from .specs import PROJECTS
 from .templates import TEMPLATES
@@ -106,6 +107,8 @@ def seed(force: bool = False) -> bool:
         db.commit()
         build_inbox(fx)
         refresh_kpis(db)
+        seed_connectors(db)
+        db.commit()
         train_models(db)
     return True
 

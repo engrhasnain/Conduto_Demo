@@ -32,7 +32,7 @@ export function PageHeader({ title, subtitle, children }: { title: React.ReactNo
         <h1 className="text-2xl font-semibold tracking-tight text-slate-900">{title}</h1>
         {subtitle && <p className="mt-1 max-w-3xl text-sm text-slate-500">{subtitle}</p>}
       </div>
-      {children}
+      {children && <div className="ml-auto">{children}</div>}
     </div>
   );
 }

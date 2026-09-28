@@ -278,6 +278,54 @@ class ErpTransaction(Base):
     locator: Mapped[str | None] = mapped_column(String(60))
 
 
+class Opportunity(Base):
+    """A commercial opportunity (bid) read by the sales-system connector. Traced to the snapshot row it came from."""
+    __tablename__ = "opportunities"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    crm_id: Mapped[str] = mapped_column(String(20), unique=True, index=True)
+    name: Mapped[str] = mapped_column(String(120))
+    client: Mapped[str] = mapped_column(String(80))
+    country_code: Mapped[str] = mapped_column(ForeignKey("countries.code"))
+    kind: Mapped[str] = mapped_column(String(10))  # pipeline | civil
+    terrain: Mapped[str] = mapped_column(String(12))
+    region: Mapped[str] = mapped_column(String(60))
+    diameter_in: Mapped[float | None] = mapped_column(Float)
+    length_km: Mapped[float | None] = mapped_column(Float)
+    stage: Mapped[str] = mapped_column(String(20))  # prospecting | preparing | submitted | negotiation | won | lost
+    currency: Mapped[str] = mapped_column(String(3))
+    value: Mapped[float] = mapped_column(Float)
+    bid_margin_pct: Mapped[float] = mapped_column(Float)
+    probability: Mapped[float] = mapped_column(Float)
+    expected_decision: Mapped[str] = mapped_column(String(7))  # YYYY-MM
+    owner: Mapped[str] = mapped_column(String(60))
+    next_step_es: Mapped[str] = mapped_column(Text, default="")
+    next_step_en: Mapped[str] = mapped_column(Text, default="")
+    next_step_pt: Mapped[str] = mapped_column(Text, default="")
+    project_code: Mapped[str | None] = mapped_column(String(12))  # set when won
+    lost_reason: Mapped[str | None] = mapped_column(String(20))  # price | postponed | scope
+    modified_on: Mapped[str] = mapped_column(String(10))  # as reported by the sales system
+    document_id: Mapped[int | None] = mapped_column(ForeignKey("documents.id", ondelete="SET NULL"))
+    locator: Mapped[str | None] = mapped_column(String(60))
+
+
+class SyncRun(Base):
+    """One execution of a connector: scheduled (simulated relative to now) or started by a person."""
+    __tablename__ = "sync_runs"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    connector: Mapped[str] = mapped_column(String(30), index=True)
+    trigger: Mapped[str] = mapped_column(String(10))  # schedule | manual | test
+    offset_minutes: Mapped[int | None] = mapped_column(Integer)  # seeded runs: minutes before "now"
+    started_at: Mapped[datetime | None] = mapped_column(DateTime)  # runs started from the screen
+    duration_ms: Mapped[int] = mapped_column(Integer, default=0)
+    status: Mapped[str] = mapped_column(String(10))  # ok | attention | error
+    records_read: Mapped[int] = mapped_column(Integer, default=0)
+    records_new: Mapped[int] = mapped_column(Integer, default=0)
+    records_updated: Mapped[int] = mapped_column(Integer, default=0)
+    issues: Mapped[int] = mapped_column(Integer, default=0)
+    details: Mapped[dict | None] = mapped_column(JSON)
+    document_id: Mapped[int | None] = mapped_column(ForeignKey("documents.id", ondelete="SET NULL"))
+
+
 class Meta(Base):
     __tablename__ = "meta"
     key: Mapped[str] = mapped_column(String(40), primary_key=True)

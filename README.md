@@ -22,6 +22,8 @@ formats Conduto actually uses. Project, client and person names are invented, an
 | **Data & quality** | 150 files → 11.7k records → 18 projects → 100% traceable. Every counter, file-type chip, quality check and coverage cell opens the files or records behind it. Four automatic checks (see below) and a list of the problems they found, filterable by country. Cost-without-progress anomalies, coverage per project, and the trained models with their measured accuracy |
 | **Project** | KPIs (each tile opens its detail: the cost and schedule efficiency tiles open an activity-by-activity breakdown); the "where is the margin going" waterfall and its drivers; S-curve; schedule Gantt; cost by activity; detected anomalies; the accounting-vs-Excel check for that project; change orders; events; welding production. **Every number opens its source**: the Excel cell, PDF page, Microsoft Project task or GP ledger row |
 | **Ask** | Questions in ES/EN/PT. Without a key, a local classifier understands 19 question types, then runs read-only SQL or document search. Answers cite PDF pages and exact Excel/GP cells, and show how they were built. With a key, Claude answers free-form questions |
+| **Bids** | Open bids read from the sales system (Dynamics 365 Sales in the demo). Every open pipeline bid is checked against what comparable closed jobs really cost: the margin left at the historical cost, the price needed to keep the planned margin, and the comparable projects. Won bids link to the project they became; lost bids keep their reason |
+| **Connectors** | The ten connectors: three working in the demo (SharePoint/OneDrive project folders, Dynamics GP, Dynamics 365 Sales) with "Sync now", "Test the connection" and run history; six available for the pilot or after the accounting-system decision (SAP S/4HANA, Dynamics 365 Finance, Project Online, Primavera P6, Outlook, Power BI); one planned (daily site reports). Each shows what it reads and how it maps to the common model |
 | **Load data** | A guided four-step flow (choose a file → the system reads it → you check → saved and traceable), with a plain explanation of why the screen exists. It shows what was understood in one sentence, lists only what needs a person's check, and keeps the technical detail folded away (see below) |
 | **Benchmarks** | Historical cost per inch of diameter per kilometre and per kilometre, by terrain (filterable; each terrain card opens its projects), an overrun heatmap by activity, and a bid estimator |
 | **Methodology** | Architecture, design principles, roadmap, and the data we need for discovery |
@@ -68,7 +70,7 @@ backend/   FastAPI + SQLAlchemy (SQLite) + openpyxl/reportlab/pypdf + scikit-lea
   app/ml/          label mapper, question classifier, entity extraction, training
   app/services/    KPIs (earned value), anomalies, ERP reconciliation, data quality, benchmarks, search,
                    ask (local engine + Claude agent), ingestion (Excel/PDF/Microsoft Project, groundedness, triage), export
-  tests/           37 tests (API, ingestion round-trips, models, checks, SQL guard, mocked AI paths)
+  tests/           42 tests (API, ingestion round-trips, models, checks, SQL guard, mocked AI paths, connectors and bids)
 frontend/  Next.js 16 (App Router) + Tailwind 4 + ECharts
 ```
 
@@ -125,7 +127,7 @@ How it behaves on Vercel:
 
 **Open the website a few minutes before the meeting** so the API is warm. "Reset demo" in the sidebar restores the clean dataset.
 
-## Meeting script (~20 min)
+## Meeting script (~25 min)
 
 1. **Problem (2 min).** Methodology page, "Where we start".
 2. **Data & quality (3 min).** Start here, because this is the "global information management" gap:
@@ -140,9 +142,13 @@ How it behaves on Vercel:
    - `Historico_…2019.xlsx`: the local model maps 11/11 rows, with "Sold. + END" shown under "Needs your check"; totals reconcile; confirm and save; benchmarks go from 10 to 11.
    - The `OC-012` PDF: every field verified in the text.
    - The scanned `OC-013`: detected and queued for OCR. Line to use: *"We don't guess."*
-5. **Ask (3 min).** Two or three suggested questions in Spanish, plus one of Oscar's own. Open "how this answer was built".
-6. **Benchmarks (2 min).** Rainforest vs coast; the estimator.
-7. **Next step (1 min).** Methodology → roadmap and data needed. Hand over the consolidated Excel.
+5. **Connectors → Bids (3 min).**
+   - Connectors: read the banner ("the accounting system can change; the dashboards do not").
+   - Open Dynamics 365 Sales → **Sync now**: one new opportunity and the Selva Central bid renegotiated 6% lower.
+   - Bids: that bid is now below history, and so is OPP-2026-014, same client and terrain as EC-2503. Line to use: *"We were about to repeat EC-2503."*
+6. **Ask (3 min).** Two or three suggested questions in Spanish, plus one of Oscar's own. Open "how this answer was built".
+7. **Benchmarks (2 min).** Rainforest vs coast; the estimator.
+8. **Next step (1 min).** Methodology → roadmap and data needed. Hand over the consolidated Excel.
 
 ### Likely questions
 
