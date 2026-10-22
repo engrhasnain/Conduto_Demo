@@ -52,7 +52,7 @@ TEST_SET = [
     ("Radiografías", "END"), ("Inspección RX/UT", "END"), ("Ensaios radiográficos", "END"), ("NDT", "END"),
     ("Revest. juntas", "REV"), ("Mangas termocontraíbles", "REV"), ("Revestimento", "REV"), ("Joint coating", "REV"),
     ("Bajado/tapado", "BAJ"), ("Relleno de zanja", "BAJ"), ("Abaixamento", "BAJ"), ("Backfill & compaction", "BAJ"),
-    ("Cruces rio (PHD)", "CRU"), ("Perforación dirigida río Napo", "CRU"), ("Travessia MND", "CRU"), ("HDD river crossing", "CRU"),
+    ("Cruces rio (PHD)", "CRU"), ("Dispersor profundo Anelo", "CRU"), ("Travessia MND", "CRU"), ("HDD river crossing", "CRU"),
     ("Prueba hidrost.", "PH"), ("Prueba de presión", "PH"), ("Teste de pressão", "PH"), ("Hydrotesting", "PH"),
     ("Restauracion", "RES"), ("Revegetación de DDV", "RES"), ("Recomposição", "RES"), ("Site reinstatement", "RES"),
     ("Indirectos/GG", "IND"), ("Gastos generales de obra", "IND"), ("Custos indiretos", "IND"), ("Site overheads", "IND"),

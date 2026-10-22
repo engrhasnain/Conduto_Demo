@@ -35,9 +35,9 @@ SAMPLES = [
     ),
     dict(
         filename="BA-2410_Cronograma_rev5.xml", kind="schedule_xml",
-        es="Revisión 5 del cronograma del Ducto Selva Central, exportada desde Microsoft Project.",
+        es="Revisión 5 del cronograma del Gasoducto Rosario, exportada desde Microsoft Project.",
         en="Revision 5 of the Central Jungle pipeline schedule, exported from Microsoft Project.",
-        pt="Revisão 5 do cronograma do Duto Selva Central, exportada do Microsoft Project.",
+        pt="Revisão 5 do cronograma do Duto Rosario, exportada do Microsoft Project.",
     ),
 ]
 
@@ -63,7 +63,7 @@ def build_legacy_workbook(path):
     ws = wb.active
     ws.title = "Hoja1"
     ws.merge_cells("A1:F1")
-    ws["A1"] = "CONDUTO S.A. – LIQUIDACIÓN FINAL DE OBRA"
+    ws["A1"] = "MONTAMAR S.A. - LIQUIDACION FINAL DE OBRA"
     ws["A1"].font = Font(bold=True, size=13)
     ws["A1"].alignment = Alignment(horizontal="center")
     ws["A3"] = "PROYECTO: LÍNEA DE FLUJO TIPUTINI – FASE 1"
@@ -121,7 +121,7 @@ def build_scanned_change_order(path):
     img = Image.new("L", (1654, 2339), 246)
     d = ImageDraw.Draw(img)
     d.rectangle([110, 110, 1544, 200], fill=60)
-    d.text((140, 128), "CONDUTO", font=bold, fill=250)
+    d.text((140, 128), "MONTAMAR", font=bold, fill=250)
     d.text((1120, 140), "Orden de cambio OC-013", font=small, fill=235)
     d.text((140, 280), "ORDEN DE CAMBIO N° OC-013", font=bold, fill=30)
     rows = [

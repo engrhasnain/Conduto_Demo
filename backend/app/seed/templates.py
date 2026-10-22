@@ -21,7 +21,7 @@ TEMPLATES = {
         code_fmt="{i:02d}",
         summary_labels=("Proyecto:", "Cliente:", "Moneda:", "Corte:", "Monto de contrato:", "Margen de oferta:"),
         summary_table=("Cód.", "Actividad", "Presupuesto", "Costo real acumulado", "% Avance real"),
-        title="CONDUTO — CONTROL DE COSTOS DE PROYECTO",
+        title="MONTAMAR - CONTROL DE COSTOS DE OBRA",
         cost_title="DETALLE MENSUAL DE COSTOS REALES",
         note="Datos sintéticos generados para demostración.",
         labels={
@@ -50,7 +50,7 @@ TEMPLATES = {
         code_fmt="{i:02d}.00",
         summary_labels=("Proyecto:", "Cliente:", "Moneda:", "Fecha de corte:", "Monto contratado:", "Margen ofertado:"),
         summary_table=("Partida", "Descripción", "Ppto. (S/.)", "Real acumulado (S/.)", "Avance real %"),
-        title="CONDUTO PERÚ – CONTROL PRESUPUESTAL DE OBRA",
+        title="MONTAMAR LITORAL - CONTROL PRESUPUESTAL DE OBRA",
         cost_title="COSTOS REALES MENSUALES POR PARTIDA",
         note="Datos sintéticos generados para demostración.",
         labels={
@@ -63,7 +63,7 @@ TEMPLATES = {
         },
     ),
     "PS": dict(
-        name="Planilha Brasil – Controle de Custos versão 1",
+        name="Planilla Patagonia - Control de Costos version 1",
         sheets=dict(summary="Resumo", cost="Custos", progress="Avanço", production="Produção"),
         header_row=5,
         headers=("Item", "Atividade", "Natureza"),
@@ -80,7 +80,7 @@ TEMPLATES = {
         code_fmt="{i}",
         summary_labels=("Projeto:", "Cliente:", "Moeda:", "Data de corte:", "Valor do contrato:", "Margem da proposta:"),
         summary_table=("Item", "Atividade", "Orçamento (R$)", "Realizado acumulado (R$)", "% Avanço"),
-        title="CONDUTO BRASIL — CONTROLE DE CUSTOS DA OBRA",
+        title="MONTAMAR PATAGONIA - CONTROL DE COSTOS DE OBRA",
         cost_title="CUSTOS REALIZADOS MENSAIS",
         note="Dados sintéticos gerados para demonstração.",
         labels={

@@ -32,17 +32,32 @@ from .sql_guard import run_readonly
 MIN_CONFIDENCE = 0.30
 
 SUGGESTIONS = [
-    ("margin", "¿Por qué cayó el margen del Proteccion catodica Oleoducto Loma Campana (NQ-2503)?", "Why did the margin drop on Proteccion catodica Oleoducto Loma Campana (NQ-2503)?", "Por que a margem do Proteccion catodica Oleoducto Loma Campana (NQ-2503) caiu?"),
-    ("pending", "¿Cuánto tenemos en órdenes de cambio pendientes, por país?", "How much is tied up in pending change orders, by country?", "Quanto temos em ordens de alteração pendentes, por país?"),
-    ("status", "¿Cómo va el Ducto Selva Central?", "How is the Selva Central pipeline doing?", "Como está o Duto Selva Central?"),
-    ("overruns", "¿Qué proyectos activos tienen sobrecostos y por qué?", "Which active projects are over budget, and why?", "Quais projetos ativos estão acima do orçamento e por quê?"),
-    ("quality", "¿Cuadra la contabilidad (Dynamics GP) con el control de costos en Excel?", "Does the accounting system (Dynamics GP) match the Excel cost control?", "A contabilidade (Dynamics GP) bate com o controle de custos em Excel?"),
-    ("anomalies", "¿Dónde estamos gastando sin avanzar?", "Where are we spending without making progress?", "Onde estamos gastando sem avançar?"),
-    ("days", "¿Qué eventos nos hicieron perder más días en los últimos 12 meses?", "Which events cost us the most lost days in the last 12 months?", "Quais ocorrências nos fizeram perder mais dias nos últimos 12 meses?"),
-    ("benchmark", "¿Cual es nuestro costo historico por kilometro en la meseta frente a la llanura?", "What is our historical cost per kilometre on the plateau compared with the plain?", "Qual e o nosso custo historico por quilometro no planalto comparado com a planicie?"),
-    ("bids", "¿Qué ofertas en curso están por debajo de lo que costaron obras parecidas?", "Which open bids are priced below what similar jobs cost?", "Quais propostas em andamento estão abaixo do que obras parecidas custaram?"),
-    ("contract", "¿Qué dice el contrato de NQ-2503 sobre trabajos adicionales sin orden aprobada?", "What does the NQ-2503 contract say about extra work without an approved change order?", "O que diz o contrato do NQ-2503 sobre serviços adicionais sem ordem aprovada?"),
+    # What somebody at Montamar would actually ask. The questions about
+    # margins, bids and cost per kilometre went with the screens they
+    # belonged to: those are about building pipelines, not protecting them.
+    ("quality", "¿Cuadra la contabilidad con el control de costos en Excel?",
+     "Does the accounting system match the Excel cost control?",
+     "A contabilidade bate com o controle de custos em Excel?"),
+    ("anomalies", "¿Dónde estamos gastando sin avanzar?",
+     "Where are we spending without making progress?",
+     "Onde estamos gastando sem avançar?"),
+    ("status", "¿Cómo viene la obra de Loma Campana (NQ-2503)?",
+     "How is the Loma Campana job (NQ-2503) going?",
+     "Como está a obra de Loma Campana (NQ-2503)?"),
+    ("days", "¿Qué nos hizo perder más días en los últimos 12 meses?",
+     "What cost us the most lost days in the last 12 months?",
+     "O que nos fez perder mais dias nos últimos 12 meses?"),
+    ("overruns", "¿Qué obras activas se pasaron del presupuesto y por qué?",
+     "Which active jobs are over budget, and why?",
+     "Quais obras ativas estouraram o orçamento e por quê?"),
+    ("pending", "¿Cuánto tenemos en órdenes de cambio pendientes, por zona?",
+     "How much is tied up in pending change orders, by zone?",
+     "Quanto temos em ordens de alteração pendentes, por zona?"),
+    ("contract", "¿Qué dice el contrato de NQ-2503 sobre trabajos adicionales sin orden aprobada?",
+     "What does the NQ-2503 contract say about extra work without an approved change order?",
+     "O que diz o contrato do NQ-2503 sobre serviços adicionais sem ordem aprovada?"),
 ]
+
 
 
 def suggestions(lang: str) -> list[dict]:
@@ -757,7 +772,7 @@ def _merge(previous: dict, new: dict) -> dict:
         if new.get(k):
             out[k] = new[k]
     if new.get("countries") and not new.get("project"):
-        out["project"] = None  # "and in Peru?" moves the focus from a project to a country
+        out["project"] = None  # "and in Patagonia?" moves the focus from a job to a zone
     if new.get("project"):
         out["countries"] = []
     out["project_alias"] = new.get("project_alias")
@@ -783,7 +798,7 @@ def answer(db: Session, question: str, lang: str, context: dict | None = None) -
     prev = (context or {}).get("intent")
     prev_ents = (context or {}).get("entities") or {}
     if not forced and prev in DATA_INTENTS and (FOLLOWUP_RE.match(nq) or (len(nq.split()) <= 4 and has_data_entity and conf < 0.6)):
-        # a follow-up keeps the conversation's focus: "and in Peru?" reuses the question, "and why the margin?" the project
+        # a follow-up keeps the conversation's focus: "and in Patagonia?" reuses the question, "and why the margin?" the job
         if not (intent in DATA_INTENTS and conf >= 0.5 and intent != prev):
             intent, conf = prev, max(conf, 0.6)
         route = "followup"

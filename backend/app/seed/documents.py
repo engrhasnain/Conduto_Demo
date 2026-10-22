@@ -29,7 +29,7 @@ T = {
         k_advance="Anticipo", k_retention="Retención de garantía",
         lump_sum="Suma alzada (precio global)", unit_price="Precios unitarios",
         term="{P} meses calendario", advance="10% del monto del contrato", retention="5% de cada planilla de avance",
-        contractor="CONDUTO (entidad de demostración)",
+        contractor="MONTAMAR (entidad de demostracion)",
         clauses_p1=[
             "PRIMERA – OBJETO. {description}",
             "SEGUNDA – ALCANCE. {scope}",
@@ -99,7 +99,7 @@ T = {
         k_advance="Adiantamento", k_retention="Retenção de garantia",
         lump_sum="Preço global (empreitada)", unit_price="Preços unitários",
         term="{P} meses corridos", advance="10% do valor do contrato", retention="5% de cada medição",
-        contractor="CONDUTO (entidade de demonstração)",
+        contractor="MONTAMAR (entidade de demonstracao)",
         clauses_p1=[
             "CLÁUSULA PRIMEIRA – OBJETO. {description}",
             "CLÁUSULA SEGUNDA – ESCOPO. {scope}",

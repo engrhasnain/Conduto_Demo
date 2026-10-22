@@ -45,7 +45,7 @@ class PdfDoc:
         c.rect(0, self.h - 42, self.w, 42, stroke=0, fill=1)
         c.setFillColor(HexColor("#FFFFFF"))
         c.setFont("Helvetica-Bold", 14)
-        c.drawString(self.margin, self.h - 27, "CONDUTO")
+        c.drawString(self.margin, self.h - 27, "MONTAMAR")
         c.setFont("Helvetica", 9)
         c.drawRightString(self.w - self.margin, self.h - 26, self.doc_label)
         c.setFillColor(GREY)

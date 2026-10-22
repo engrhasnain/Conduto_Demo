@@ -36,7 +36,7 @@ log = logging.getLogger("conduto.ingest")
 
 SMALL_WORDS = {"de", "del", "la", "las", "el", "los", "y", "e", "do", "da", "dos", "das", "of", "the", "and"}
 TERRAIN_WORDS = {
-    "rainforest": ["amazon", "oriente", "selva", "floresta", "orellana", "sucumbios", "loreto", "napo"],
+    "rainforest": ["monte", "salina", "salino", "scrub", "mata"],
     "highlands": ["sierra", "andes", "andin", "serra", "altura", "montana"],
     "coast": ["costa", "litoral", "coast", "desierto"],
 }

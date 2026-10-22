@@ -199,7 +199,7 @@ PROJECTS = [
         issues=[],
         cos=[dict(number="OC-001", period="2021-06", cause="client_request", activity="CRU", pct=0.03, status="approved", decision_days=21, executed=1.0, params=dict(km=19))],
         lessons=["good"],
-        description=("Variante de poliducto de 12\" y 35 km en la costa de Manabí.", "35 km, 12\" products pipeline variant on the Manabí coast.", "Variante de poliduto de 12\" e 35 km no litoral de Manabí."),
+        description=("Variante de poliducto de 12\" y 35 km en la zona de Bahia Blanca.", "35 km, 12\" products pipeline variant on the Bahia Blanca area.", "Variante de poliduto de 12\" e 35 km na zona de Bahia Blanca."),
     ),
     dict(
         code="NQ-2004", name="Dispersores profundos - Poliducto Plottier", country="NQ", client="Pluspetrol S.A.",
@@ -244,7 +244,7 @@ PROJECTS = [
     ),
     dict(
         code="NQ-2511", name="Proteccion catodica - Gasoducto La Plata Fase 1", country="NQ", client="Camuzzi Gas Pampeana S.A.",
-        kind="pipeline", terrain="coast", region="El Oro – Guayas", diameter=8, length=45,
+        kind="pipeline", terrain="coast", region="Punta Alta", diameter=8, length=45,
         start="2025-11", planned=12, delay=0, status="active", bid=0.15, target=0.158,
         contract_type="unit_price", manager="Ing. Diego Paredes",
         weights={"SOL": 0.4, "ZAN": 0.3, "IND": 0.3},
@@ -269,7 +269,7 @@ PROJECTS = [
             dict(number="OC-003", period="2023-06", cause="weather", activity="IND", pct=0.015, status="pending", executed=0.0, params=dict()),
         ],
         lessons=["weather", "change_orders"],
-        description=("Línea de transferencia de 14\" y 24 km entre estaciones de Shushufindi.", "24 km, 14\" transfer line between Shushufindi stations.", "Linha de transferência de 14\" e 24 km entre estações de Shushufindi."),
+        description=("Línea de transferencia de 14\" y 24 km entre estaciones de Campana.", "24 km, 14\" transfer line between Campana stations.", "Linha de transferência de 14\" e 24 km entre estações de Campana."),
     ),
     dict(
         code="NQ-1908", name="Anodos de magnesio - Linea San Nicolas Sur", country="NQ", client="YPF S.A.",
@@ -283,7 +283,7 @@ PROJECTS = [
         lessons=["weather"],
         description=("Línea de flujo de 6\" y 12 km en el campo Auca.", "12 km, 6\" flowline in the Auca field.", "Linha de fluxo de 6\" e 12 km no campo Auca."),
     ),
-    # ---------------- PERU (PEN) ----------------
+    # ---------------- BUENOS AIRES / LITORAL ----------------
     dict(
         code="BA-2410", name="Proteccion catodica - Gasoducto Rosario Tramo 1", country="BA", client="Transportadora de Gas del Norte S.A.",
         kind="pipeline", terrain="rainforest", region="Junín – Pasco", diameter=18, length=75,
@@ -371,7 +371,7 @@ PROJECTS = [
         lessons=["covid"],
         description=("Ducto de 14\" y 55 km en la costa norte.", "55 km, 14\" pipeline on the northern coast.", "Duto de 14\" e 55 km no litoral norte."),
     ),
-    # ---------------- BRAZIL (BRL) ----------------
+    # ---------------- PATAGONIA SUR ----------------
     dict(
         code="PS-2501", name="Proteccion catodica - Oleoducto El Calafate Tramo 2", country="PS", client="Ecogas - Distribuidora de Gas Cuyana",
         kind="pipeline", terrain="coast", region="Rio Grande do Norte – Ceará", diameter=24, length=110,

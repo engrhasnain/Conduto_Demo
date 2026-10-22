@@ -9,14 +9,14 @@ STOP = {"de", "del", "la", "las", "el", "los", "y", "e", "do", "da", "dos", "das
 COMMON = {
     "oleoducto", "oleoduto", "ducto", "duto", "linea", "flujo", "gasoducto", "gasoduto", "poliducto", "poliduto", "variante",
     "tramo", "trecho", "fase", "estacion", "bombeo", "base", "bombeamento", "ampliacion", "terminal", "tanques", "cimentaciones",
-    "recoleccion", "transferencia", "norte", "sur", "central", "costa", "sierra", "selva", "litoral", "amazonia", "serra",
-    "ecuador", "equador", "peru", "brasil", "brazil", "proyecto", "projeto", "project", "andino",
+    "recoleccion", "transferencia", "norte", "sur", "central", "costa", "meseta", "estepa", "litoral", "patagonia", "llanura",
+    "neuquen", "patagonia", "buenos", "aires", "proyecto", "projeto", "project", "catodica",
 }
 COUNTRY = {"neuquen": "NQ", "vaca muerta": "NQ", "neuquino": "NQ",
            "buenos aires": "BA", "litoral": "BA", "bonaerense": "BA",
            "patagonia": "PS", "santa cruz": "PS", "patagonico": "PS"}
 TERRAIN = {
-    "rainforest": ["amazonia", "amazonica", "amazonico", "amazonas", "selva", "rainforest", "jungle", "floresta", "oriente"],
+    "rainforest": ["monte", "salina", "zona salina", "scrub", "saline", "mata"],
     "coast": ["costa", "coast", "coastal", "litoral", "desierto", "desert"],
     "highlands": ["sierra", "andes", "andino", "andina", "highlands", "highland", "serra", "montana", "mountain", "mountains"],
 }
