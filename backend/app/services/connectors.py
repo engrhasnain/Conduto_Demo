@@ -1,4 +1,4 @@
-"""Connectors: how the system reads the programs Conduto already uses.
+"""Connectors: how the system reads the programs Montamar already uses.
 
 The catalog describes every connector (what it reads, how, how often, and how its records map to the common
 model). Three are live in the demo and really read something:
@@ -41,6 +41,41 @@ def tx(es: str, en: str, pt: str) -> dict:
 
 
 CATALOG = [
+    dict(
+        key="bejerman", name="Bejerman", category="accounting", status="connected", direction="out", every_minutes=60, phase="today",
+        summary=tx(
+            "Carga las facturas de proveedor en Bejerman, ya leídas y verificadas, sin tocar la conexión del estudio contable.",
+            "Posts supplier invoices into Bejerman, already read and checked, without touching the external accountant's connection.",
+            "Lança as faturas de fornecedor no Bejerman, já lidas e verificadas, sem mexer na conexão do escritório contábil."),
+        reads=[
+            tx("Proveedores y su CUIT", "Vendors and their tax number", "Fornecedores e seu CNPJ"),
+            tx("Comprobantes ya registrados, para no cargar dos veces", "Documents already posted, so nothing is entered twice", "Documentos já lançados, para não lançar duas vezes"),
+            tx("Plan de cuentas y centros de costo", "Chart of accounts and cost centres", "Plano de contas e centros de custo"),
+        ],
+        method=tx(
+            "Dos caminos, según lo que permita la instalación de Bejerman. Si hay interfaz de importación o base accesible, se escribe por ahí. Si no la hay, el sistema carga la factura por la misma pantalla que usa una persona, campo por campo, y vuelve a leer lo guardado para confirmar que entró completo. En los dos casos escribe sólo lo que una persona aprobó.",
+            "Two routes, depending on what the Bejerman installation allows. If there is an import interface or a reachable database, it writes through that. If there is not, the system enters the invoice through the same screen a person uses, field by field, then reads back what was saved to confirm it went in whole. Either way it only writes what a person approved.",
+            "Dois caminhos, conforme o que a instalação do Bejerman permitir. Se houver interface de importação ou banco acessível, grava por ali. Se não houver, o sistema lança a fatura pela mesma tela que uma pessoa usa, campo a campo, e relê o que foi salvo para confirmar que entrou inteiro. Nos dois casos grava apenas o que uma pessoa aprovou."),
+        mapping=[
+            (tx("Factura A, B o C recibida", "Factura A, B or C received", "Fatura A, B ou C recebida"),
+             tx("Comprobante de compra con su CAE y su tipo", "Purchase document with its authorisation code and type", "Documento de compra com seu código de autorização e tipo")),
+            (tx("CUIT del emisor", "Issuer tax number", "CNPJ do emissor"),
+             tx("Proveedor del maestro de Bejerman", "Vendor in the Bejerman master file", "Fornecedor no cadastro do Bejerman")),
+            (tx("Neto, IVA y percepciones", "Net, VAT and perceptions", "Líquido, IVA e percepções"),
+             tx("Renglones contables con su cuenta", "Accounting lines with their account", "Linhas contábeis com sua conta")),
+            (tx("Orden de compra y remito", "Purchase order and delivery note", "Ordem de compra e remessa"),
+             tx("Imputación al proyecto y al centro de costo", "Allocation to project and cost centre", "Alocação ao projeto e centro de custo")),
+        ],
+        setup=[
+            tx("Confirmar si esta instalación de Bejerman tiene interfaz de importación o base accesible", "Confirm whether this Bejerman installation has an import interface or a reachable database", "Confirmar se esta instalação do Bejerman tem interface de importação ou banco acessível"),
+            tx("Un usuario propio para el sistema, con permiso de carga y no de modificación", "A dedicated user for the system, allowed to enter documents but not to change them", "Um usuário próprio para o sistema, com permissão de lançamento e não de alteração"),
+            tx("El plan de cuentas y la regla de imputación por tipo de gasto", "The chart of accounts and the rule for allocating each kind of spend", "O plano de contas e a regra de imputação por tipo de gasto"),
+        ],
+        note=tx(
+            "Por confirmar en el diagnóstico: si Bejerman expone una interfaz de importación. No hace falta saberlo para empezar — el segundo camino funciona igual, y es el que se muestra en esta demostración. Lo que no cambia en ninguno de los dos casos: el sistema no modifica nada de lo que ya está cargado, así que la conexión con el estudio contable queda intacta.",
+            "To confirm during discovery: whether Bejerman exposes an import interface. It is not needed to start — the second route works either way, and it is the one shown in this demonstration. What does not change in either case: the system never alters anything already posted, so the external accountant's connection is untouched.",
+            "A confirmar no diagnóstico: se o Bejerman expõe uma interface de importação. Não é necessário saber para começar — o segundo caminho funciona de qualquer forma, e é o mostrado nesta demonstração. O que não muda em nenhum dos casos: o sistema não altera nada já lançado, então a conexão com o escritório contábil fica intacta."),
+    ),
     dict(
         key="files", name="SharePoint / OneDrive", category="files", status="connected", direction="in", every_minutes=15, phase="today",
         summary=tx("Lee las carpetas de cada proyecto: controles de costos en Excel, cronogramas de Microsoft Project y contratos, órdenes de cambio e informes en PDF.",
@@ -89,15 +124,15 @@ CATALOG = [
                  (tx("Oportunidad perdida", "Lost opportunity", "Oportunidade perdida"), tx("Motivo de pérdida, para aprender de él", "Reason for losing, to learn from it", "Motivo da perda, para aprender com ele"))],
         setup=[tx("Un usuario de solo lectura en el sistema comercial", "A read-only user in the sales system", "Um usuário somente leitura no sistema comercial"),
                tx("Tres campos en cada oportunidad: diámetro, longitud y terreno", "Three fields on each opportunity: diameter, length and terrain", "Três campos em cada oportunidade: diâmetro, comprimento e terreno")],
-        note=tx("Por confirmar en el diagnóstico: qué sistema comercial usa Conduto. El mismo conector sirve para Dynamics 365 Sales, Salesforce, HubSpot o una hoja de cálculo compartida.",
-                "To confirm during discovery: which sales system Conduto uses. The same connector works for Dynamics 365 Sales, Salesforce, HubSpot or a shared spreadsheet.",
-                "A confirmar no diagnóstico: qual sistema comercial a Conduto usa. O mesmo conector serve para Dynamics 365 Sales, Salesforce, HubSpot ou uma planilha compartilhada."),
+        note=tx("Por confirmar en el diagnóstico: qué sistema comercial usa Montamar. El mismo conector sirve para Dynamics 365 Sales, Salesforce, HubSpot o una hoja de cálculo compartida.",
+                "To confirm during discovery: which sales system Montamar uses. The same connector works for Dynamics 365 Sales, Salesforce, HubSpot or a shared spreadsheet.",
+                "A confirmar no diagnóstico: qual sistema comercial a Montamar usa. O mesmo conector serve para Dynamics 365 Sales, Salesforce, HubSpot ou uma planilha compartilhada."),
     ),
     dict(
         key="sap", name="SAP S/4HANA", category="accounting", status="available", direction="in", every_minutes=1440, phase="after_decision",
-        summary=tx("Si Conduto elige SAP, este conector reemplaza al de Dynamics GP. Los tableros y los indicadores no cambian.",
-                   "If Conduto chooses SAP, this connector replaces the Dynamics GP one. Dashboards and indicators stay the same.",
-                   "Se a Conduto escolher SAP, este conector substitui o do Dynamics GP. Os painéis e indicadores não mudam."),
+        summary=tx("Si Montamar elige SAP, este conector reemplaza al de Dynamics GP. Los tableros y los indicadores no cambian.",
+                   "If Montamar chooses SAP, this connector replaces the Dynamics GP one. Dashboards and indicators stay the same.",
+                   "Se a Montamar escolher SAP, este conector substitui o do Dynamics GP. Os painéis e indicadores não mudam."),
         reads=[tx("Estructura de cada proyecto y sus elementos de costo", "Each project's structure and cost elements", "Estrutura de cada projeto e seus elementos de custo"),
                tx("Costos contabilizados y órdenes de compra", "Posted costs and purchase orders", "Custos contabilizados e pedidos de compra")],
         method=tx("Servicios de consulta estándar de SAP, con un usuario de solo lectura.", "SAP's standard query services, with a read-only user.", "Serviços de consulta padrão do SAP, com um usuário somente leitura."),
@@ -108,9 +143,9 @@ CATALOG = [
     ),
     dict(
         key="d365_finance", name="Dynamics 365 Finance", category="accounting", status="available", direction="in", every_minutes=1440, phase="after_decision",
-        summary=tx("Si Conduto elige Dynamics 365, este conector reemplaza al de Dynamics GP. Los tableros y los indicadores no cambian.",
-                   "If Conduto chooses Dynamics 365, this connector replaces the Dynamics GP one. Dashboards and indicators stay the same.",
-                   "Se a Conduto escolher Dynamics 365, este conector substitui o do Dynamics GP. Os painéis e indicadores não mudam."),
+        summary=tx("Si Montamar elige Dynamics 365, este conector reemplaza al de Dynamics GP. Los tableros y los indicadores no cambian.",
+                   "If Montamar chooses Dynamics 365, this connector replaces the Dynamics GP one. Dashboards and indicators stay the same.",
+                   "Se a Montamar escolher Dynamics 365, este conector substitui o do Dynamics GP. Os painéis e indicadores não mudam."),
         reads=[tx("Proyectos y categorías de costo", "Projects and cost categories", "Projetos e categorias de custo"),
                tx("Movimientos contables y facturas de proveedores", "Accounting entries and vendor invoices", "Lançamentos contábeis e faturas de fornecedores")],
         method=tx("Servicios de datos estándar de Dynamics 365, con permisos de solo lectura.", "Dynamics 365 standard data services, with read-only permissions.", "Serviços de dados padrão do Dynamics 365, com permissões somente leitura."),
@@ -124,7 +159,7 @@ CATALOG = [
         reads=[tx("Tareas, fechas de línea base y reales, avance", "Tasks, baseline and actual dates, progress", "Tarefas, datas de linha de base e reais, avanço")],
         method=tx("Conexión directa de solo lectura a los proyectos publicados.", "Direct read-only connection to published projects.", "Conexão direta somente leitura aos projetos publicados."),
         mapping=[(tx("Tarea del proyecto publicado", "Task in a published project", "Tarefa do projeto publicado"), tx("Tarea con fechas planificadas y reales", "Task with planned and actual dates", "Tarefa com datas previstas e reais"))],
-        setup=[tx("Confirmar si Conduto usa Project Online o solo archivos de escritorio", "Confirm whether Conduto uses Project Online or only desktop files", "Confirmar se a Conduto usa o Project Online ou só arquivos locais")],
+        setup=[tx("Confirmar si Montamar usa Project Online o solo archivos de escritorio", "Confirm whether Montamar uses Project Online or only desktop files", "Confirmar se a Montamar usa o Project Online ou só arquivos locais")],
     ),
     dict(
         key="primavera", name="Oracle Primavera P6", category="schedules", status="available", direction="in", every_minutes=1440, phase="pilot",
@@ -150,7 +185,7 @@ CATALOG = [
         reads=[tx("Envía: proyectos, costos, avance, órdenes de cambio, ofertas", "Sends: projects, costs, progress, change orders, bids", "Envia: projetos, custos, avanço, ordens de alteração, propostas")],
         method=tx("Actualización diaria de un conjunto de datos, con el origen de cada valor.", "Daily refresh of a dataset, with each value's source.", "Atualização diária de um conjunto de dados, com a origem de cada valor."),
         mapping=[(tx("Modelo común", "Common model", "Modelo comum"), tx("Tablas de Power BI listas para reportes", "Power BI tables ready for reports", "Tabelas do Power BI prontas para relatórios"))],
-        setup=[tx("Un espacio de trabajo de Power BI de Conduto", "A Conduto Power BI workspace", "Um espaço de trabalho do Power BI da Conduto")],
+        setup=[tx("Un espacio de trabajo de Power BI de Montamar", "A Montamar Power BI workspace", "Um espaço de trabalho do Power BI da Montamar")],
     ),
     dict(
         key="field_app", name=tx("Partes diarios de obra", "Daily site reports", "Diários de obra"), category="field", status="planned", direction="in", every_minutes=60, phase="rollout",
@@ -286,7 +321,52 @@ def _sync_gp(db: Session, when: datetime) -> dict:
                 details=dict(exports=exports, matched=rec["matched"], cells=rec["cells"], differences=diffs))
 
 
-SYNC = {"files": _sync_files, "dynamics_gp": _sync_gp, "sales": _sync_sales}
+def _sync_bejerman(db: Session, when: datetime) -> dict:
+    """Post every approved invoice, and leave the rest alone.
+
+    The two numbers this returns are the whole pitch: how many went in
+    without anybody typing, and how many are waiting for a person. The
+    second is reported as a cost rather than hidden, because a connector
+    that claims to have posted everything is a connector nobody checks.
+    """
+    from ..models import SupplierInvoice
+    from . import invoices as inv
+
+    approved = list(db.scalars(
+        select(SupplierInvoice).where(SupplierInvoice.status == "approved")
+    ))
+    held = db.scalar(
+        select(func.count()).select_from(SupplierInvoice)
+        .where(SupplierInvoice.status == "held")
+    ) or 0
+
+    # Which route this installation uses. Until somebody confirms that
+    # Bejerman exposes an import interface, the honest assumption is the
+    # one that always works.
+    route = "screen"
+    posted = 0
+    for invoice in approved:
+        inv.post(db, invoice, route=route, now=when)
+        posted += 1
+
+    already = db.scalar(
+        select(func.count()).select_from(SupplierInvoice)
+        .where(SupplierInvoice.posted_reference.is_not(None))
+    ) or 0
+    minutes = sum(i.manual_minutes for i in approved)
+
+    return dict(
+        read=len(approved) + held, new=posted, updated=0, issues=held,
+        status="attention" if held else "ok",
+        details=dict(
+            posted=posted, waiting_for_a_person=held, posted_to_date=already,
+            route=route, minutes_not_typed=round(minutes),
+        ),
+    )
+
+
+SYNC = {"files": _sync_files, "dynamics_gp": _sync_gp, "sales": _sync_sales,
+        "bejerman": _sync_bejerman}
 
 
 class ConnectorError(RuntimeError):
@@ -323,6 +403,13 @@ def test_connection(db: Session, key: str) -> dict:
     elif key == "dynamics_gp":
         exports = list((SOURCES_DIR / "_ERP").glob("*.xlsx"))
         detail = dict(exports=len(exports), latest=STATUS_PERIOD)
+    elif key == "bejerman":
+        from ..models import SupplierInvoice
+        waiting = db.scalar(
+            select(func.count()).select_from(SupplierInvoice)
+            .where(SupplierInvoice.status == "approved")
+        ) or 0
+        detail = dict(route="screen", approved_and_waiting=waiting)
     else:
         detail = dict(records=len(read_sales_source()))
     return dict(ok=True, key=key, ms=int((time.perf_counter() - t0) * 1000) + 1, details=detail)
@@ -349,6 +436,9 @@ def _records(db: Session, key: str) -> int:
         return db.scalar(select(func.count()).select_from(ErpTransaction)) or 0
     if key == "sales":
         return db.scalar(select(func.count()).select_from(Opportunity)) or 0
+    if key == "bejerman":
+        from ..models import SupplierInvoice
+        return db.scalar(select(func.count()).select_from(SupplierInvoice)) or 0
     return 0
 
 

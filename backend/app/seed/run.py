@@ -22,6 +22,7 @@ from .excel_writer import write_cost_workbook
 from .fx import build_fx
 from .inbox import build_inbox
 from .sales import seed_connectors
+from .seed_facturas import seed_facturas
 from .simulate import simulate
 from .specs import PROJECTS
 from .templates import TEMPLATES
@@ -108,6 +109,10 @@ def seed(force: bool = False) -> bool:
         build_inbox(fx)
         refresh_kpis(db)
         seed_connectors(db)
+        # Read and check the month's supplier invoices. They are left
+        # approved and waiting, so the Bejerman connector has something to
+        # post when somebody presses Sync in the meeting.
+        seed_facturas(db)
         db.commit()
         train_models(db)
     return True
@@ -122,7 +127,7 @@ def _seed_erp(db, seeded):
     erp_dir = SOURCES_DIR / "_ERP"
     erp_dir.mkdir(parents=True, exist_ok=True)
     for country, items in sorted(by_country.items()):
-        lang = "pt" if country == "BR" else "es"
+        lang = "es"
         path = erp_dir / f"GP_{country}_Transacciones_Proyectos_{WINDOW_START}_{STATUS_PERIOD}.xlsx"
         rows = write_gp_export(country, [s for _, s in items], path, lang)
         title = ("Dynamics GP – Transações de projetos" if lang == "pt" else "Dynamics GP – Transacciones de proyectos") + f" ({country})"

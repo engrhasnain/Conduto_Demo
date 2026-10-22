@@ -3,7 +3,7 @@ import type { Lang } from "./api";
 // key: [es, en, pt]
 const D: Record<string, [string, string, string]> = {
   // shell
-  "app.subtitle": ["Inteligencia de proyectos", "Project Intelligence", "Inteligência de projetos"],
+  "app.subtitle": ["Protección Anticorrosiva · Ingeniería · Montajes", "Anticorrosive Protection · Engineering · Installation", "Proteção Anticorrosiva · Engenharia · Montagens"],
   "nav.portfolio": ["Portafolio", "Portfolio", "Portfólio"],
   "nav.ask": ["Preguntar", "Ask", "Perguntar"],
   "nav.ingest": ["Cargar datos", "Load data", "Carregar dados"],
@@ -847,6 +847,224 @@ const D: Record<string, [string, string, string]> = {
 
   // intent label
   "intent.bids": ["Ofertas en curso", "Bids in progress", "Propostas em andamento"],
+  // supplier invoices
+  "nav.invoices": ["Facturas", "Invoices", "Faturas"],
+  "inv.title": ["Facturas de proveedores", "Supplier invoices", "Faturas de fornecedores"],
+  "inv.sub": [
+    "Cada factura que llegó este mes: leída, verificada y registrada en el sistema contable. Las que no pasaron alguna verificación esperan a una persona, y dicen por qué.",
+    "Every invoice that arrived this month: read, checked and posted into the accounting system. The ones that failed a check wait for a person, and say why.",
+    "Cada fatura que chegou este mês: lida, verificada e lançada no sistema contábil. As que não passaram em alguma verificação aguardam uma pessoa, e dizem por quê.",
+  ],
+  "inv.loading": ["Leyendo las facturas…", "Reading the invoices…", "Lendo as faturas…"],
+  "inv.post_now": ["Registrar {n} en Bejerman", "Post {n} into Bejerman", "Lançar {n} no Bejerman"],
+
+  "inv.received": ["Recibidas", "Received", "Recebidas"],
+  "inv.received_sub": ["Este mes, por todos los canales", "This month, through every channel", "Este mês, por todos os canais"],
+  "inv.posted": ["Registradas sin intervención", "Posted with nobody typing", "Lançadas sem digitação"],
+  "inv.posted_sub": ["{p}% de las recibidas", "{p}% of what arrived", "{p}% do que chegou"],
+  "inv.held": ["Esperan a una persona", "Waiting for a person", "Aguardam uma pessoa"],
+  "inv.held_sub": ["Se detuvieron y dicen por qué", "They stopped, and say why", "Pararam e dizem por quê"],
+  "inv.hours": ["Horas no tecleadas", "Hours not typed", "Horas não digitadas"],
+  "inv.hours_sub": ["A {m} minutos por factura", "At {m} minutes per invoice", "A {m} minutos por fatura"],
+
+  "inv.channels": ["Por dónde llegaron", "How they arrived", "Como chegaram"],
+  "inv.channels_sub": [
+    "Lo digital y el papel entran por la misma puerta.",
+    "Digital and paper come in through the same door.",
+    "O digital e o papel entram pela mesma porta.",
+  ],
+  "inv.ch.email": ["Correo electrónico", "Email", "E-mail"],
+  "inv.ch.portal": ["Portal del proveedor", "Supplier portal", "Portal do fornecedor"],
+  "inv.ch.scan": ["Escaneadas", "Scanned", "Digitalizadas"],
+  "inv.ch.photo": ["Fotos de papel", "Photographs of paper", "Fotos de papel"],
+  "inv.channels_note": [
+    "Las escaneadas y las fotografiadas son papel. Se leen con el mismo motor y pasan por las mismas verificaciones que un archivo digital; lo único que cambia es que tardan más en leerse y que una foto torcida baja la confianza.",
+    "The scanned and photographed ones are paper. They are read by the same engine and go through the same checks as a digital file; all that changes is that they take longer to read, and a crooked photograph lowers the confidence.",
+    "As digitalizadas e fotografadas são papel. São lidas pelo mesmo motor e passam pelas mesmas verificações que um arquivo digital; só muda que demoram mais e que uma foto torta reduz a confiança.",
+  ],
+
+  "inv.exceptions": ["Lo que se detuvo, y por qué", "What stopped, and why", "O que parou, e por quê"],
+  "inv.exceptions_sub": [
+    "Ninguna de estas se registró. Cada una necesita que alguien decida.",
+    "None of these were posted. Each one needs somebody to decide.",
+    "Nenhuma destas foi lançada. Cada uma precisa que alguém decida.",
+  ],
+  "inv.ex.cae_invalido": ["CAE vencido o inválido", "Authorisation expired or invalid", "Autorização vencida ou inválida"],
+  "inv.ex.otro_cuit": ["Emitida a otra sociedad", "Billed to the other company", "Emitida para a outra empresa"],
+  "inv.ex.no_suma": ["No suma", "Does not add up", "Não fecha"],
+  "inv.ex.proveedor_desconocido": ["Proveedor no registrado", "Supplier not in the master file", "Fornecedor não cadastrado"],
+  "inv.ex.duplicada": ["Duplicada", "Duplicate", "Duplicada"],
+  "inv.ex.cuit_invalido": ["CUIT inválido", "Invalid tax number", "CNPJ inválido"],
+  "inv.ex.tipo_desconocido": ["Tipo desconocido", "Unknown document type", "Tipo desconhecido"],
+  "inv.ex.iva_no_cuadra": ["IVA no cuadra", "Tax does not match", "Imposto não confere"],
+
+  "inv.queue": ["Las facturas del mes", "The month's invoices", "As faturas do mês"],
+  "inv.search": ["Buscar proveedor o número", "Search vendor or number", "Buscar fornecedor ou número"],
+  "inv.none": ["No hay facturas con ese filtro.", "No invoices match that filter.", "Nenhuma fatura com esse filtro."],
+  "inv.c.vendor": ["Proveedor", "Supplier", "Fornecedor"],
+  "inv.c.doc": ["Comprobante", "Document", "Documento"],
+  "inv.c.date": ["Fecha", "Date", "Data"],
+  "inv.c.total": ["Total", "Total", "Total"],
+  "inv.c.status": ["Estado", "Status", "Situação"],
+  "inv.with_perception": ["con percepción", "with a perception", "com percepção"],
+  "inv.s.read": ["Leída", "Read", "Lida"],
+  "inv.s.checked": ["Verificada", "Checked", "Verificada"],
+  "inv.s.held": ["Detenida", "Held", "Retida"],
+  "inv.s.approved": ["Aprobada", "Approved", "Aprovada"],
+  "inv.s.posted": ["Registrada", "Posted", "Lançada"],
+
+  "inv.est": ["Cuánto tiempo devuelve, a su volumen", "What it gives back, at your volume", "Quanto tempo devolve, no seu volume"],
+  "inv.est_sub": [
+    "Con el {p}% que pasó sin intervención en esta demostración. Cambie los números por los suyos.",
+    "Using the {p}% that went through untouched in this demonstration. Change the numbers for yours.",
+    "Com os {p}% que passaram sem intervenção nesta demonstração. Troque os números pelos seus.",
+  ],
+  "inv.est.per_month": ["Facturas por mes", "Invoices per month", "Faturas por mês"],
+  "inv.est.minutes": ["Minutos de carga por factura", "Minutes to type one in", "Minutos para lançar uma"],
+  "inv.est.cost": ["Costo por hora (USD, opcional)", "Cost per hour (USD, optional)", "Custo por hora (USD, opcional)"],
+  "inv.est.run": ["Calcular", "Work it out", "Calcular"],
+  "inv.est.empty": ["Ponga su volumen y pulse Calcular.", "Enter your volume and press Work it out.", "Informe seu volume e clique em Calcular."],
+  "inv.est.hours_month": ["horas por mes", "hours a month", "horas por mês"],
+  "inv.est.per_year": ["Al año", "Per year", "Por ano"],
+  "inv.est.days": ["Jornadas de 8 h por mes", "Eight-hour days a month", "Jornadas de 8 h por mês"],
+  "inv.est.mornings": ["Mañanas por semana", "Mornings a week", "Manhãs por semana"],
+  "inv.est.money": ["Costo evitado al año", "Cost avoided per year", "Custo evitado por ano"],
+  "inv.est.note": [
+    "Las que se detienen no ahorran su tiempo completo: alguien igual tiene que mirarlas. Se cuenta un tercio, no cero y no todo.",
+    "The ones that stop do not save their whole time: somebody still has to look at them. A third is counted, not zero and not all of it.",
+    "As que param não economizam o tempo todo: alguém ainda precisa olhar. Conta-se um terço, não zero e não tudo.",
+  ],
+
+  "inv.where": ["A dónde van", "Where they go", "Para onde vão"],
+  "inv.where_sub": [
+    "Al sistema contable, por el conector de Bejerman.",
+    "Into the accounting system, through the Bejerman connector.",
+    "Para o sistema contábil, pelo conector do Bejerman.",
+  ],
+  "inv.open_connector": ["Ver el conector de Bejerman", "Open the Bejerman connector", "Ver o conector do Bejerman"],
+  "inv.where_note": [
+    "El sistema sólo agrega comprobantes nuevos que una persona aprobó. No modifica ni borra nada de lo que ya está cargado, así que la conexión con el estudio contable queda intacta.",
+    "The system only adds new documents a person approved. It never changes or deletes anything already posted, so the external accountant's connection is untouched.",
+    "O sistema só adiciona documentos novos que uma pessoa aprovou. Não altera nem apaga nada do que já está lançado, então a conexão com o escritório contábil fica intacta.",
+  ],
+
+  "inv.drawer_explain": [
+    "Todo lo que se leyó de esta factura y todas las verificaciones que se le hicieron, en el orden en que corrieron.",
+    "Everything read off this invoice and every check run against it, in the order they ran.",
+    "Tudo o que foi lido desta fatura e todas as verificações feitas, na ordem em que rodaram.",
+  ],
+  "inv.vto": ["Vence el CAE", "Authorisation expires", "Autorização vence"],
+  "inv.channel": ["Llegó por", "Arrived by", "Chegou por"],
+  "inv.net": ["Neto", "Net", "Líquido"],
+  "inv.no_vat": ["no discrimina", "not shown separately", "não discriminado"],
+  "inv.perception": ["Percepción IIBB", "Gross-income perception", "Percepção"],
+  "inv.total": ["Total", "Total", "Total"],
+  "inv.checks": ["Verificaciones", "Checks", "Verificações"],
+  "inv.posted_in": ["Registrada en Bejerman", "Posted into Bejerman", "Lançada no Bejerman"],
+  "inv.route.screen": ["Cargada por pantalla", "Entered through the screen", "Lançada pela tela"],
+  "inv.route.interface": ["Cargada por interfaz", "Written through the interface", "Gravada pela interface"],
+  "inv.needs_person": ["Necesita que alguien decida", "Needs somebody to decide", "Precisa que alguém decida"],
+  "inv.approve": ["Aprobar igual", "Approve anyway", "Aprovar mesmo assim"],
+  "inv.approve_note": [
+    "La excepción no se borra: queda registrada con el nombre de quien decidió.",
+    "The exception is not erased: it stays, with the name of whoever decided.",
+    "A exceção não é apagada: fica registrada com o nome de quem decidiu.",
+  ],
+  "inv.waiting_post": [
+    "Aprobada y esperando el próximo envío a Bejerman.",
+    "Approved and waiting for the next run into Bejerman.",
+    "Aprovada e aguardando o próximo envio ao Bejerman.",
+  ],
+
+  // home, rebuilt around the two things the discovery call asked for
+  "nav.home": ["Resumen", "Overview", "Resumo"],
+  "home.loading": ["Cargando…", "Loading…", "Carregando…"],
+  "home.title": ["Facturas y datos de obra", "Invoices and field data", "Faturas e dados de obra"],
+  "home.sub": [
+    "Dos cosas: las facturas de proveedores entran solas al sistema contable, y todo lo que llega por correo, carpetas y plataformas queda en un solo lugar, verificado y rastreable hasta el archivo de origen.",
+    "Two things: supplier invoices go into the accounting system on their own, and everything arriving by email, shared folders and cloud platforms ends up in one place, checked and traceable back to the file it came from.",
+    "Duas coisas: as faturas de fornecedores entram sozinhas no sistema contábil, e tudo o que chega por e-mail, pastas e plataformas fica num só lugar, verificado e rastreável até o arquivo de origem.",
+  ],
+
+  "home.one": ["La mañana que se recupera", "The morning you get back", "A manhã que se recupera"],
+  "home.arrived": ["Facturas recibidas", "Invoices received", "Faturas recebidas"],
+  "home.arrived_sub": ["{n} de ellas en papel", "{n} of them on paper", "{n} delas em papel"],
+  "home.posted": ["Registradas sin tipear", "Posted without typing", "Lançadas sem digitar"],
+  "home.posted_sub": ["{p}% de lo que llegó", "{p}% of what arrived", "{p}% do que chegou"],
+  "home.held": ["Esperan a una persona", "Waiting for a person", "Aguardam uma pessoa"],
+  "home.held_sub": ["Cada una dice por qué se detuvo", "Each one says why it stopped", "Cada uma diz por que parou"],
+
+  "home.worth": ["Lo que vale", "What it is worth", "Quanto vale"],
+  "home.hours": ["horas no tecleadas este mes", "hours not typed this month", "horas não digitadas este mês"],
+  "home.worth_note": [
+    "A {m} minutos de carga por factura. Las que se detienen cuentan sólo un tercio, porque alguien igual tiene que mirarlas.",
+    "At {m} minutes of typing per invoice. The ones that stop count only a third, because somebody still has to look at them.",
+    "A {m} minutos de digitação por fatura. As que param contam só um terço, porque alguém ainda precisa olhar.",
+  ],
+  "home.see_invoices": ["Ver las facturas", "See the invoices", "Ver as faturas"],
+  "home.needs_you": ["{n} facturas necesitan una decisión", "{n} invoices need a decision", "{n} faturas precisam de uma decisão"],
+  "home.needs_you_sub": [
+    "CAE vencido, emitidas a la otra sociedad, duplicadas o que no suman. Ninguna se registró.",
+    "Expired authorisation, billed to the other company, duplicates, or they do not add up. None of them were posted.",
+    "Autorização vencida, emitidas para a outra empresa, duplicadas, ou que não fecham. Nenhuma foi lançada.",
+  ],
+
+  "home.two": ["Los datos, en un solo lugar", "The data, in one place", "Os dados, num só lugar"],
+  "home.files": ["Archivos leídos", "Files read", "Arquivos lidos"],
+  "home.files_sub": ["Excel, PDF, exportaciones", "Excel, PDF, exports", "Excel, PDF, exportações"],
+  "home.records": ["Registros consolidados", "Records consolidated", "Registros consolidados"],
+  "home.records_sub": ["De todos esos archivos", "Out of all those files", "De todos esses arquivos"],
+  "home.traced": ["Rastreable al origen", "Traceable to source", "Rastreável à origem"],
+  "home.traced_sub": ["Cada número abre su celda o su página", "Every figure opens its cell or page", "Cada número abre sua célula ou página"],
+  "home.problems": ["Diferencias encontradas", "Differences found", "Diferenças encontradas"],
+  "home.problems_sub": ["Entre la contabilidad y el Excel", "Between accounting and the Excel", "Entre a contabilidade e o Excel"],
+
+  "home.r.load": ["Cargar un archivo", "Load a file", "Carregar um arquivo"],
+  "home.r.load_sub": [
+    "Elija un archivo, el sistema lo lee, usted revisa lo que entendió y recién ahí se guarda.",
+    "Pick a file, the system reads it, you check what it understood, and only then is it saved.",
+    "Escolha um arquivo, o sistema lê, você confere o que entendeu, e só então é salvo.",
+  ],
+  "home.r.quality": ["Verificaciones", "Checks", "Verificações"],
+  "home.r.quality_sub": [
+    "Cuatro controles automáticos y la lista de lo que encontraron.",
+    "Four automatic checks and the list of what they found.",
+    "Quatro verificações automáticas e a lista do que encontraram.",
+  ],
+  "home.r.connect": ["Conectores", "Connectors", "Conectores"],
+  "home.r.connect_sub": [
+    "Bejerman, carpetas compartidas y lo que se conectaría en el piloto.",
+    "Bejerman, shared folders, and what would be connected in the pilot.",
+    "Bejerman, pastas compartilhadas, e o que seria conectado no piloto.",
+  ],
+
+  "home.honest": ["Lo que todavía no sabemos", "What we do not know yet", "O que ainda não sabemos"],
+  "home.honest_sub": [
+    "Preferimos decirlo antes que mostrarlo resuelto en una pantalla.",
+    "We would rather say it than show it solved on a screen.",
+    "Preferimos dizer antes de mostrar resolvido numa tela.",
+  ],
+  "home.honest.bejerman": [
+    "Si esta instalación de Bejerman tiene interfaz de importación. Si no la tiene, el sistema carga por la misma pantalla que usa una persona, y así está armada esta demostración.",
+    "Whether this Bejerman installation has an import interface. If it does not, the system enters data through the same screen a person uses, and that is how this demonstration is built.",
+    "Se esta instalação do Bejerman tem interface de importação. Se não tiver, o sistema lança pela mesma tela que uma pessoa usa, e é assim que esta demonstração está montada.",
+  ],
+  "home.honest.volume": [
+    "Cuántas facturas por mes entran realmente, y cuántos minutos lleva cargar una. El cálculo de ahorro usa números que ustedes pueden cambiar en pantalla.",
+    "How many invoices really arrive each month, and how many minutes one takes to type. The savings figure uses numbers you can change on screen.",
+    "Quantas faturas realmente chegam por mês, e quantos minutos leva lançar uma. O cálculo de economia usa números que vocês podem mudar na tela.",
+  ],
+  "home.honest.shp": [
+    "Los archivos SHP y la información geoespacial todavía no se leen. Es el siguiente paso de la consolidación, no algo que ya esté hecho.",
+    "SHP files and geospatial data are not read yet. That is the next step of the consolidation, not something already done.",
+    "Arquivos SHP e dados geoespaciais ainda não são lidos. É o próximo passo da consolidação, não algo já feito.",
+  ],
+  "home.honest.synthetic": [
+    "Todos los datos de esta demostración son inventados. Los proveedores, las facturas y los importes no son de Montamar.",
+    "Every figure in this demonstration is invented. The suppliers, invoices and amounts are not Montamar's.",
+    "Todos os dados desta demonstração são inventados. Os fornecedores, faturas e valores não são da Montamar.",
+  ],
+
 };
 
 const IDX: Record<Lang, number> = { es: 0, en: 1, pt: 2 };

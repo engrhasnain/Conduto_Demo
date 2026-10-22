@@ -326,6 +326,70 @@ class SyncRun(Base):
     document_id: Mapped[int | None] = mapped_column(ForeignKey("documents.id", ondelete="SET NULL"))
 
 
+class SupplierInvoice(Base):
+    """A supplier invoice on its way into the accounting system.
+
+    One row per document received, whatever it arrived as: an email
+    attachment, a scan of a paper invoice, or a photograph somebody took on
+    site. The row carries what was read, what the checks made of it, and —
+    once a person has approved it — the reference the accounting system gave
+    it back. Nothing is ever posted twice, because `posted_reference` is the
+    proof it already went.
+    """
+
+    __tablename__ = "supplier_invoices"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    document_id: Mapped[int | None] = mapped_column(ForeignKey("documents.id", ondelete="SET NULL"))
+    project_id: Mapped[int | None] = mapped_column(ForeignKey("projects.id", ondelete="SET NULL"), index=True)
+
+    # -- what arrived ----------------------------------------------------
+    filename: Mapped[str] = mapped_column(String(200))
+    received_on: Mapped[str] = mapped_column(String(10), index=True)
+    channel: Mapped[str] = mapped_column(String(20), default="email")  # email | scan | photo | portal
+
+    # -- what was read ---------------------------------------------------
+    vendor_name: Mapped[str] = mapped_column(String(160), default="")
+    vendor_tax_id: Mapped[str] = mapped_column(String(20), default="")
+    #: The authority's numeric code: 1 Factura A, 6 Factura B, 11 Factura C.
+    document_type: Mapped[int] = mapped_column(Integer, default=0)
+    point_of_sale: Mapped[int] = mapped_column(Integer, default=0)
+    number: Mapped[int] = mapped_column(Integer, default=0)
+    invoice_date: Mapped[str | None] = mapped_column(String(10))
+    authorisation_code: Mapped[str] = mapped_column(String(20), default="")
+    authorisation_expires: Mapped[str | None] = mapped_column(String(10))
+
+    currency: Mapped[str] = mapped_column(String(3), default="ARS")
+    net: Mapped[float] = mapped_column(Float, default=0.0)
+    vat: Mapped[float] = mapped_column(Float, default=0.0)
+    #: Gross-income perception. Neither tax nor part of the net, which is
+    #: why `net + vat = total` is false on any invoice that carries one.
+    perception: Mapped[float] = mapped_column(Float, default=0.0)
+    total: Mapped[float] = mapped_column(Float, default=0.0)
+
+    # -- what the checks made of it --------------------------------------
+    #: read -> checked -> (held | approved) -> posted
+    status: Mapped[str] = mapped_column(String(16), default="read", index=True)
+    exception_kind: Mapped[str] = mapped_column(String(40), default="", index=True)
+    exception_detail: Mapped[str] = mapped_column(Text, default="")
+    checks: Mapped[dict | None] = mapped_column(JSON)
+    confidence: Mapped[float] = mapped_column(Float, default=0.0)
+    #: Seconds a person would have spent typing this one in by hand.
+    manual_minutes: Mapped[float] = mapped_column(Float, default=4.0)
+
+    # -- what a person decided -------------------------------------------
+    approved_by: Mapped[str | None] = mapped_column(String(80))
+    approved_at: Mapped[datetime | None] = mapped_column(DateTime)
+
+    # -- what the accounting system gave back ----------------------------
+    posted_reference: Mapped[str | None] = mapped_column(String(40), unique=True)
+    posted_at: Mapped[datetime | None] = mapped_column(DateTime)
+    #: "interface" when written through an import, "screen" when driven
+    #: through the same screen a person uses.
+    posted_route: Mapped[str | None] = mapped_column(String(12))
+
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+
 class Meta(Base):
     __tablename__ = "meta"
     key: Mapped[str] = mapped_column(String(40), primary_key=True)

@@ -2,13 +2,18 @@
 
 LANGS = ("es", "en", "pt")
 
+# Montamar works across Argentina, out of three operating zones. The
+# column is still called "country" in the data model because that is what
+# the common model calls it; on screen it reads "Región", and the three
+# zones each keep their own cost-sheet format, which is the fragmentation
+# the consolidation is for.
 COUNTRIES = {
-    "EC": {"es": "Ecuador", "en": "Ecuador", "pt": "Equador", "currency": "USD"},
-    "PE": {"es": "Perú", "en": "Peru", "pt": "Peru", "currency": "PEN"},
-    "BR": {"es": "Brasil", "en": "Brazil", "pt": "Brasil", "currency": "BRL"},
+    "NQ": {"es": "Neuquen - Vaca Muerta", "en": "Neuquen - Vaca Muerta", "pt": "Neuquen - Vaca Muerta", "currency": "ARS"},
+    "BA": {"es": "Buenos Aires - Litoral", "en": "Buenos Aires - Litoral", "pt": "Buenos Aires - Litoral", "currency": "ARS"},
+    "PS": {"es": "Patagonia Sur", "en": "Southern Patagonia", "pt": "Patagonia Sul", "currency": "ARS"},
 }
 
-COUNTRY_LANG = {"EC": "es", "PE": "es", "BR": "pt"}
+COUNTRY_LANG = {"NQ": "es", "BA": "es", "PS": "es"}
 
 # code, kind, planned window (start, end as fraction of duration), budget weight,
 # cost-type split (MO, EQ, MAT, SUB), names
@@ -40,25 +45,28 @@ CIVIL_ACTIVITIES = [
 
 LINEAR_PROGRESS = {"MOV", "IND"}
 
+# Cathodic protection work, not pipeline construction. The codes are kept
+# because the trained label model and every stored cost row are keyed on
+# them; what changed is what each one means.
 ACTIVITY_NAMES = {
-    "MOV": ("Movilización y campamentos", "Mobilization & camps", "Mobilização e canteiros"),
-    "DDV": ("Apertura de derecho de vía", "Right-of-way clearing", "Abertura de faixa"),
-    "ZAN": ("Excavación de zanja", "Trenching", "Abertura de vala"),
-    "TEN": ("Tendido y curvado", "Stringing & bending", "Desfile e curvamento"),
-    "SOL": ("Soldadura", "Welding", "Soldagem"),
-    "END": ("Ensayos no destructivos", "Non-destructive testing", "Ensaios não destrutivos"),
-    "REV": ("Revestimiento de juntas", "Field joint coating", "Revestimento de juntas"),
-    "BAJ": ("Bajado y tapado", "Lowering-in & backfill", "Abaixamento e cobertura"),
-    "CRU": ("Cruces de ríos y vías (perforación dirigida)", "River and road crossings (directional drilling)", "Travessias de rios e vias (perfuração direcional)"),
-    "PH": ("Prueba hidrostática", "Hydrostatic testing", "Teste hidrostático"),
-    "RES": ("Restauración ambiental", "Environmental restoration", "Recomposição ambiental"),
-    "IND": ("Indirectos y supervisión", "Indirects & supervision", "Indiretos e supervisão"),
-    "EXC": ("Movimiento de tierras", "Earthworks", "Terraplenagem"),
-    "CIM": ("Cimentaciones y hormigón", "Foundations & concrete", "Fundações e concreto"),
-    "EST": ("Estructuras metálicas", "Steel structures", "Estruturas metálicas"),
-    "MEC": ("Montaje mecánico", "Mechanical installation", "Montagem mecânica"),
-    "ELE": ("Electricidad e instrumentación", "Electrical & instrumentation", "Elétrica e instrumentação"),
-    "PRU": ("Pruebas y puesta en marcha", "Testing & commissioning", "Testes e comissionamento"),
+    "MOV": ("Movilizacion y campamentos", "Mobilization & camps", "Mobilizacao e canteiros"),
+    "DDV": ("Relevamiento de traza y accesos", "Route survey & access", "Levantamento de traçado e acessos"),
+    "ZAN": ("Excavacion para camas anodicas", "Excavation for anode beds", "Escavacao para leitos anodicos"),
+    "TEN": ("Tendido de cable de conexion", "Cable laying", "Lançamento de cabo"),
+    "SOL": ("Soldaduras exotermicas y conexiones", "Exothermic welds & connections", "Soldas exotermicas e conexoes"),
+    "END": ("Mediciones de potencial (CIPS/DCVG)", "Potential surveys (CIPS/DCVG)", "Medicoes de potencial (CIPS/DCVG)"),
+    "REV": ("Revestimiento y reparacion de juntas", "Coating & joint repair", "Revestimento e reparo de juntas"),
+    "BAJ": ("Instalacion de anodos y relleno", "Anode installation & backfill", "Instalacao de anodos e enchimento"),
+    "CRU": ("Dispersores profundos (deep anode beds)", "Deep anode ground beds", "Dispersores profundos"),
+    "PH": ("Puesta en servicio y ajuste de rectificadores", "Commissioning & rectifier setting", "Comissionamento e ajuste de retificadores"),
+    "RES": ("Restauracion y cierre de obra", "Site restoration & close-out", "Restauracao e encerramento"),
+    "IND": ("Indirectos y supervision", "Indirects & supervision", "Indiretos e supervisao"),
+    "EXC": ("Movimiento de suelos", "Earthworks", "Movimentacao de solos"),
+    "CIM": ("Bases y fundaciones de rectificador", "Rectifier bases & foundations", "Bases e fundacoes de retificador"),
+    "EST": ("Montaje de gabinetes y postes", "Cabinets & test post installation", "Montagem de gabinetes e postes"),
+    "MEC": ("Montaje de juntas aislantes", "Insulating joint installation", "Montagem de juntas isolantes"),
+    "ELE": ("Electricidad, rectificadores e instrumentacion", "Electrical, rectifiers & instrumentation", "Eletrica, retificadores e instrumentacao"),
+    "PRU": ("Ensayos y verificacion de criterio", "Testing & criterion verification", "Ensaios e verificacao de criterio"),
 }
 
 COST_TYPES = {
@@ -71,9 +79,9 @@ COST_TYPES = {
 COST_TYPE_ORDER = ["MO", "EQ", "MAT", "SUB"]
 
 TERRAINS = {
-    "coast": {"es": "Costa", "en": "Coast", "pt": "Litoral"},
-    "highlands": {"es": "Sierra / Andes", "en": "Highlands / Andes", "pt": "Serra"},
-    "rainforest": {"es": "Amazonía", "en": "Rainforest", "pt": "Floresta amazônica"},
+    "coast": {"es": "Llanura pampeana", "en": "Pampas plain", "pt": "Planicie pampeana"},
+    "highlands": {"es": "Meseta y estepa", "en": "Plateau & steppe", "pt": "Planalto e estepe"},
+    "rainforest": {"es": "Monte y zona salina", "en": "Scrub & saline ground", "pt": "Mata e solo salino"},
 }
 
 ISSUE_CATEGORIES = {

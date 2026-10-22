@@ -1,12 +1,17 @@
-"""Synthetic monthly FX series (local currency per USD), shaped like 2018-2027 history."""
+"""Synthetic monthly rate series, pesos per dollar, shaped like 2018-2027."""
 import math
 import random
 
 from ..utils import add_months
 
+# Pesos per dollar. The series only ever goes one way, which is the whole
+# reason every figure is also held in dollars: a cost booked in 2019 pesos
+# and a cost booked last month are not comparable numbers, and adding them
+# up without converting is how a project looks profitable until it is
+# closed. The shape is the Argentine peso's, not a smooth curve.
 ANNUAL = {
-    "PEN": {2018: 3.29, 2019: 3.34, 2020: 3.50, 2021: 3.88, 2022: 3.84, 2023: 3.74, 2024: 3.76, 2025: 3.70, 2026: 3.62, 2027: 3.60},
-    "BRL": {2018: 3.65, 2019: 3.95, 2020: 5.16, 2021: 5.40, 2022: 5.16, 2023: 4.99, 2024: 5.39, 2025: 5.60, 2026: 5.45, 2027: 5.40},
+    "ARS": {2018: 28.1, 2019: 48.2, 2020: 70.6, 2021: 95.1, 2022: 130.8,
+            2023: 296.2, 2024: 915.0, 2025: 1_180.0, 2026: 1_485.0, 2027: 1_760.0},
 }
 
 FIRST, LAST = "2018-01", "2027-12"

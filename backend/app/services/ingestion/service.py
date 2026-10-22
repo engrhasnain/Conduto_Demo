@@ -260,7 +260,7 @@ def _analyze_excel(db: Session, path: Path) -> dict:
             base["engine"] = "ai"
         mv = {k: v["value"] for k, v in meta.items()}
         currency = mv.get("currency") or "USD"
-        country = {"USD": "EC", "PEN": "PE", "BRL": "BR"}.get(currency, "EC")
+        country = {"ARS": "NQ", "USD": "BA", "EUR": "PS"}.get(currency, "NQ")
         loc_text = norm(f"{mv.get('location', '')} {mv.get('terrain', '')} {mv.get('project', '')}")
         terrain = next((t for t, words in TERRAIN_WORDS.items() if any(w in loc_text for w in words)), "coast")
         start, finish = mv.get("start"), mv.get("finish")

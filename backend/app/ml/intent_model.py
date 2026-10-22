@@ -10,9 +10,9 @@ from ..seed.specs import PROJECTS
 from .entities import ProjectIndex, extract, mask
 
 P = [p["code"] for p in PROJECTS] + [p["name"] for p in PROJECTS] + [
-    "tramo B", "Selva Central", "Litoral Norte", "Papallacta", "Manta", "Sacha Norte", "Shushufindi", "Huancayo", "Talara", "Serra do Mar", "Lago Agrio", "Costa Sur"]
-C = ["Ecuador", "Perú", "Brasil", "Brazil", "Peru", "Equador"]
-T = ["la Amazonía", "la selva", "la costa", "la sierra", "los Andes", "the rainforest", "the coast", "the highlands", "Amazônia", "litoral", "serra"]
+    "tramo B", "Selva Central", "Loma Campana", "Papallacta", "Manta", "Sacha Norte", "Shushufindi", "Huancayo", "Talara", "Pico Truncado", "Lago Agrio", "Costa Sur"]
+C = ["Neuquen", "Vaca Muerta", "Buenos Aires", "Litoral", "Patagonia", "Santa Cruz"]
+T = ["la meseta", "la estepa", "el monte", "la llanura", "zona salina", "the plateau", "the steppe", "the pampas", "la Patagonia", "el litoral"]
 K = ["lluvias", "paros comunitarios", "permisos", "deslizamientos", "clima", "rain", "community stoppages", "permits", "landslides", "chuvas", "paralisações", "licenças"]
 A = ["soldadura", "cruces especiales", "zanjeo", "indirectos", "welding", "HDD crossings", "trenching", "soldagem", "travessias"]
 G = ["el margen", "una orden de cambio", "el valor ganado", "la eficiencia de costo", "el CPI", "la curva S", "el derecho de vía", "la prueba hidrostática",
@@ -121,7 +121,7 @@ TEMPLATES = {
         "¿Qué es {g}?", "¿qué significa {g}?", "explícame {g}", "define {g}", "¿para qué sirve {g}?", "¿cómo se calcula {g}?",
         "What is {g}?", "what does {g} mean?", "explain {g}", "how is {g} calculated?", "O que é {g}?", "o que significa {g}?", "explique {g}",
         "¿cómo funciona este sistema?", "¿de dónde vienen los datos?", "¿los datos son reales?", "¿qué tan preciso es?", "¿necesita internet?",
-        "¿cómo subo un archivo?", "¿cuánto cuesta implementarlo?", "¿en qué idiomas funciona?", "¿qué es Conduto?",
+        "¿cómo subo un archivo?", "¿cuánto cuesta implementarlo?", "¿en qué idiomas funciona?", "¿qué es Montamar?",
         "how does this system work?", "where does the data come from?", "is this real data?", "how accurate is it?", "do you need internet?",
         "how do I upload a file?", "how long does it take to implement?", "como funciona o sistema?", "de onde vêm os dados?", "os dados são reais?",
         "¿qué son los conectores?", "¿con qué sistemas se conecta?", "¿qué pasa si cambiamos a SAP?", "¿sirve si migramos a Dynamics 365?",
@@ -149,17 +149,17 @@ TEMPLATES = {
 TEST_SET = [
     ("¿Me das un panorama general de las obras?", "portfolio_summary"), ("Big picture: how are we doing overall?", "portfolio_summary"), ("Visão geral da carteira, por favor", "portfolio_summary"),
     ("¿En qué proyectos el costo real supera lo previsto?", "overruns"), ("Which jobs are burning more money than budgeted?", "overruns"), ("Tem obra estourando o orçamento?", "overruns"),
-    ("explícame la caída de margen del Tramo B", "margin_project"), ("How did Litoral Norte lose margin?", "margin_project"), ("margem do Selva Central", "margin_project"),
+    ("explícame la caída de margen del Tramo B", "margin_project"), ("How did Loma Campana lose margin?", "margin_project"), ("margem do Selva Central", "margin_project"),
     ("¿cuánto dinero está atrapado en adicionales sin aprobar?", "pending_cos"), ("list the change orders still waiting for the client", "pending_cos"), ("quanto falta aprovar de ordens de alteração no Brasil", "pending_cos"),
     ("precio promedio por kilómetro en la sierra", "benchmark"), ("typical cost of one kilometre in the jungle", "benchmark"), ("quanto custa em média o km no litoral", "benchmark"),
     ("¿cuánto tiempo perdimos por lluvias el último año?", "lost_days"), ("how many days were lost to protests?", "lost_days"), ("dias parados por chuvas", "lost_days"),
     ("¿el contrato del Ducto Selva Central tiene multas por atraso?", "contract"), ("what are the delay penalties in the contract?", "contract"), ("o contrato prevê multa por atraso?", "contract"),
-    ("¿qué tal va Litoral Norte?", "project_status"), ("update me on EC-2511", "project_status"), ("como anda o Serra do Mar?", "project_status"),
+    ("¿qué tal va Loma Campana?", "project_status"), ("update me on NQ-2511", "project_status"), ("como anda o Pico Truncado?", "project_status"),
     ("¿cuál proyecto tiene más retraso?", "delays"), ("are we going to finish Selva Central on time?", "delays"), ("qual obra está mais atrasada?", "delays"),
-    ("¿Perú o Ecuador, quién tiene mejor rentabilidad?", "country_compare"), ("how does Brazil stack up against Peru?", "country_compare"), ("comparativo entre países", "country_compare"),
+    ("¿Neuquen o Patagonia, donde rinde mejor?", "country_compare"), ("how does Patagonia stack up against Litoral?", "country_compare"), ("comparativo entre zonas", "country_compare"),
     ("¿cómo están las reparaciones de soldadura en el Tramo B?", "weld_quality"), ("weld repair percentage by project", "weld_quality"), ("índice de reparo de solda", "weld_quality"),
     ("¿cuáles son los proyectos críticos?", "top_risks"), ("what should keep me up at night?", "top_risks"), ("quais obras estão no vermelho?", "top_risks"),
-    ("¿en qué actividades se va la plata en EC-2503?", "activity_costs"), ("which cost items are over budget on PE-2410?", "activity_costs"), ("em quais atividades estouramos o orçamento?", "activity_costs"),
+    ("¿en qué actividades se va la plata en NQ-2503?", "activity_costs"), ("which cost items are over budget on BA-2410?", "activity_costs"), ("em quais atividades estouramos o orçamento?", "activity_costs"),
     ("¿qué lecciones nos dejaron los proyectos en la selva?", "lessons"), ("lessons from mountain projects", "lessons"), ("aprendizados dos projetos passados", "lessons"),
     ("¿cuántas obras activas hay en Brasil?", "project_list"), ("show me all closed pipelines", "project_list"), ("quais projetos existem no Peru?", "project_list"),
     ("¿hay meses donde gastamos sin avanzar?", "anomalies"), ("find strange spending spikes", "anomalies"), ("gastos fora do padrão", "anomalies"),
@@ -168,8 +168,8 @@ TEST_SET = [
     ("busca en los informes algo sobre el río Payamino", "document_search"), ("find documents mentioning slope stabilization", "document_search"), ("procure relatórios sobre a manta termocontrátil", "document_search"),
     # added after the template review, never tuned against
     ("¿qué obras me deberían preocupar este mes?", "top_risks"), ("dime qué partidas del Selva Central se desviaron", "activity_costs"),
-    ("enumera los proyectos terminados", "project_list"), ("¿detectaste gastos raros en Litoral Norte?", "anomalies"),
-    ("how much will EC-2503 cost at completion?", "project_status"), ("¿qué dice el informe de cierre sobre geotecnia?", "lessons"),
+    ("enumera los proyectos terminados", "project_list"), ("¿detectaste gastos raros en Loma Campana?", "anomalies"),
+    ("how much will NQ-2503 cost at completion?", "project_status"), ("¿qué dice el informe de cierre sobre geotecnia?", "lessons"),
     ("compare the three countries by margin", "country_compare"), ("¿cuánto nos falta cobrar por adicionales en Perú?", "pending_cos"),
     ("¿qué quiere decir eficiencia de plazo?", "general"), ("what exactly is earned value?", "general"),
     ("o que é uma ordem de alteração?", "general"), ("¿estos números son de verdad?", "general"),

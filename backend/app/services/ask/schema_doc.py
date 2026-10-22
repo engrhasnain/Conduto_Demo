@@ -12,13 +12,13 @@ SELECT p.code, p.name, p.country_code, p.client, p.kind, p.status, p.terrain, p.
 FROM projects p JOIN project_kpis k ON k.project_id = p.id
 """
 
-SCHEMA_DOC = f"""SQLite database of Conduto's consolidated project controls. Data cut-off (status) period: {STATUS_PERIOD}.
+SCHEMA_DOC = f"""SQLite database of Montamar's consolidated project controls. Data cut-off (status) period: {STATUS_PERIOD}.
 Money is in each project's own currency (projects.currency: USD, PEN, BRL) unless the column ends in _usd
 (converted at the {STATUS_PERIOD} reporting rate; project_kpis.fx_usd = USD per unit of local currency).
 Ratios are fractions (0.17 = 17%). Periods are text 'YYYY-MM'; dates 'YYYY-MM-DD'.
 
 VIEW v_project_overview — one row per project; start here for portfolio questions. Columns:
-  code, name, country_code (EC Ecuador | PE Peru | BR Brazil), client, kind (pipeline|civil), status (active|closed),
+  code, name, country_code (NQ Neuquen | BA Buenos Aires | PS Patagonia Sur), client, kind (pipeline|civil), status (active|closed),
   terrain (coast|highlands|rainforest), region, diameter_in, length_km, currency, contract_value, start_period,
   planned_finish_period, forecast_finish_period, manager, as_of_period, progress_pct, planned_pct,
   cpi, spi (NULL when closed), bac (budget incl. approved change orders), ac (actual cost to date), ev, pv,

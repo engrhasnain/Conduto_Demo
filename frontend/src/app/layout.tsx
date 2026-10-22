@@ -9,7 +9,7 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Conduto · Project Intelligence (demo)",
+  title: "Montamar · Facturas y datos de obra (demostración)",
   description: "Consolidated project control and profitability intelligence for pipeline and civil-works projects. Demo with synthetic data.",
 };
 

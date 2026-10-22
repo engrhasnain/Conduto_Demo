@@ -32,16 +32,16 @@ from .sql_guard import run_readonly
 MIN_CONFIDENCE = 0.30
 
 SUGGESTIONS = [
-    ("margin", "¿Por qué cayó el margen del Oleoducto Amazonía – Tramo B (EC-2503)?", "Why did the margin drop on Oleoducto Amazonía – Tramo B (EC-2503)?", "Por que a margem do Oleoducto Amazonía – Tramo B (EC-2503) caiu?"),
+    ("margin", "¿Por qué cayó el margen del Proteccion catodica Oleoducto Loma Campana (NQ-2503)?", "Why did the margin drop on Proteccion catodica Oleoducto Loma Campana (NQ-2503)?", "Por que a margem do Proteccion catodica Oleoducto Loma Campana (NQ-2503) caiu?"),
     ("pending", "¿Cuánto tenemos en órdenes de cambio pendientes, por país?", "How much is tied up in pending change orders, by country?", "Quanto temos em ordens de alteração pendentes, por país?"),
     ("status", "¿Cómo va el Ducto Selva Central?", "How is the Selva Central pipeline doing?", "Como está o Duto Selva Central?"),
     ("overruns", "¿Qué proyectos activos tienen sobrecostos y por qué?", "Which active projects are over budget, and why?", "Quais projetos ativos estão acima do orçamento e por quê?"),
     ("quality", "¿Cuadra la contabilidad (Dynamics GP) con el control de costos en Excel?", "Does the accounting system (Dynamics GP) match the Excel cost control?", "A contabilidade (Dynamics GP) bate com o controle de custos em Excel?"),
     ("anomalies", "¿Dónde estamos gastando sin avanzar?", "Where are we spending without making progress?", "Onde estamos gastando sem avançar?"),
     ("days", "¿Qué eventos nos hicieron perder más días en los últimos 12 meses?", "Which events cost us the most lost days in the last 12 months?", "Quais ocorrências nos fizeram perder mais dias nos últimos 12 meses?"),
-    ("benchmark", "¿Cuál es nuestro costo histórico por kilómetro en Amazonía frente a la costa?", "What is our historical cost per kilometre in the rainforest compared with the coast?", "Qual é o nosso custo histórico por quilômetro na Amazônia comparado com o litoral?"),
+    ("benchmark", "¿Cual es nuestro costo historico por kilometro en la meseta frente a la llanura?", "What is our historical cost per kilometre on the plateau compared with the plain?", "Qual e o nosso custo historico por quilometro no planalto comparado com a planicie?"),
     ("bids", "¿Qué ofertas en curso están por debajo de lo que costaron obras parecidas?", "Which open bids are priced below what similar jobs cost?", "Quais propostas em andamento estão abaixo do que obras parecidas custaram?"),
-    ("contract", "¿Qué dice el contrato de EC-2503 sobre trabajos adicionales sin orden aprobada?", "What does the EC-2503 contract say about extra work without an approved change order?", "O que diz o contrato do EC-2503 sobre serviços adicionais sem ordem aprovada?"),
+    ("contract", "¿Qué dice el contrato de NQ-2503 sobre trabajos adicionales sin orden aprobada?", "What does the NQ-2503 contract say about extra work without an approved change order?", "O que diz o contrato do NQ-2503 sobre serviços adicionais sem ordem aprovada?"),
 ]
 
 
@@ -470,7 +470,7 @@ def h_countries(ctx: Ctx, q: str):
         SELECT country_code, COUNT(*) AS n, AVG(forecast_margin_pct - bid_margin_pct) AS margin_delta
         FROM v_project_overview WHERE status = 'closed' GROUP BY country_code""")
     hmap = {h["country_code"]: h for h in hist}
-    names = {"EC": L(lang, "Ecuador", "Ecuador", "Equador"), "PE": L(lang, "Perú", "Peru", "Peru"), "BR": L(lang, "Brasil", "Brazil", "Brasil")}
+    names = {"NQ": L(lang, "Neuquen", "Neuquen", "Neuquen"), "BA": L(lang, "Buenos Aires", "Buenos Aires", "Buenos Aires"), "PS": L(lang, "Patagonia Sur", "Southern Patagonia", "Patagonia Sul")}
     best, worst = rows[0], rows[-1]
     text = L(lang, f"Hoy el mejor margen pronosticado lo tiene **{names[best['country_code']]}** ({pct(best['forecast_margin'], lang)}) y el más bajo **{names[worst['country_code']]}** ({pct(worst['forecast_margin'], lang)}).",
              f"Today **{names[best['country_code']]}** has the best forecast margin ({pct(best['forecast_margin'], lang)}) and **{names[worst['country_code']]}** the lowest ({pct(worst['forecast_margin'], lang)}).",
@@ -726,15 +726,15 @@ FOLLOWUPS = {
     "delays": [("¿Qué eventos nos hicieron perder más días?", "Which events cost us the most days?", "Quais ocorrências nos fizeram perder mais dias?"),
                ("¿Qué es la eficiencia de plazo?", "What is schedule efficiency?", "O que é eficiência de prazo?")],
     "lost_days": [("¿Dónde estamos gastando sin avanzar?", "Where are we spending without progress?", "Onde estamos gastando sem avançar?"),
-                  ("Lecciones aprendidas en la Amazonía", "Lessons learned in the rainforest", "Lições aprendidas na Amazônia")],
+                  ("Lecciones aprendidas en la meseta", "Lessons learned on the plateau", "Licoes aprendidas no planalto")],
     "data_quality": [("¿Dónde estamos gastando sin avanzar?", "Where are we spending without progress?", "Onde estamos gastando sem avançar?"),
                      ("¿Qué es la conciliación?", "What is reconciliation?", "O que é conciliação?")],
     "anomalies": [("¿Cuadra la contabilidad con el Excel?", "Does the accounting system match the Excel?", "A contabilidade bate com o Excel?"),
                   ("¿Qué es el costo sin avance?", "What is cost without progress?", "O que é custo sem avanço?")],
     "benchmark": [("Lecciones aprendidas en la sierra", "Lessons learned in the highlands", "Lições aprendidas na serra"),
                   ("¿Qué ofertas en curso están por debajo del histórico?", "Which open bids are below history?", "Quais propostas em andamento estão abaixo do histórico?")],
-    "bids": [("¿Cuál es nuestro costo histórico por kilómetro en Amazonía frente a la costa?", "What is our historical cost per kilometre in the rainforest compared with the coast?", "Qual é o nosso custo histórico por quilômetro na Amazônia comparado com o litoral?"),
-             ("¿Por qué cayó el margen de EC-2503?", "Why did the margin drop on EC-2503?", "Por que a margem do EC-2503 caiu?"),
+    "bids": [("¿Cual es nuestro costo historico por kilometro en la meseta frente a la llanura?", "What is our historical cost per kilometre on the plateau compared with the plain?", "Qual e o nosso custo historico por quilometro no planalto comparado com a planicie?"),
+             ("¿Por qué cayó el margen de NQ-2503?", "Why did the margin drop on NQ-2503?", "Por que a margem do NQ-2503 caiu?"),
              ("¿Qué son los conectores?", "What are connectors?", "O que são os conectores?")],
     "top_risks": [("¿Por qué cayó el margen de {code}?", "Why did the margin drop on {code}?", "Por que a margem do {code} caiu?"),
                   ("¿Cuánto tenemos en órdenes de cambio pendientes?", "How much is in pending change orders?", "Quanto temos em ordens de alteração pendentes?")],
@@ -746,7 +746,7 @@ FOLLOWUPS = {
 
 
 def followups(intent: str, ents: dict, lang: str) -> list[str]:
-    code = ents.get("project") or "EC-2503"
+    code = ents.get("project") or "NQ-2503"
     items = FOLLOWUPS.get(intent) or FOLLOWUPS["_default"]
     return [pick(t, lang).format(code=code) for t in items][:3]
 

@@ -11,7 +11,7 @@ from ..utils import add_months, first_day, last_day, months_between
 from .specs import CO_TEXT, ISSUE_TEXT
 
 UNIT_COST_USD = {"coast": 26_000, "highlands": 41_000, "rainforest": 47_000}  # per inch-km, 2019 base
-COUNTRY_FACTOR = {"EC": 1.0, "PE": 0.97, "BR": 1.06}
+COUNTRY_FACTOR = {"NQ": 1.0, "BA": 0.97, "PS": 1.06}
 CO_MARGIN = 0.14
 WELDS_PER_KM = 1000 / 12.2
 

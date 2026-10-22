@@ -28,18 +28,18 @@ HEADERS = {
     "pt": ["Número do diário", "Data da TRX", "Número da conta", "Descrição da conta", "Projeto", "Valor do débito", "Valor do crédito", "Referência", "Origem", "ID do fornecedor"],
 }
 VENDORS = {
-    "EC": {"EQ": ["MAQORIENTE", "EQUIPESADO", "GRUASNAPO"], "MAT": ["FERRETECUADOR", "HORMIGONESQ", "REVESTIPLAST"], "SUB": ["PERFORIENTE", "RADIOINSP", "TOPOANDES"]},
-    "PE": {"EQ": ["MAQSELVA", "ALQUIPERU", "GRUASCENTRO"], "MAT": ["ACEROSLIMA", "CONCRETOSAC", "TUBOREVEST"], "SUB": ["PHDPERU", "ENDSERVIC", "SERVGEOTEC"]},
-    "BR": {"EQ": ["LOCAMAQ", "EQUIPNORTE", "GUINDASTES"], "MAT": ["ACOBRASIL", "CONCRETNE", "REVESTSUL"], "SUB": ["PERFURANE", "INSPECTEND", "TOPONORDES"]},
+    "NQ": {"EQ": ["EQUIPOSNQN", "ALQUILERSUR", "GRUASANELO"], "MAT": ["ANODOSDELSUR", "CABLESROSARIO", "RECTIFPARANA"], "SUB": ["MEDICIONESLIT", "INSPENDSUR", "GEOTECNIACUYO"]},
+    "BA": {"EQ": ["EQUIPOSAVELLAN", "ALQUILERLITORAL", "GRUASLAPLATA"], "MAT": ["ELECTROQPLATA", "REVESTBAHIA", "BENTONITASNOR"], "SUB": ["ENSAYOSLITORAL", "INSPECCIONBA", "SOLDCORDOBA"]},
+    "PS": {"EQ": ["EQUIPOSPATAG", "ALQUILERCOMOD", "GRUASSANTACRUZ"], "MAT": ["TECNOANTICORR", "INSTRUMNEUQUEN", "SOLARPATAGONIA"], "SUB": ["AISLACOMAHUE", "METALSANLORENZO", "TRANSPPATAG"]},
 }
 SOURCES = {"MO": "UPRCC", "EQ": "PMTRX", "MAT": "PMTRX", "SUB": "PMTRX"}
 SPLITS = {"MO": (1, 2), "EQ": (2, 4), "MAT": (2, 4), "SUB": (1, 3)}
 
 # (project, period, cost type) -> kind of discrepancy
 PLANTED = {
-    ("EC-2503", "2026-08", "SUB"): ("missing_in_excel", 185_000.0, "FAC-004471", "PERFORIENTE"),
-    ("PE-2410", "2026-06", "EQ"): ("missing_in_erp", 240_000.0, None, None),
-    ("BR-2501", "2026-07", "MAT"): ("duplicate", None, None, None),
+    ("NQ-2503", "2026-08", "SUB"): ("missing_in_excel", 185_000.0, "0003-00004471", "MEDICIONESLIT"),
+    ("BA-2410", "2026-06", "EQ"): ("missing_in_erp", 240_000.0, None, None),
+    ("PS-2501", "2026-07", "MAT"): ("duplicate", None, None, None),
 }
 
 
@@ -62,7 +62,7 @@ def write_gp_export(country: str, sims: list[SimResult], path, lang: str) -> lis
         cell.font = Font(bold=True)
         cell.fill = PatternFill("solid", fgColor="D9E1F2")
     rows: list[dict] = []
-    journal = {"EC": 184_200, "PE": 96_400, "BR": 57_100}[country]
+    journal = {"NQ": 184_200, "BA": 96_400, "PS": 57_100}[country]
 
     for sim in sims:
         code = sim.spec["code"]

@@ -134,10 +134,10 @@ GENERIC_LESSONS = {
 }
 
 PROJECTS = [
-    # ---------------- ECUADOR (USD) ----------------
+    # ---------------- NEUQUEN / VACA MUERTA ----------------
     dict(
-        code="EC-2503", name="Oleoducto Amazonía – Tramo B", country="EC", client="Oriente Crudos S.A.",
-        kind="pipeline", terrain="rainforest", region="Orellana – Sucumbíos", diameter=16, length=62,
+        code="NQ-2503", name="Proteccion catodica por corriente impresa - Oleoducto Loma Campana", country="NQ", client="YPF S.A.",
+        kind="pipeline", terrain="rainforest", region="Anelo - Loma Campana", diameter=16, length=62,
         start="2025-03", planned=20, delay=4, status="active", bid=0.17, target=0.045,
         contract_type="lump_sum", manager="Ing. Andrea Villacís",
         stale_report="2026-04",  # the April report repeats March's cumulative cost (caught by the cross-check)
@@ -169,14 +169,14 @@ PROJECTS = [
             dict(number="OC-010", period="2026-07", cause="community", activity="IND", pct=0.009, status="pending", executed=0.0, params=dict()),
         ],
         description=(
-            "Construcción de 62 km de oleoducto de 16\" en la Amazonía ecuatoriana, incluidos cruces especiales de ríos mediante perforación horizontal dirigida.",
-            "Construction of 62 km of 16\" crude oil pipeline in the Ecuadorian Amazon, including river crossings by directional drilling.",
-            "Construção de 62 km de oleoduto de 16\" na Amazônia equatoriana, incluindo travessias de rios por perfuração direcional.",
+            "Sistema de proteccion catodica por corriente impresa sobre 62 km de oleoducto de 16 pulgadas, con dos dispersores profundos y telemedicion de rectificadores.",
+            "Impressed-current cathodic protection over 62 km of 16-inch crude pipeline, with two deep anode beds and remote rectifier monitoring.",
+            "Protecao catodica por corrente impressa em 62 km de oleoduto de 16 polegadas, com dois dispersores profundos e telemedicao.",
         ),
     ),
     dict(
-        code="EC-1902", name="Línea de Flujo Sacha Norte", country="EC", client="Oriente Crudos S.A.",
-        kind="pipeline", terrain="rainforest", region="Orellana", diameter=10, length=18,
+        code="NQ-1902", name="Anodos de sacrificio - Linea de captacion Rincon", country="NQ", client="YPF S.A.",
+        kind="pipeline", terrain="rainforest", region="Rincon de los Sauces", diameter=10, length=18,
         start="2019-04", planned=11, delay=2, status="closed", bid=0.16, target=0.11,
         contract_type="lump_sum", manager="Ing. Carlos Mora",
         weights={"DDV": 0.30, "BAJ": 0.40, "IND": 0.30},
@@ -187,11 +187,11 @@ PROJECTS = [
         ],
         cos=[dict(number="OC-001", period="2019-08", cause="design", activity="TEN", pct=0.02, status="approved", decision_days=28, executed=1.0, params=dict(km=7))],
         lessons=["weather", "change_orders"],
-        description=("Línea de flujo de 10\" y 18 km en el campo Sacha.", "18 km, 10\" flowline in the Sacha field.", "Linha de fluxo de 10\" e 18 km no campo Sacha."),
+        description=("Anodos de sacrificio sobre 18 km de linea de 10 pulgadas en Rincon de los Sauces.", "Sacrificial anodes over 18 km of 10-inch line at Rincon de los Sauces.", "Anodos de sacrificio em 18 km de linha de 10 polegadas em Rincon de los Sauces."),
     ),
     dict(
-        code="EC-2101", name="Poliducto Costa – Variante Manta", country="EC", client="Costa Hidrocarburos S.A.",
-        kind="pipeline", terrain="coast", region="Manabí", diameter=12, length=35,
+        code="NQ-2101", name="Rehabilitacion de proteccion catodica - Red Bahia Blanca", country="NQ", client="Camuzzi Gas Pampeana S.A.",
+        kind="pipeline", terrain="coast", region="Bahia Blanca", diameter=12, length=35,
         start="2021-02", planned=12, delay=0, status="closed", bid=0.15, target=0.18,
         contract_type="unit_price", manager="Ing. Diego Paredes",
         weights={"SOL": 0.30, "ZAN": 0.30, "BAJ": 0.20, "IND": 0.20},
@@ -202,7 +202,7 @@ PROJECTS = [
         description=("Variante de poliducto de 12\" y 35 km en la costa de Manabí.", "35 km, 12\" products pipeline variant on the Manabí coast.", "Variante de poliduto de 12\" e 35 km no litoral de Manabí."),
     ),
     dict(
-        code="EC-2004", name="Oleoducto Andino – Variante Papallacta", country="EC", client="Transandina Energía S.A.",
+        code="NQ-2004", name="Dispersores profundos - Poliducto Plottier", country="NQ", client="Pluspetrol S.A.",
         kind="pipeline", terrain="highlands", region="Napo – Pichincha", diameter=20, length=28,
         start="2020-01", planned=16, delay=5, status="closed", bid=0.16, target=0.06,
         contract_type="lump_sum", manager="Ing. Lucía Salazar",
@@ -226,8 +226,8 @@ PROJECTS = [
         description=("Variante de 28 km de oleoducto de 20\" en zona andina de alta pendiente.", "28 km, 20\" crude pipeline variant through steep Andean terrain.", "Variante de 28 km de oleoduto de 20\" em terreno andino íngreme."),
     ),
     dict(
-        code="EC-2506", name="Estación de Bombeo Lago Agrio – Ampliación", country="EC", client="Oriente Crudos S.A.",
-        kind="civil", terrain="rainforest", region="Sucumbíos", diameter=None, length=None, civil_budget_usd=14_000_000,
+        code="NQ-2506", name="Proteccion catodica de planta - Bateria Cutral Co", country="NQ", client="YPF S.A.",
+        kind="civil", terrain="rainforest", region="Cutral Co", diameter=None, length=None, civil_budget_usd=14_000_000,
         start="2025-06", planned=16, delay=1, status="active", bid=0.14, target=0.135,
         contract_type="lump_sum", manager="Ing. Pablo Andrade",
         weights={"MEC": 0.5, "CIM": 0.3, "IND": 0.2},
@@ -243,7 +243,7 @@ PROJECTS = [
         description=("Ampliación de la estación de bombeo: cimentaciones, montaje de dos bombas y sistema eléctrico.", "Pump station expansion: foundations, installation of two pumps and electrical system.", "Ampliação da estação de bombeamento: fundações, montagem de duas bombas e sistema elétrico."),
     ),
     dict(
-        code="EC-2511", name="Gasoducto Costa Sur – Fase 1", country="EC", client="Costa Hidrocarburos S.A.",
+        code="NQ-2511", name="Proteccion catodica - Gasoducto La Plata Fase 1", country="NQ", client="Camuzzi Gas Pampeana S.A.",
         kind="pipeline", terrain="coast", region="El Oro – Guayas", diameter=8, length=45,
         start="2025-11", planned=12, delay=0, status="active", bid=0.15, target=0.158,
         contract_type="unit_price", manager="Ing. Diego Paredes",
@@ -254,8 +254,8 @@ PROJECTS = [
         description=("Primera fase de 45 km de gasoducto de 8\" en la costa sur.", "Phase 1: 45 km of 8\" gas pipeline on the southern coast.", "Fase 1: 45 km de gasoduto de 8\" no litoral sul."),
     ),
     dict(
-        code="EC-2206", name="Línea de Transferencia Shushufindi", country="EC", client="Oriente Crudos S.A.",
-        kind="pipeline", terrain="rainforest", region="Sucumbíos", diameter=14, length=24,
+        code="NQ-2206", name="Relevamiento CIPS/DCVG - Linea de transferencia Campana", country="NQ", client="YPF S.A.",
+        kind="pipeline", terrain="rainforest", region="Cutral Co", diameter=14, length=24,
         start="2022-06", planned=14, delay=3, status="closed", bid=0.17, target=0.12,
         contract_type="lump_sum", manager="Ing. Andrea Villacís",
         weights={"BAJ": 0.30, "CRU": 0.30, "IND": 0.20, "SOL": 0.20},
@@ -272,8 +272,8 @@ PROJECTS = [
         description=("Línea de transferencia de 14\" y 24 km entre estaciones de Shushufindi.", "24 km, 14\" transfer line between Shushufindi stations.", "Linha de transferência de 14\" e 24 km entre estações de Shushufindi."),
     ),
     dict(
-        code="EC-1908", name="Línea de Flujo Auca Sur", country="EC", client="Oriente Crudos S.A.",
-        kind="pipeline", terrain="rainforest", region="Orellana", diameter=6, length=12,
+        code="NQ-1908", name="Anodos de magnesio - Linea San Nicolas Sur", country="NQ", client="YPF S.A.",
+        kind="pipeline", terrain="rainforest", region="Rincon de los Sauces", diameter=6, length=12,
         start="2019-08", planned=8, delay=1, status="closed", bid=0.18, target=0.14,
         contract_type="unit_price", manager="Ing. Carlos Mora",
         weights={"BAJ": 0.5, "IND": 0.5},
@@ -285,7 +285,7 @@ PROJECTS = [
     ),
     # ---------------- PERU (PEN) ----------------
     dict(
-        code="PE-2410", name="Ducto Selva Central – Tramo 1", country="PE", client="Selva Energía S.A.C.",
+        code="BA-2410", name="Proteccion catodica - Gasoducto Rosario Tramo 1", country="BA", client="Transportadora de Gas del Norte S.A.",
         kind="pipeline", terrain="rainforest", region="Junín – Pasco", diameter=18, length=75,
         start="2024-10", planned=24, delay=7, status="active", bid=0.16, target=0.12,
         contract_type="lump_sum", manager="Ing. Rosa Quispe",
@@ -304,8 +304,8 @@ PROJECTS = [
         description=("Primer tramo de 75 km de ducto de 18\" en la selva central.", "First 75 km section of an 18\" pipeline in the central jungle.", "Primeiro trecho de 75 km de duto de 18\" na selva central."),
     ),
     dict(
-        code="PE-2202", name="Gasoducto Costa Ica", country="PE", client="Ductos del Pacífico S.A.C.",
-        kind="pipeline", terrain="coast", region="Ica", diameter=10, length=40,
+        code="BA-2202", name="Juntas aislantes y testigos - Ramal Santa Cruz", country="BA", client="Transportadora de Gas del Sur S.A.",
+        kind="pipeline", terrain="coast", region="Rosario", diameter=10, length=40,
         start="2022-02", planned=12, delay=0, status="closed", bid=0.14, target=0.16,
         contract_type="unit_price", manager="Ing. Martín Huamán",
         weights={"SOL": 0.5, "ZAN": 0.5},
@@ -316,8 +316,8 @@ PROJECTS = [
         description=("Gasoducto de 10\" y 40 km en el desierto de Ica.", "40 km, 10\" gas pipeline in the Ica desert.", "Gasoduto de 10\" e 40 km no deserto de Ica."),
     ),
     dict(
-        code="PE-2105", name="Poliducto Sierra – Variante Huancayo", country="PE", client="Ductos del Pacífico S.A.C.",
-        kind="pipeline", terrain="highlands", region="Junín", diameter=12, length=30,
+        code="BA-2105", name="Rectificadores y telemedicion - Comodoro Rivadavia", country="BA", client="Transportadora de Gas del Sur S.A.",
+        kind="pipeline", terrain="highlands", region="San Nicolas", diameter=12, length=30,
         start="2021-05", planned=14, delay=3, status="closed", bid=0.15, target=0.09,
         contract_type="lump_sum", manager="Ing. Rosa Quispe",
         weights={"SOL": 0.40, "ZAN": 0.30, "IND": 0.30},
@@ -332,8 +332,8 @@ PROJECTS = [
         description=("Variante de poliducto de 12\" y 30 km a más de 3.200 m de altitud.", "30 km, 12\" products pipeline variant above 3,200 m altitude.", "Variante de poliduto de 12\" e 30 km acima de 3.200 m de altitude."),
     ),
     dict(
-        code="PE-2303", name="Tanques y Cimentaciones Terminal Callao", country="PE", client="Ductos del Pacífico S.A.C.",
-        kind="civil", terrain="coast", region="Callao", diameter=None, length=None, civil_budget_usd=18_000_000,
+        code="BA-2303", name="Proteccion catodica de tanques - Terminal Puerto Rosales", country="BA", client="Transportadora de Gas del Sur S.A.",
+        kind="civil", terrain="coast", region="Puerto Rosales", diameter=None, length=None, civil_budget_usd=18_000_000,
         start="2023-03", planned=15, delay=1, status="closed", bid=0.14, target=0.13,
         contract_type="lump_sum", manager="Ing. Martín Huamán",
         weights={"CIM": 0.5, "MEC": 0.5},
@@ -348,8 +348,8 @@ PROJECTS = [
         description=("Cimentaciones y montaje de tanques de almacenamiento en el terminal del Callao.", "Foundations and storage tank erection at the Callao terminal.", "Fundações e montagem de tanques de armazenamento no terminal de Callao."),
     ),
     dict(
-        code="PE-2601", name="Línea de Recolección Loreto", country="PE", client="Selva Energía S.A.C.",
-        kind="pipeline", terrain="rainforest", region="Loreto", diameter=8, length=22,
+        code="BA-2601", name="Puesta a tierra y proteccion - Planta Zarate", country="BA", client="Transportadora de Gas del Norte S.A.",
+        kind="pipeline", terrain="rainforest", region="Santa Cruz Norte", diameter=8, length=22,
         start="2026-01", planned=14, delay=0, status="active", bid=0.17, target=0.165,
         contract_type="unit_price", manager="Ing. Jorge Rivas",
         weights={"DDV": 0.5, "IND": 0.5},
@@ -359,8 +359,8 @@ PROJECTS = [
         description=("Línea de recolección de 8\" y 22 km en Loreto.", "22 km, 8\" gathering line in Loreto.", "Linha de coleta de 8\" e 22 km em Loreto."),
     ),
     dict(
-        code="PE-2006", name="Ducto Talara Norte", country="PE", client="Ductos del Pacífico S.A.C.",
-        kind="pipeline", terrain="coast", region="Piura", diameter=14, length=55,
+        code="BA-2006", name="Inspeccion indirecta - Gasoducto Rio Gallegos", country="BA", client="Transportadora de Gas del Sur S.A.",
+        kind="pipeline", terrain="coast", region="Comodoro Rivadavia", diameter=14, length=55,
         start="2020-06", planned=14, delay=3, status="closed", bid=0.15, target=0.12,
         contract_type="lump_sum", manager="Ing. Martín Huamán",
         weights={"IND": 0.5, "MOV": 0.2, "SOL": 0.3},
@@ -373,7 +373,7 @@ PROJECTS = [
     ),
     # ---------------- BRAZIL (BRL) ----------------
     dict(
-        code="BR-2501", name="Oleoduto Litoral Norte – Trecho 2", country="BR", client="Atlântica Dutos S.A.",
+        code="PS-2501", name="Proteccion catodica - Oleoducto El Calafate Tramo 2", country="PS", client="Ecogas - Distribuidora de Gas Cuyana",
         kind="pipeline", terrain="coast", region="Rio Grande do Norte – Ceará", diameter=24, length=110,
         start="2025-01", planned=26, delay=1, status="active", bid=0.14, target=0.10,
         contract_type="lump_sum", manager="Eng. Fernanda Lima",
@@ -391,8 +391,8 @@ PROJECTS = [
         description=("Trecho 2 de 110 km de oleoduto de 24\" no litoral nordeste.", "Section 2: 110 km of 24\" crude pipeline on the northeast coast.", "Trecho 2 de 110 km de oleoduto de 24\" no litoral nordeste."),
     ),
     dict(
-        code="BR-2203", name="Gasoduto Serra do Mar – Variante", country="BR", client="Serra Energia Ltda.",
-        kind="pipeline", terrain="highlands", region="São Paulo", diameter=16, length=38,
+        code="PS-2203", name="Camas anodicas - Variante Pico Truncado", country="PS", client="Central Puerto S.A.",
+        kind="pipeline", terrain="highlands", region="El Calafate", diameter=16, length=38,
         start="2022-03", planned=16, delay=2, status="closed", bid=0.15, target=0.12,
         contract_type="lump_sum", manager="Eng. Ricardo Alves",
         weights={"DDV": 0.4, "CRU": 0.3, "IND": 0.3},
@@ -406,8 +406,8 @@ PROJECTS = [
         description=("Variante de 38 km de gasoduto de 16\" na Serra do Mar.", "38 km, 16\" gas pipeline variant in the Serra do Mar.", "Variante de 38 km de gasoduto de 16\" na Serra do Mar."),
     ),
     dict(
-        code="BR-2307", name="Base de Bombeamento Manaus", country="BR", client="Atlântica Dutos S.A.",
-        kind="civil", terrain="rainforest", region="Amazonas", diameter=None, length=None, civil_budget_usd=11_000_000,
+        code="PS-2307", name="Proteccion catodica de bombeo - Base Patagonia", country="PS", client="Ecogas - Distribuidora de Gas Cuyana",
+        kind="civil", terrain="rainforest", region="Pico Truncado", diameter=None, length=None, civil_budget_usd=11_000_000,
         start="2023-07", planned=14, delay=0, status="closed", bid=0.13, target=0.15,
         contract_type="lump_sum", manager="Eng. Ricardo Alves",
         weights={"CIM": 0.5, "MEC": 0.5},
@@ -418,8 +418,8 @@ PROJECTS = [
         description=("Base de bombeamento com obras civis, montagem mecânica e automação.", "Pump station with civil works, mechanical installation and automation.", "Base de bombeamento com obras civis, montagem mecânica e automação."),
     ),
     dict(
-        code="BR-2004", name="Oleoduto Recôncavo", country="BR", client="Atlântica Dutos S.A.",
-        kind="pipeline", terrain="coast", region="Bahia", diameter=20, length=64,
+        code="PS-2004", name="Mantenimiento de proteccion catodica - Red Sur", country="PS", client="Ecogas - Distribuidora de Gas Cuyana",
+        kind="pipeline", terrain="coast", region="Rio Gallegos", diameter=20, length=64,
         start="2020-04", planned=18, delay=2, status="closed", bid=0.14, target=0.13,
         contract_type="lump_sum", manager="Eng. Fernanda Lima",
         weights={"IND": 0.5, "SOL": 0.5},

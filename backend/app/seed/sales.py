@@ -13,59 +13,59 @@ from ..models import ErpTransaction, Project, SyncRun
 from ..services.connectors import (SALES_SOURCE, STAGE_PROBABILITY, _project_files, fx_usd, now, upsert_opportunities,
                                    waiting_files, write_sales_snapshot)
 
-OWNERS = {"EC": "Andrés Cevallos", "PE": "Lucía Paredes", "BR": "Rafael Monteiro"}
+OWNERS = {"NQ": "Ing. Andres Cevallos", "BA": "Ing. Lucia Paredes", "PS": "Ing. Rafael Monteiro"}
 
 # open and lost bids: value in US dollars (converted to the country's currency at the cut-off rate)
 BIDS = [
-    dict(crm_id="OPP-2026-014", name="Oleoducto Napo – Tramo C", client="Oriente Crudos S.A.", country="EC", kind="pipeline",
+    dict(crm_id="OPP-2026-014", name="Proteccion catodica - Oleoducto Anelo Tramo C", client="YPF S.A.", country="NQ", kind="pipeline",
          terrain="rainforest", region="Orellana – Napo", diameter_in=16, length_km=48, stage="submitted", usd=44_200_000, margin=0.15,
          decision="2026-11", modified="2026-09-22",
          step=("Entregar aclaraciones técnicas al cliente", "Send technical clarifications to the client", "Enviar esclarecimentos técnicos ao cliente")),
-    dict(crm_id="OPP-2026-019", name="Ducto Selva Central – Tramo 2", client="Selva Energía S.A.C.", country="PE", kind="pipeline",
+    dict(crm_id="OPP-2026-019", name="Proteccion catodica - Gasoducto Rosario Tramo 2", client="Transportadora de Gas del Norte S.A.", country="BA", kind="pipeline",
          terrain="rainforest", region="Junín – Pasco", diameter_in=18, length_km=60, stage="submitted", usd=67_100_000, margin=0.16,
          decision="2026-10", modified="2026-09-15",
          step=("Esperar la evaluación técnica del cliente", "Wait for the client's technical evaluation", "Aguardar a avaliação técnica do cliente")),
-    dict(crm_id="OPP-2026-022", name="Gasoducto Costa Sur – Fase 2", client="Costa Hidrocarburos S.A.", country="EC", kind="pipeline",
+    dict(crm_id="OPP-2026-022", name="Proteccion catodica - Gasoducto La Plata Fase 2", client="Camuzzi Gas Pampeana S.A.", country="NQ", kind="pipeline",
          terrain="coast", region="Santa Elena – Guayas", diameter_in=10, length_km=38, stage="preparing", usd=13_900_000, margin=0.14,
          decision="2026-12", modified="2026-09-24",
          step=("Visita técnica al trazado programada", "Technical visit to the route scheduled", "Visita técnica ao traçado agendada")),
-    dict(crm_id="OPP-2026-025", name="Oleoduto Litoral Norte – Trecho 3", client="Atlântica Dutos S.A.", country="BR", kind="pipeline",
+    dict(crm_id="OPP-2026-025", name="Proteccion catodica - Oleoducto El Calafate Tramo 3", client="Ecogas - Distribuidora de Gas Cuyana", country="PS", kind="pipeline",
          terrain="coast", region="Bahia – Sergipe", diameter_in=24, length_km=85, stage="submitted", usd=62_700_000, margin=0.13,
          decision="2026-11", modified="2026-09-18",
          step=("Esperar el resultado de la licitación", "Wait for the tender result", "Aguardar o resultado da licitação")),
-    dict(crm_id="OPP-2026-027", name="Poliducto Sierra Central", client="Ductos del Pacífico S.A.C.", country="PE", kind="pipeline",
+    dict(crm_id="OPP-2026-027", name="Dispersores profundos - Poliducto Centro", client="Transportadora de Gas del Sur S.A.", country="BA", kind="pipeline",
          terrain="highlands", region="Junín – Huancavelica", diameter_in=12, length_km=42, stage="prospecting", usd=30_500_000, margin=0.15,
          decision="2027-02", modified="2026-09-10",
          step=("Reunión inicial con el área de proyectos del cliente", "First meeting with the client's projects team", "Reunião inicial com a área de projetos do cliente")),
-    dict(crm_id="OPP-2026-030", name="Estación de Bombeo Coca – Ampliación", client="Oriente Crudos S.A.", country="EC", kind="civil",
+    dict(crm_id="OPP-2026-030", name="Proteccion catodica de planta - Bateria Anelo", client="YPF S.A.", country="NQ", kind="civil",
          terrain="rainforest", region="Orellana", diameter_in=None, length_km=None, stage="preparing", usd=18_400_000, margin=0.14,
          decision="2026-12", modified="2026-09-19",
          step=("Cotizaciones de equipos de bombeo en curso", "Pump equipment quotes in progress", "Cotações de equipamentos de bombeamento em andamento")),
-    dict(crm_id="OPP-2026-031", name="Gasoduto Serra Gaúcha", client="Serra Energia Ltda.", country="BR", kind="pipeline",
+    dict(crm_id="OPP-2026-031", name="Camas anodicas - Ramal Patagonia Norte", client="Central Puerto S.A.", country="PS", kind="pipeline",
          terrain="highlands", region="Rio Grande do Sul", diameter_in=16, length_km=50, stage="preparing", usd=51_700_000, margin=0.14,
          decision="2027-01", modified="2026-09-23",
          step=("Cotizar tubería y revestimiento", "Get pipe and coating prices", "Cotar tubos e revestimento")),
-    dict(crm_id="OPP-2026-033", name="Línea de Flujo Tiputini Norte", client="Oriente Crudos S.A.", country="EC", kind="pipeline",
+    dict(crm_id="OPP-2026-033", name="Línea de Flujo Tiputini Norte", client="YPF S.A.", country="NQ", kind="pipeline",
          terrain="rainforest", region="Orellana", diameter_in=8, length_km=20, stage="prospecting", usd=12_100_000, margin=0.17,
          decision="2027-03", modified="2026-09-12",
          step=("Pedir al cliente el estudio de suelos", "Ask the client for the soil study", "Pedir ao cliente o estudo de solos")),
-    dict(crm_id="OPP-2025-049", name="Oleoducto Esmeraldas – Variante Norte", client="Costa Hidrocarburos S.A.", country="EC", kind="pipeline",
+    dict(crm_id="OPP-2025-049", name="Oleoducto Esmeraldas – Variante Norte", client="Camuzzi Gas Pampeana S.A.", country="NQ", kind="pipeline",
          terrain="coast", region="Esmeraldas", diameter_in=14, length_km=30, stage="lost", usd=16_200_000, margin=0.15,
          decision="2025-11", modified="2025-11-28", lost_reason="price",
          step=("Nuestro precio quedó 9% por encima del ganador", "Our price was 9% above the winner", "Nosso preço ficou 9% acima do vencedor")),
-    dict(crm_id="OPP-2026-004", name="Ducto Talara Sur", client="Ductos del Pacífico S.A.C.", country="PE", kind="pipeline",
+    dict(crm_id="OPP-2026-004", name="Ducto Talara Sur", client="Transportadora de Gas del Sur S.A.", country="BA", kind="pipeline",
          terrain="coast", region="Piura", diameter_in=12, length_km=35, stage="lost", usd=17_800_000, margin=0.14,
          decision="2026-04", modified="2026-04-20", lost_reason="postponed",
          step=("El cliente postergó la inversión a 2027", "The client postponed the investment to 2027", "O cliente adiou o investimento para 2027")),
 ]
 
 # won bids are the active projects: same value and margin as the project's own records
-WON = [("OPP-2024-060", "PE-2410", "2024-09"), ("OPP-2024-081", "BR-2501", "2024-12"), ("OPP-2025-006", "EC-2503", "2025-02"),
-       ("OPP-2025-021", "EC-2506", "2025-05"), ("OPP-2025-044", "EC-2511", "2025-10"), ("OPP-2025-058", "PE-2601", "2025-12")]
+WON = [("OPP-2024-060", "BA-2410", "2024-09"), ("OPP-2024-081", "PS-2501", "2024-12"), ("OPP-2025-006", "NQ-2503", "2025-02"),
+       ("OPP-2025-021", "NQ-2506", "2025-05"), ("OPP-2025-044", "NQ-2511", "2025-10"), ("OPP-2025-058", "BA-2601", "2025-12")]
 
 # what the sales system says now (read on the next sync)
-NEW_IN_SOURCE = dict(crm_id="OPP-2026-035", name="Línea de Recolección Loreto – Fase 2", client="Selva Energía S.A.C.", country="PE",
-                     kind="pipeline", terrain="rainforest", region="Loreto", diameter_in=8, length_km=18, stage="prospecting",
+NEW_IN_SOURCE = dict(crm_id="OPP-2026-035", name="Proteccion catodica - Planta Zarate Fase 2", client="Transportadora de Gas del Norte S.A.", country="BA",
+                     kind="pipeline", terrain="rainforest", region="Zarate", diameter_in=8, length_km=18, stage="prospecting",
                      usd=11_400_000, margin=0.16, decision="2027-04", modified="2026-09-27",
                      step=("Oportunidad registrada después de la reunión con el cliente", "Opportunity logged after the client meeting",
                            "Oportunidade registrada após a reunião com o cliente"))
@@ -75,7 +75,7 @@ RENEGOTIATED = dict(crm_id="OPP-2026-019", stage="negotiation", usd=63_000_000, 
 
 
 def _record(db, b: dict) -> dict:
-    currency = {"EC": "USD", "PE": "PEN", "BR": "BRL"}[b["country"]]
+    currency = {"NQ": "ARS", "BA": "ARS", "PS": "ARS"}[b["country"]]
     value = b["usd"] if currency == "USD" else round(b["usd"] / fx_usd(db, currency), -5)
     es, en, pt = b["step"]
     return dict(crm_id=b["crm_id"], name=b["name"], client=b["client"], country=b["country"], kind=b["kind"], terrain=b["terrain"],
@@ -89,6 +89,11 @@ def _won(db) -> list[dict]:
     out = []
     for crm_id, code, decision in WON:
         p = db.scalar(select(Project).where(Project.code == code))
+        if p is None:
+            # A won opportunity pointing at a project that is not in
+            # the catalogue any more. Skip it rather than crash the
+            # whole load for one stale row.
+            continue
         out.append(dict(crm_id=crm_id, name=p.name, client=p.client, country=p.country_code, kind=p.kind, terrain=p.terrain,
                         region=p.region, diameter_in=p.diameter_in, length_km=p.length_km, stage="won", currency=p.currency,
                         value=p.contract_value, bid_margin_pct=p.bid_margin_pct, probability=1.0, expected_decision=decision,
@@ -132,6 +137,6 @@ def seed_connectors(db) -> None:
         changed = i == 3
         db.add(SyncRun(connector="sales", trigger="schedule", offset_minutes=m, duration_ms=900 + i * 37, status="ok",
                        records_read=len(last_read), records_updated=1 if changed else 0, document_id=doc.id,
-                       details=dict(changes=[dict(crm_id="OPP-2026-014", name="Oleoducto Napo – Tramo C", kind="updated",
+                       details=dict(changes=[dict(crm_id="OPP-2026-014", name="Proteccion catodica - Oleoducto Anelo Tramo C", kind="updated",
                                                   fields=[dict(field="stage", old="preparing", new="submitted")])] if changed else [])))
     db.flush()

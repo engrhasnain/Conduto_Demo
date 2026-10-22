@@ -12,7 +12,9 @@ COMMON = {
     "recoleccion", "transferencia", "norte", "sur", "central", "costa", "sierra", "selva", "litoral", "amazonia", "serra",
     "ecuador", "equador", "peru", "brasil", "brazil", "proyecto", "projeto", "project", "andino",
 }
-COUNTRY = {"ecuador": "EC", "equador": "EC", "ecuatoriano": "EC", "peru": "PE", "peruano": "PE", "brasil": "BR", "brazil": "BR", "brasileno": "BR"}
+COUNTRY = {"neuquen": "NQ", "vaca muerta": "NQ", "neuquino": "NQ",
+           "buenos aires": "BA", "litoral": "BA", "bonaerense": "BA",
+           "patagonia": "PS", "santa cruz": "PS", "patagonico": "PS"}
 TERRAIN = {
     "rainforest": ["amazonia", "amazonica", "amazonico", "amazonas", "selva", "rainforest", "jungle", "floresta", "oriente"],
     "coast": ["costa", "coast", "coastal", "litoral", "desierto", "desert"],

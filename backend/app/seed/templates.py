@@ -3,8 +3,8 @@ different sheet names, header rows, activity wording, cost-type codes, month for
 percent scales and subtotal conventions."""
 
 TEMPLATES = {
-    "EC": dict(
-        name="Formato Ecuador – Control de Costos versión 3",
+    "NQ": dict(
+        name="Formato Neuquen - Control de Costos version 3",
         sheets=dict(summary="Resumen", cost="Costos mensuales", progress="Avance físico", production="Producción"),
         header_row=4,
         headers=("Cód.", "Actividad", "Tipo de costo"),
@@ -32,7 +32,7 @@ TEMPLATES = {
             "MEC": "Montaje mecánico", "ELE": "Eléctrico e instrumentación", "PRU": "Pruebas y arranque",
         },
     ),
-    "PE": dict(
+    "BA": dict(
         name="Formato Perú – Control Presupuestal versión 2",
         sheets=dict(summary="Resumen", cost="Costos", progress="Avance", production="Producción"),
         header_row=3,
@@ -62,7 +62,7 @@ TEMPLATES = {
             "MEC": "Montaje electromecánico", "ELE": "Instalaciones eléctricas", "PRU": "Pruebas y comisionamiento",
         },
     ),
-    "BR": dict(
+    "PS": dict(
         name="Planilha Brasil – Controle de Custos versão 1",
         sheets=dict(summary="Resumo", cost="Custos", progress="Avanço", production="Produção"),
         header_row=5,

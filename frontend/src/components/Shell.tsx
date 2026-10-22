@@ -1,7 +1,8 @@
 "use client";
 
 import clsx from "clsx";
-import { BarChart3, Cpu, Database, Handshake, LayoutDashboard, MessageSquareText, Plug, RotateCcw, ShieldCheck, Sparkles, UploadCloud, Workflow } from "lucide-react";
+import {
+  ReceiptText, BarChart3, Cpu, Database, Handshake, LayoutDashboard, MessageSquareText, Plug, RotateCcw, ShieldCheck, Sparkles, UploadCloud, Workflow } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -14,13 +15,16 @@ import SourceDrawer from "./SourceDrawer";
 import { Segmented } from "./ui";
 
 const NAV = [
-  { href: "/", key: "nav.portfolio", icon: LayoutDashboard },
-  { href: "/bids", key: "nav.bids", icon: Handshake },
+  // Only what the discovery call actually asked for. The portfolio,
+  // bids and benchmarks screens are about building pipelines, which is
+  // somebody else's business: Montamar protects them. They are still in
+  // the codebase and one line away from coming back.
+  { href: "/", key: "nav.home", icon: LayoutDashboard },
+  { href: "/invoices", key: "nav.invoices", icon: ReceiptText },
+  { href: "/ingest", key: "nav.ingest", icon: UploadCloud },
   { href: "/data", key: "nav.data", icon: ShieldCheck },
   { href: "/connectors", key: "nav.connectors", icon: Plug },
-  { href: "/ingest", key: "nav.ingest", icon: UploadCloud },
   { href: "/ask", key: "nav.ask", icon: MessageSquareText },
-  { href: "/benchmarks", key: "nav.benchmarks", icon: BarChart3 },
   { href: "/method", key: "nav.method", icon: Workflow },
 ];
 
@@ -29,7 +33,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   const path = usePathname();
   const [resetting, setResetting] = useState(false);
 
-  const active = (href: string) => (href === "/" ? path === "/" || path.startsWith("/projects") : path.startsWith(href));
+  const active = (href: string) => (href === "/" ? path === "/" : path.startsWith(href));
 
   async function reset() {
     if (!confirm(t("shell.reset_confirm"))) return;
@@ -46,8 +50,16 @@ export default function Shell({ children }: { children: React.ReactNode }) {
     <div className="flex min-h-screen bg-[#f5f6f8]">
       <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col bg-[#132a45] text-slate-200 lg:flex">
         <div className="px-5 pb-6 pt-6">
-          <p className="text-[17px] font-bold tracking-[0.18em] text-white">CONDUTO</p>
-          <p className="mt-0.5 text-[12px] text-slate-400">{t("app.subtitle")}</p>
+          {/* The client's own mark, on a white plate: the logo is red and
+              navy on white and disappears against the dark sidebar. */}
+          <div className="inline-block rounded-md bg-white px-2.5 py-2">
+            <img
+              src="/logo-montamar.webp"
+              alt="Montamar"
+              className="h-9 w-auto"
+            />
+          </div>
+          <p className="mt-2.5 text-[12px] leading-snug text-slate-400">{t("app.subtitle")}</p>
         </div>
         <nav className="flex-1 space-y-0.5 px-3">
           {NAV.map(({ href, key, icon: Icon }) => (
@@ -78,7 +90,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/90 backdrop-blur">
           <div className="flex items-center justify-between gap-3 px-4 py-2.5 lg:px-8">
             <div className="flex items-center gap-3 lg:hidden">
-              <span className="text-[15px] font-bold tracking-[0.15em] text-[#132a45]">CONDUTO</span>
+              <img src="/logo-montamar.webp" alt="Montamar" className="h-7 w-auto" />
             </div>
             <div className="hidden items-center gap-2 text-[12px] text-slate-500 lg:flex">
               <span className="rounded-md bg-amber-50 px-2 py-0.5 font-medium text-amber-800 ring-1 ring-amber-200">{t("shell.synthetic")}</span>

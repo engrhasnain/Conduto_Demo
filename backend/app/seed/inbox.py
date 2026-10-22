@@ -16,25 +16,25 @@ from .specs import PROJECTS
 
 SAMPLES = [
     dict(
-        filename="Historico_Linea_Flujo_Tiputini_2019.xlsx", kind="legacy_workbook",
+        filename="Historico_Linea_Rincon_2019.xlsx", kind="legacy_workbook",
         es="Liquidación final de un proyecto de 2019 en un formato antiguo y desordenado: celdas combinadas, números guardados como texto y nombres de partidas abreviados.",
         en="Final cost settlement of a 2019 project in an old, messy format: merged cells, numbers stored as text and shortened line names.",
         pt="Liquidação final de um projeto de 2019 em formato antigo e desorganizado: células mescladas, números guardados como texto e nomes de itens abreviados.",
     ),
     dict(
-        filename="EC-2503_OC-012_Variante_km48.pdf", kind="change_order_pdf",
-        es="Nueva orden de cambio (número 12) del Oleoducto Amazonía – Tramo B, en PDF.",
-        en="New change order (number 12) for the Amazon Pipeline – Section B, as a PDF.",
+        filename="NQ-2503_OC-012_Variante_km48.pdf", kind="change_order_pdf",
+        es="Nueva orden de cambio (número 12) del Proteccion catodica Oleoducto Loma Campana, en PDF.",
+        en="New change order (number 12) for Cathodic protection Loma Campana pipeline, as a PDF.",
         pt="Nova ordem de alteração (número 12) do Oleoduto Amazônia – Trecho B, em PDF.",
     ),
     dict(
-        filename="EC-2503_OC-013_escaneada.pdf", kind="scanned_pdf",
+        filename="NQ-2503_OC-013_escaneada.pdf", kind="scanned_pdf",
         es="Otra orden de cambio (número 13) del mismo proyecto, pero escaneada: es solo una imagen, sin texto.",
         en="Another change order (number 13) for the same project, but scanned: it is only an image, with no text.",
         pt="Outra ordem de alteração (número 13) do mesmo projeto, mas digitalizada: é só uma imagem, sem texto.",
     ),
     dict(
-        filename="PE-2410_Cronograma_rev5.xml", kind="schedule_xml",
+        filename="BA-2410_Cronograma_rev5.xml", kind="schedule_xml",
         es="Revisión 5 del cronograma del Ducto Selva Central, exportada desde Microsoft Project.",
         en="Revision 5 of the Central Jungle pipeline schedule, exported from Microsoft Project.",
         pt="Revisão 5 do cronograma do Duto Selva Central, exportada do Microsoft Project.",
@@ -67,8 +67,8 @@ def build_legacy_workbook(path):
     ws["A1"].font = Font(bold=True, size=13)
     ws["A1"].alignment = Alignment(horizontal="center")
     ws["A3"] = "PROYECTO: LÍNEA DE FLUJO TIPUTINI – FASE 1"
-    ws["A4"] = "CLIENTE: Oriente Crudos S.A."
-    ws["A5"] = "UBICACIÓN: Oriente – Orellana (Amazonía)"
+    ws["A4"] = "CLIENTE: YPF S.A."
+    ws["A5"] = "UBICACION: Neuquen - Anelo (Vaca Muerta)"
     ws["A6"] = "DIÁMETRO: 10 pulg."
     ws["D6"] = "LONGITUD: 21,4 km"
     ws["A7"] = "INICIO: mar-2019"
@@ -125,7 +125,7 @@ def build_scanned_change_order(path):
     d.text((1120, 140), "Orden de cambio OC-013", font=small, fill=235)
     d.text((140, 280), "ORDEN DE CAMBIO N° OC-013", font=bold, fill=30)
     rows = [
-        ("Proyecto", "EC-2503 – Oleoducto Amazonía – Tramo B"), ("Contrato", "EC-2503-C"), ("Contratante", "Oriente Crudos S.A."),
+        ("Proyecto", "NQ-2503 - Proteccion catodica Oleoducto Loma Campana"), ("Contrato", "NQ-2503-C"), ("Contratante", "YPF S.A."),
         ("Fecha de presentación", "22/09/2026"), ("Actividad afectada", "Bajado y tapado"), ("Causa", "Solicitud del cliente"),
         ("Monto solicitado", "USD 415.300,00"), ("Impacto en plazo", "12 días"), ("Estado", "Pendiente de aprobación"),
     ]
@@ -160,10 +160,10 @@ def build_scanned_change_order(path):
 def build_inbox(fx: dict):
     for f in INBOX_DIR.glob("*"):
         f.unlink()
-    build_legacy_workbook(INBOX_DIR / "Historico_Linea_Flujo_Tiputini_2019.xlsx")
-    build_scanned_change_order(INBOX_DIR / "EC-2503_OC-013_escaneada.pdf")
+    build_legacy_workbook(INBOX_DIR / "Historico_Linea_Rincon_2019.xlsx")
+    build_scanned_change_order(INBOX_DIR / "NQ-2503_OC-013_escaneada.pdf")
 
-    spec = next(p for p in PROJECTS if p["code"] == "EC-2503")
+    spec = next(p for p in PROJECTS if p["code"] == "NQ-2503")
     sim = simulate(spec, fx)
     co = dict(
         number="OC-012", cause="geotech", activity="DDV", amount=float(round(sim.contract * 0.011, -2)),
@@ -175,9 +175,9 @@ def build_inbox(fx: dict):
             "Variante do traçado entre o km 48+100 e o km 48+900 por deslizamento ativo, incluindo estabilização do talude",
         ),
     )
-    write_change_order(sim, co, INBOX_DIR / "EC-2503_OC-012_Variante_km48.pdf")
+    write_change_order(sim, co, INBOX_DIR / "NQ-2503_OC-012_Variante_km48.pdf")
 
-    spec = next(p for p in PROJECTS if p["code"] == "PE-2410")
+    spec = next(p for p in PROJECTS if p["code"] == "BA-2410")
     sim = simulate(spec, fx)
     sim2 = copy.copy(sim)
     sim2.tasks = []
@@ -187,4 +187,4 @@ def build_inbox(fx: dict):
             t["finish"] = last_day(add_months(t["finish"][:7], 2))
         sim2.tasks.append(t)
     sim2.A = sim.A + 2
-    write_schedule_xml(sim2, INBOX_DIR / "PE-2410_Cronograma_rev5.xml", name_override=f"{spec['code']} {spec['name']} – rev5")
+    write_schedule_xml(sim2, INBOX_DIR / "BA-2410_Cronograma_rev5.xml", name_override=f"{spec['code']} {spec['name']} – rev5")

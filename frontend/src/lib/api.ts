@@ -454,3 +454,81 @@ export interface BidsResp {
   };
   last_sync: SyncRun | null;
 }
+
+// ---------------------------------------------------------------- supplier invoices
+
+export interface InvoiceCheck {
+  name: string;
+  ok: boolean;
+  detail: string;
+}
+
+export interface InvoiceRow {
+  id: number;
+  filename: string;
+  received_on: string;
+  channel: "email" | "scan" | "photo" | "portal";
+  vendor_name: string;
+  vendor_tax_id: string;
+  document_type: number;
+  document_type_name: string;
+  letter: string;
+  number: string;
+  invoice_date: string | null;
+  authorisation_code: string;
+  authorisation_expires: string | null;
+  currency: string;
+  net: number;
+  vat: number;
+  perception: number;
+  total: number;
+  status: "read" | "checked" | "held" | "approved" | "posted";
+  exception_kind: string;
+  exception_detail: string;
+  why: Partial<Record<Lang, string>>;
+  confidence: number;
+  manual_minutes: number;
+  approved_by: string | null;
+  posted_reference: string | null;
+  posted_route: string | null;
+  posted_at: string | null;
+  document_id: number | null;
+}
+
+export interface InvoiceDetail extends InvoiceRow {
+  checks: InvoiceCheck[];
+  notes: string[];
+  document: { id: number; filename: string; rel_path: string } | null;
+  project: { code: string; name: string } | null;
+}
+
+export interface InvoicesResp {
+  invoices: InvoiceRow[];
+  counts: Partial<Record<InvoiceRow["status"], number>>;
+  exceptions: Record<string, number>;
+  channels: InvoiceRow["channel"][];
+  total: number;
+}
+
+export interface Savings {
+  invoices: number;
+  posted: number;
+  held: number;
+  waiting: number;
+  straight_through_pct: number;
+  minutes_each: number;
+  minutes_saved: number;
+  hours_saved: number;
+  monthly_invoices: number;
+}
+
+export interface Projection {
+  invoices_per_month: number;
+  minutes_each: number;
+  straight_through_pct: number;
+  hours_per_month: number;
+  hours_per_year: number;
+  days_per_month: number;
+  cost_per_year: number | null;
+  mornings_per_week: number;
+}

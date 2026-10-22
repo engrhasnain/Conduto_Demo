@@ -56,7 +56,7 @@ def portfolio(db: Session) -> dict:
         days_lost_12m=sum(x["days_lost_12m"] for x in active),
     )
     by_country = []
-    for c in ("EC", "PE", "BR"):
+    for c in ("NQ", "BA", "PS"):
         items = [x for x in projects if x["country"] == c]
         act = [x for x in items if x["status"] == "active"]
         by_country.append(dict(
