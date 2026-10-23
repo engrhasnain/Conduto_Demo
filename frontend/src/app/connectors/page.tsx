@@ -18,7 +18,7 @@ const ICON: Record<Connector["category"], typeof Plug> = {
 };
 const STATUS_TONE: Record<ConnectorStatus, Tone> = { connected: "green", available: "blue", planned: "neutral" };
 const RUN_TONE: Record<SyncRun["status"], Tone> = { ok: "green", attention: "amber", error: "red" };
-const CATEGORIES: Connector["category"][] = ["files", "accounting", "sales", "schedules", "email", "reporting", "field"];
+const CATEGORIES: Connector["category"][] = ["accounting", "files", "email", "field"];
 
 function useEvery() {
   const { t } = useApp();

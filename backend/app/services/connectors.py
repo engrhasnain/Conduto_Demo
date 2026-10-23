@@ -43,161 +43,129 @@ def tx(es: str, en: str, pt: str) -> dict:
 CATALOG = [
     dict(
         key="bejerman", name="Bejerman", category="accounting", status="connected", direction="out", every_minutes=60, phase="today",
-        summary=tx(
-            "Carga las facturas de proveedor en Bejerman, ya leídas y verificadas, sin tocar la conexión del estudio contable.",
-            "Posts supplier invoices into Bejerman, already read and checked, without touching the external accountant's connection.",
-            "Lança as faturas de fornecedor no Bejerman, já lidas e verificadas, sem mexer na conexão do escritório contábil."),
-        reads=[
-            tx("Proveedores y su CUIT", "Vendors and their tax number", "Fornecedores e seu CNPJ"),
-            tx("Comprobantes ya registrados, para no cargar dos veces", "Documents already posted, so nothing is entered twice", "Documentos já lançados, para não lançar duas vezes"),
-            tx("Plan de cuentas y centros de costo", "Chart of accounts and cost centres", "Plano de contas e centros de custo"),
-        ],
-        method=tx(
-            "Dos caminos, según lo que permita la instalación de Bejerman. Si hay interfaz de importación o base accesible, se escribe por ahí. Si no la hay, el sistema carga la factura por la misma pantalla que usa una persona, campo por campo, y vuelve a leer lo guardado para confirmar que entró completo. En los dos casos escribe sólo lo que una persona aprobó.",
-            "Two routes, depending on what the Bejerman installation allows. If there is an import interface or a reachable database, it writes through that. If there is not, the system enters the invoice through the same screen a person uses, field by field, then reads back what was saved to confirm it went in whole. Either way it only writes what a person approved.",
-            "Dois caminhos, conforme o que a instalação do Bejerman permitir. Se houver interface de importação ou banco acessível, grava por ali. Se não houver, o sistema lança a fatura pela mesma tela que uma pessoa usa, campo a campo, e relê o que foi salvo para confirmar que entrou inteiro. Nos dois casos grava apenas o que uma pessoa aprovou."),
-        mapping=[
-            (tx("Factura A, B o C recibida", "Factura A, B or C received", "Fatura A, B ou C recebida"),
-             tx("Comprobante de compra con su CAE y su tipo", "Purchase document with its authorisation code and type", "Documento de compra com seu código de autorização e tipo")),
-            (tx("CUIT del emisor", "Issuer tax number", "CNPJ do emissor"),
-             tx("Proveedor del maestro de Bejerman", "Vendor in the Bejerman master file", "Fornecedor no cadastro do Bejerman")),
-            (tx("Neto, IVA y percepciones", "Net, VAT and perceptions", "Líquido, IVA e percepções"),
-             tx("Renglones contables con su cuenta", "Accounting lines with their account", "Linhas contábeis com sua conta")),
-            (tx("Orden de compra y remito", "Purchase order and delivery note", "Ordem de compra e remessa"),
-             tx("Imputación al proyecto y al centro de costo", "Allocation to project and cost centre", "Alocação ao projeto e centro de custo")),
-        ],
-        setup=[
-            tx("Confirmar si esta instalación de Bejerman tiene interfaz de importación o base accesible", "Confirm whether this Bejerman installation has an import interface or a reachable database", "Confirmar se esta instalação do Bejerman tem interface de importação ou banco acessível"),
-            tx("Un usuario propio para el sistema, con permiso de carga y no de modificación", "A dedicated user for the system, allowed to enter documents but not to change them", "Um usuário próprio para o sistema, com permissão de lançamento e não de alteração"),
-            tx("El plan de cuentas y la regla de imputación por tipo de gasto", "The chart of accounts and the rule for allocating each kind of spend", "O plano de contas e a regra de imputação por tipo de gasto"),
-        ],
-        note=tx(
-            "Por confirmar en el diagnóstico: si Bejerman expone una interfaz de importación. No hace falta saberlo para empezar — el segundo camino funciona igual, y es el que se muestra en esta demostración. Lo que no cambia en ninguno de los dos casos: el sistema no modifica nada de lo que ya está cargado, así que la conexión con el estudio contable queda intacta.",
-            "To confirm during discovery: whether Bejerman exposes an import interface. It is not needed to start — the second route works either way, and it is the one shown in this demonstration. What does not change in either case: the system never alters anything already posted, so the external accountant's connection is untouched.",
-            "A confirmar no diagnóstico: se o Bejerman expõe uma interface de importação. Não é necessário saber para começar — o segundo caminho funciona de qualquer forma, e é o mostrado nesta demonstração. O que não muda em nenhum dos casos: o sistema não altera nada já lançado, então a conexão com o escritório contábil fica intacta."),
+        summary=tx("Carga las facturas de proveedor en Bejerman, ya leidas y verificadas, sin tocar la conexion del estudio contable.",
+                   "Posts supplier invoices into Bejerman, already read and checked, without touching the external accountant's connection.",
+                   "Lanca as faturas de fornecedor no Bejerman, ja lidas e verificadas, sem mexer na conexao do escritorio contabil."),
+        reads=[tx("Proveedores y su CUIT", "Vendors and their tax number", "Fornecedores e seu CNPJ"),
+               tx("Comprobantes ya registrados, para no cargar dos veces", "Documents already posted, so nothing is entered twice", "Documentos ja lancados, para nao lancar duas vezes"),
+               tx("Plan de cuentas y centros de costo", "Chart of accounts and cost centres", "Plano de contas e centros de custo")],
+        method=tx("Dos caminos, segun lo que permita la instalacion. Si hay interfaz de importacion o base accesible, se escribe por ahi. Si no la hay, el sistema carga la factura por la misma pantalla que usa una persona, campo por campo, y vuelve a leer lo guardado para confirmar que entro completo. En los dos casos escribe solo lo que una persona aprobo.",
+                  "Two routes, depending on what the installation allows. If there is an import interface or a reachable database, it writes through that. If there is not, the system enters the invoice through the same screen a person uses, field by field, then reads back what was saved to confirm it went in whole. Either way it only writes what a person approved.",
+                  "Dois caminhos, conforme o que a instalacao permitir. Se houver interface de importacao ou banco acessivel, grava por ali. Se nao houver, o sistema lanca a fatura pela mesma tela que uma pessoa usa, campo a campo, e rele o que foi salvo para confirmar que entrou inteiro. Nos dois casos grava apenas o que uma pessoa aprovou."),
+        mapping=[(tx("Factura A, B o C recibida", "Factura A, B or C received", "Fatura A, B ou C recebida"),
+                  tx("Comprobante de compra con su CAE y su tipo", "Purchase document with its authorisation code and type", "Documento de compra com seu codigo de autorizacao e tipo")),
+                 (tx("CUIT del emisor", "Issuer tax number", "CNPJ do emissor"),
+                  tx("Proveedor del maestro de Bejerman", "Vendor in the Bejerman master file", "Fornecedor no cadastro do Bejerman")),
+                 (tx("Neto, IVA y percepciones", "Net, VAT and perceptions", "Liquido, IVA e percepcoes"),
+                  tx("Renglones contables con su cuenta", "Accounting lines with their account", "Linhas contabeis com sua conta")),
+                 (tx("Orden de compra y remito", "Purchase order and delivery note", "Ordem de compra e remessa"),
+                  tx("Imputacion a la obra y al centro de costo", "Allocation to the job and cost centre", "Alocacao a obra e centro de custo"))],
+        setup=[tx("Confirmar si esta instalacion de Bejerman tiene interfaz de importacion o base accesible", "Confirm whether this Bejerman installation has an import interface or a reachable database", "Confirmar se esta instalacao do Bejerman tem interface de importacao ou banco acessivel"),
+               tx("Un usuario propio para el sistema, con permiso de carga y no de modificacion", "A dedicated user for the system, allowed to enter documents but not to change them", "Um usuario proprio para o sistema, com permissao de lancamento e nao de alteracao"),
+               tx("El plan de cuentas y la regla de imputacion por tipo de gasto", "The chart of accounts and the rule for allocating each kind of spend", "O plano de contas e a regra de imputacao por tipo de gasto")],
+        note=tx("Por confirmar en el diagnostico: si Bejerman expone una interfaz de importacion. No hace falta saberlo para empezar, el segundo camino funciona igual y es el que se muestra aca. Lo que no cambia en ninguno de los dos casos: el sistema no modifica ni borra nada de lo que ya esta cargado, asi que la conexion con el estudio contable queda intacta.",
+                "To confirm during discovery: whether Bejerman exposes an import interface. It is not needed to start - the second route works either way, and it is the one shown here. What does not change in either case: the system never alters or deletes anything already posted, so the external accountant's connection is untouched.",
+                "A confirmar no diagnostico: se o Bejerman expoe uma interface de importacao. Nao e necessario para comecar, o segundo caminho funciona de qualquer forma e e o mostrado aqui. O que nao muda em nenhum dos casos: o sistema nao altera nem apaga nada ja lancado, entao a conexao com o escritorio contabil fica intacta."),
     ),
     dict(
-        key="files", name="SharePoint / OneDrive", category="files", status="connected", direction="in", every_minutes=15, phase="today",
-        summary=tx("Lee las carpetas de cada proyecto: controles de costos en Excel, cronogramas de Microsoft Project y contratos, órdenes de cambio e informes en PDF.",
-                   "Reads each project's folders: cost control in Excel, Microsoft Project schedules, and contracts, change orders and reports in PDF.",
-                   "Lê as pastas de cada projeto: controle de custos em Excel, cronogramas do Microsoft Project e contratos, ordens de alteração e relatórios em PDF."),
-        reads=[tx("Controles de costos (Excel)", "Cost control workbooks (Excel)", "Controles de custos (Excel)"),
-               tx("Cronogramas (Microsoft Project)", "Schedules (Microsoft Project)", "Cronogramas (Microsoft Project)"),
-               tx("Contratos, órdenes de cambio e informes (PDF)", "Contracts, change orders and reports (PDF)", "Contratos, ordens de alteração e relatórios (PDF)")],
-        method=tx("Revisa las carpetas cada 15 minutos. Los archivos nuevos o modificados pasan a «Cargar datos», donde una persona los revisa antes de guardarlos.",
-                  "Checks the folders every 15 minutes. New or changed files go to “Load data”, where a person reviews them before they are saved.",
-                  "Verifica as pastas a cada 15 minutos. Arquivos novos ou alterados vão para «Carregar dados», onde uma pessoa os revisa antes de salvar."),
-        mapping=[(tx("Fila de costo del Excel", "Cost row in the Excel file", "Linha de custo do Excel"), tx("Costo real por proyecto, actividad y mes", "Actual cost by project, activity and month", "Custo real por projeto, atividade e mês")),
-                 (tx("Tarea del cronograma", "Schedule task", "Tarefa do cronograma"), tx("Tarea con fechas planificadas y reales", "Task with planned and actual dates", "Tarefa com datas previstas e reais")),
-                 (tx("Orden de cambio en PDF", "Change order PDF", "Ordem de alteração em PDF"), tx("Orden de cambio con monto, causa y estado", "Change order with amount, cause and status", "Ordem de alteração com valor, causa e situação"))],
-        setup=[tx("Una cuenta de solo lectura en SharePoint o OneDrive", "A read-only account in SharePoint or OneDrive", "Uma conta somente leitura no SharePoint ou OneDrive"),
-               tx("La lista de carpetas de proyecto por país", "The list of project folders per country", "A lista de pastas de projeto por país")],
+        key="dynamics_gp", name="Bejerman (lectura)", category="accounting", status="connected", direction="in", every_minutes=1440, phase="today",
+        summary=tx("Lee lo que ya esta registrado en la contabilidad y lo compara con el control de costos en Excel, obra por obra.",
+                   "Reads what is already posted in the accounts and compares it with the cost control in Excel, job by job.",
+                   "Le o que ja esta lancado na contabilidade e compara com o controle de custos em Excel, obra por obra."),
+        reads=[tx("Movimientos contables con imputacion a obra", "Accounting entries allocated to a job", "Lancamentos contabeis alocados a obra"),
+               tx("Facturas de proveedores ya registradas", "Supplier invoices already posted", "Faturas de fornecedores ja lancadas")],
+        method=tx("Solo lectura. Hoy: una exportacion diaria. En el piloto: consulta directa de solo lectura. El sistema nunca escribe por este camino; para cargar usa el conector de arriba, y solo lo aprobado.",
+                  "Read only. Today: a daily export. In the pilot: a direct read-only query. The system never writes through this route; to post it uses the connector above, and only what was approved.",
+                  "Somente leitura. Hoje: uma exportacao diaria. No piloto: consulta direta somente leitura. O sistema nunca grava por este caminho; para lancar usa o conector acima, e apenas o aprovado."),
+        mapping=[(tx("Movimiento contable con imputacion a obra", "Accounting entry allocated to a job", "Lancamento contabil alocado a obra"),
+                  tx("Costo contable por obra, mes y tipo de costo", "Accounting cost by job, month and cost type", "Custo contabil por obra, mes e tipo de custo")),
+                 (tx("Factura de proveedor", "Supplier invoice", "Fatura de fornecedor"),
+                  tx("Referencia para rastrear cada diferencia con el Excel", "Reference to trace each difference against the Excel", "Referencia para rastrear cada diferenca com o Excel"))],
+        setup=[tx("Un usuario de solo lectura, o una exportacion programada", "A read-only user, or a scheduled export", "Um usuario somente leitura, ou uma exportacao programada"),
+               tx("La regla que indica que campo del asiento identifica la obra", "The rule saying which field on the entry identifies the job", "A regra que indica qual campo do lancamento identifica a obra")],
+        note=tx("Es el mismo Bejerman, leido en vez de escrito. Separado del conector de arriba a proposito: cargar y leer son permisos distintos, y conviene que se vean distintos.",
+                "The same Bejerman, read rather than written. Kept separate from the connector above on purpose: posting and reading are different permissions, and they should look different.",
+                "O mesmo Bejerman, lido em vez de gravado. Separado do conector acima de proposito: lancar e ler sao permissoes diferentes, e convem que parecam diferentes."),
     ),
     dict(
-        key="dynamics_gp", name="Microsoft Dynamics GP", category="accounting", status="connected", direction="in", every_minutes=1440, phase="today",
-        summary=tx("Trae los movimientos contables de cada proyecto y los compara con el Excel de control de costos.",
-                   "Brings each project's accounting entries and compares them with the cost-control Excel.",
-                   "Traz os lançamentos contábeis de cada projeto e os compara com o Excel de controle de custos."),
-        reads=[tx("Movimientos del libro mayor con cuenta de proyecto", "General-ledger entries with a project account", "Lançamentos do razão com conta de projeto"),
-               tx("Facturas y proveedores", "Invoices and vendors", "Faturas e fornecedores")],
-        method=tx("Hoy: una exportación diaria programada desde SmartList de Dynamics GP. En el piloto: consulta directa de solo lectura a la base de datos contable.",
-                  "Today: a scheduled daily export from Dynamics GP SmartList. In the pilot: a direct read-only query to the accounting database.",
-                  "Hoje: uma exportação diária programada do SmartList do Dynamics GP. No piloto: consulta direta somente leitura ao banco de dados contábil."),
-        mapping=[(tx("Movimiento contable con cuenta de proyecto", "Accounting entry with a project account", "Lançamento contábil com conta de projeto"), tx("Costo contable por proyecto, mes y tipo de costo", "Accounting cost by project, month and cost type", "Custo contábil por projeto, mês e tipo de custo")),
-                 (tx("Factura de proveedor", "Vendor invoice", "Fatura de fornecedor"), tx("Referencia para rastrear cada diferencia con el Excel", "Reference to trace each difference with the Excel", "Referência para rastrear cada diferença com o Excel"))],
-        setup=[tx("Un reporte SmartList programado por país (o un usuario de solo lectura en la base de datos)", "A scheduled SmartList report per country (or a read-only database user)", "Um relatório SmartList programado por país (ou um usuário somente leitura no banco)"),
-               tx("La regla que indica qué segmento de la cuenta es el proyecto", "The rule saying which account segment is the project", "A regra que indica qual segmento da conta é o projeto")],
+        key="files", name=tx("Carpetas compartidas", "Shared folders", "Pastas compartilhadas"), category="files", status="connected", direction="in", every_minutes=15, phase="today",
+        summary=tx("Lee las carpetas donde el equipo deja los archivos de obra: planillas de costos, mediciones, informes y comprobantes escaneados.",
+                   "Reads the folders where the team leaves the job files: cost spreadsheets, measurements, reports and scanned documents.",
+                   "Le as pastas onde a equipe deixa os arquivos de obra: planilhas de custos, medicoes, relatorios e documentos digitalizados."),
+        reads=[tx("Planillas de control de costos (Excel)", "Cost control spreadsheets (Excel)", "Planilhas de controle de custos (Excel)"),
+               tx("Informes y comprobantes (PDF, escaneos)", "Reports and documents (PDF, scans)", "Relatorios e documentos (PDF, digitalizacoes)"),
+               tx("Mediciones y planillas de campo (CSV, Excel)", "Measurements and field sheets (CSV, Excel)", "Medicoes e planilhas de campo (CSV, Excel)")],
+        method=tx("Revisa las carpetas cada 15 minutos. Lo nuevo o modificado pasa a Cargar datos, donde una persona revisa antes de guardar. Funciona igual sobre SharePoint, OneDrive, Google Drive o un servidor de archivos.",
+                  "Checks the folders every 15 minutes. Anything new or changed goes to Load data, where a person reviews it before it is saved. Works the same over SharePoint, OneDrive, Google Drive or a file server.",
+                  "Verifica as pastas a cada 15 minutos. O que e novo ou alterado vai para Carregar dados, onde uma pessoa revisa antes de salvar. Funciona igual sobre SharePoint, OneDrive, Google Drive ou um servidor de arquivos."),
+        mapping=[(tx("Fila de costo de la planilla", "Cost row in the spreadsheet", "Linha de custo da planilha"), tx("Costo real por obra, actividad y mes", "Actual cost by job, activity and month", "Custo real por obra, atividade e mes")),
+                 (tx("Comprobante escaneado", "Scanned document", "Documento digitalizado"), tx("Factura de proveedor, leida y verificada", "Supplier invoice, read and checked", "Fatura de fornecedor, lida e verificada"))],
+        setup=[tx("Una cuenta de solo lectura sobre las carpetas", "A read-only account over the folders", "Uma conta somente leitura sobre as pastas"),
+               tx("La lista de carpetas por obra o por zona", "The list of folders per job or zone", "A lista de pastas por obra ou zona")],
     ),
     dict(
-        key="sales", name="Dynamics 365 Sales", category="sales", status="connected", direction="in", every_minutes=60, phase="today",
-        summary=tx("Trae las oportunidades comerciales (ofertas en preparación, presentadas y ganadas) y revisa cada oferta abierta contra lo que realmente costaron obras parecidas.",
-                   "Brings the commercial opportunities (bids being prepared, submitted and won) and checks every open bid against what similar jobs really cost.",
-                   "Traz as oportunidades comerciais (propostas em preparação, apresentadas e ganhas) e confere cada proposta aberta contra o que obras parecidas realmente custaram."),
-        reads=[tx("Oportunidades: cliente, alcance, valor y margen planificado", "Opportunities: client, scope, value and planned margin", "Oportunidades: cliente, escopo, valor e margem planejada"),
-               tx("Etapa, probabilidad y fecha esperada de decisión", "Stage, probability and expected decision date", "Etapa, probabilidade e data prevista de decisão"),
-               tx("Responsable y próximo paso", "Owner and next step", "Responsável e próximo passo")],
-        method=tx("Conexión directa de solo lectura, cada hora. Cada lectura guarda una copia de lo recibido, así cada cifra se puede rastrear hasta su fila.",
-                  "Direct read-only connection, every hour. Each read keeps a copy of what was received, so every figure can be traced to its row.",
-                  "Conexão direta somente leitura, a cada hora. Cada leitura guarda uma cópia do que foi recebido, assim cada número pode ser rastreado até sua linha."),
-        mapping=[(tx("Oportunidad abierta", "Open opportunity", "Oportunidade aberta"), tx("Oferta en curso, revisada contra el histórico", "Bid in progress, checked against history", "Proposta em andamento, conferida com o histórico")),
-                 (tx("Oportunidad ganada", "Won opportunity", "Oportunidade ganha"), tx("Proyecto (enlazado por su código)", "Project (linked by its code)", "Projeto (vinculado pelo código)")),
-                 (tx("Oportunidad perdida", "Lost opportunity", "Oportunidade perdida"), tx("Motivo de pérdida, para aprender de él", "Reason for losing, to learn from it", "Motivo da perda, para aprender com ele"))],
-        setup=[tx("Un usuario de solo lectura en el sistema comercial", "A read-only user in the sales system", "Um usuário somente leitura no sistema comercial"),
-               tx("Tres campos en cada oportunidad: diámetro, longitud y terreno", "Three fields on each opportunity: diameter, length and terrain", "Três campos em cada oportunidade: diâmetro, comprimento e terreno")],
-        note=tx("Por confirmar en el diagnóstico: qué sistema comercial usa Montamar. El mismo conector sirve para Dynamics 365 Sales, Salesforce, HubSpot o una hoja de cálculo compartida.",
-                "To confirm during discovery: which sales system Montamar uses. The same connector works for Dynamics 365 Sales, Salesforce, HubSpot or a shared spreadsheet.",
-                "A confirmar no diagnóstico: qual sistema comercial a Montamar usa. O mesmo conector serve para Dynamics 365 Sales, Salesforce, HubSpot ou uma planilha compartilhada."),
+        key="email", name=tx("Correo electronico", "Email", "E-mail"), category="email", status="connected", direction="in", every_minutes=15, phase="today",
+        summary=tx("Toma los adjuntos que llegan por correo: facturas de proveedores, planillas y mediciones en CSV o Excel.",
+                   "Takes the attachments that arrive by email: supplier invoices, spreadsheets and measurements in CSV or Excel.",
+                   "Pega os anexos que chegam por e-mail: faturas de fornecedores, planilhas e medicoes em CSV ou Excel."),
+        reads=[tx("Facturas de proveedores adjuntas (PDF, imagenes)", "Attached supplier invoices (PDF, images)", "Faturas de fornecedores anexadas (PDF, imagens)"),
+               tx("Planillas y mediciones en CSV o Excel", "Spreadsheets and measurements in CSV or Excel", "Planilhas e medicoes em CSV ou Excel")],
+        method=tx("Una casilla dedicada, por ejemplo facturas@, revisada cada 15 minutos. Se lee el adjunto, no el cuerpo del correo, y nada se registra sin que una persona lo apruebe.",
+                  "A dedicated mailbox, for example invoices@, checked every 15 minutes. It reads the attachment, not the body of the message, and nothing is posted without a person approving it.",
+                  "Uma caixa dedicada, por exemplo faturas@, verificada a cada 15 minutos. Le o anexo, nao o corpo da mensagem, e nada e lancado sem uma pessoa aprovar."),
+        mapping=[(tx("Adjunto de factura", "Invoice attachment", "Anexo de fatura"), tx("Comprobante leido, verificado y a la espera de aprobacion", "Document read, checked and waiting for approval", "Documento lido, verificado e aguardando aprovacao")),
+                 (tx("Planilla adjunta", "Attached spreadsheet", "Planilha anexada"), tx("Filas de costo o medicion, con su origen guardado", "Cost or measurement rows, with their source kept", "Linhas de custo ou medicao, com sua origem guardada"))],
+        setup=[tx("Una casilla dedicada y permiso de solo lectura sobre ella", "A dedicated mailbox and read-only permission over it", "Uma caixa dedicada e permissao somente leitura sobre ela"),
+               tx("Avisar a los proveedores que manden ahi", "Tell suppliers to send there", "Avisar os fornecedores para enviarem para la")],
+        note=tx("Es por donde llega la mayor parte de las facturas. El cuerpo del correo no se usa para nada: lo que vale es el comprobante.",
+                "This is where most invoices arrive. The body of the message is not used for anything: what counts is the document.",
+                "E por onde chega a maior parte das faturas. O corpo da mensagem nao e usado: o que vale e o documento."),
     ),
     dict(
-        key="sap", name="SAP S/4HANA", category="accounting", status="available", direction="in", every_minutes=1440, phase="after_decision",
-        summary=tx("Si Montamar elige SAP, este conector reemplaza al de Dynamics GP. Los tableros y los indicadores no cambian.",
-                   "If Montamar chooses SAP, this connector replaces the Dynamics GP one. Dashboards and indicators stay the same.",
-                   "Se a Montamar escolher SAP, este conector substitui o do Dynamics GP. Os painéis e indicadores não mudam."),
-        reads=[tx("Estructura de cada proyecto y sus elementos de costo", "Each project's structure and cost elements", "Estrutura de cada projeto e seus elementos de custo"),
-               tx("Costos contabilizados y órdenes de compra", "Posted costs and purchase orders", "Custos contabilizados e pedidos de compra")],
-        method=tx("Servicios de consulta estándar de SAP, con un usuario de solo lectura.", "SAP's standard query services, with a read-only user.", "Serviços de consulta padrão do SAP, com um usuário somente leitura."),
-        mapping=[(tx("Costo contabilizado por elemento de proyecto", "Posted cost by project element", "Custo contabilizado por elemento de projeto"), tx("Costo contable por proyecto, mes y tipo de costo", "Accounting cost by project, month and cost type", "Custo contábil por projeto, mês e tipo de custo"))],
-        setup=[tx("La decisión del nuevo sistema contable", "The decision on the new accounting system", "A decisão do novo sistema contábil"),
-               tx("Un usuario de solo lectura en SAP", "A read-only user in SAP", "Um usuário somente leitura no SAP"),
-               tx("La tabla de equivalencias entre cuentas de Dynamics GP y SAP, para no perder el histórico", "The mapping between Dynamics GP and SAP accounts, to keep the history", "A tabela de equivalências entre contas do Dynamics GP e do SAP, para manter o histórico")],
+        key="provider_cloud", name=tx("Plataformas de proveedores externos", "External providers' platforms", "Plataformas de fornecedores externos"), category="files", status="available", direction="in", every_minutes=1440, phase="pilot",
+        summary=tx("Baja la informacion que hoy queda en las plataformas en la nube de terceros, para que no haya que entrar a cada una por separado.",
+                   "Pulls down the information that today sits in third parties' cloud platforms, so nobody has to log into each one separately.",
+                   "Baixa a informacao que hoje fica nas plataformas em nuvem de terceiros, para nao ter que entrar em cada uma."),
+        reads=[tx("Resultados de relevamientos e inspecciones", "Survey and inspection results", "Resultados de levantamentos e inspecoes"),
+               tx("Registros de equipos y telemedicion", "Equipment and remote monitoring records", "Registros de equipamentos e telemedicao")],
+        method=tx("Una lectura programada por plataforma, con las credenciales de ustedes y en modo de solo lectura. Si la plataforma no tiene forma de conectarse, se toma la exportacion que ya generan hoy.",
+                  "A scheduled read per platform, with your own credentials and read-only. If a platform has no way to connect, it takes the export they already produce today.",
+                  "Uma leitura programada por plataforma, com as credenciais de voces e somente leitura. Se a plataforma nao tiver como conectar, usa a exportacao que ja geram hoje."),
+        mapping=[(tx("Registro de la plataforma", "Platform record", "Registro da plataforma"), tx("Medicion o evento, con fecha, ubicacion y origen", "Measurement or event, with date, location and source", "Medicao ou evento, com data, local e origem"))],
+        setup=[tx("La lista de plataformas y quien las opera", "The list of platforms and who operates them", "A lista de plataformas e quem as opera"),
+               tx("Un usuario de solo lectura en cada una", "A read-only user on each one", "Um usuario somente leitura em cada uma")],
+        note=tx("Por definir en el diagnostico: cuales son y que permite cada una. Es la parte que mas depende de terceros y por eso figura como del piloto, no de hoy.",
+                "To be settled in discovery: which ones they are and what each allows. This is the part that depends most on third parties, which is why it is marked for the pilot rather than today.",
+                "A definir no diagnostico: quais sao e o que cada uma permite. E a parte que mais depende de terceiros, por isso figura como do piloto."),
     ),
     dict(
-        key="d365_finance", name="Dynamics 365 Finance", category="accounting", status="available", direction="in", every_minutes=1440, phase="after_decision",
-        summary=tx("Si Montamar elige Dynamics 365, este conector reemplaza al de Dynamics GP. Los tableros y los indicadores no cambian.",
-                   "If Montamar chooses Dynamics 365, this connector replaces the Dynamics GP one. Dashboards and indicators stay the same.",
-                   "Se a Montamar escolher Dynamics 365, este conector substitui o do Dynamics GP. Os painéis e indicadores não mudam."),
-        reads=[tx("Proyectos y categorías de costo", "Projects and cost categories", "Projetos e categorias de custo"),
-               tx("Movimientos contables y facturas de proveedores", "Accounting entries and vendor invoices", "Lançamentos contábeis e faturas de fornecedores")],
-        method=tx("Servicios de datos estándar de Dynamics 365, con permisos de solo lectura.", "Dynamics 365 standard data services, with read-only permissions.", "Serviços de dados padrão do Dynamics 365, com permissões somente leitura."),
-        mapping=[(tx("Movimiento de proyecto", "Project transaction", "Lançamento de projeto"), tx("Costo contable por proyecto, mes y tipo de costo", "Accounting cost by project, month and cost type", "Custo contábil por projeto, mês e tipo de custo"))],
-        setup=[tx("La decisión del nuevo sistema contable", "The decision on the new accounting system", "A decisão do novo sistema contábil"),
-               tx("Un usuario de solo lectura en Dynamics 365", "A read-only user in Dynamics 365", "Um usuário somente leitura no Dynamics 365")],
+        key="geospatial", name=tx("Datos geoespaciales (SHP)", "Geospatial data (SHP)", "Dados geoespaciais (SHP)"), category="field", status="planned", direction="in", every_minutes=1440, phase="rollout",
+        summary=tx("Leer la traza de las canerias y los puntos de medicion desde archivos SHP, para poder ubicar cada lectura sobre el terreno.",
+                   "Read pipeline routes and measurement points from SHP files, so every reading can be placed on the ground.",
+                   "Ler o tracado das tubulacoes e os pontos de medicao a partir de arquivos SHP, para localizar cada leitura no terreno."),
+        reads=[tx("Traza de canerias y progresivas", "Pipeline routes and chainage", "Tracado de tubulacoes e estaqueamento"),
+               tx("Ubicacion de postes de medicion, anodos y rectificadores", "Location of test posts, anodes and rectifiers", "Localizacao de postes de medicao, anodos e retificadores")],
+        method=tx("Todavia no esta hecho. Es el siguiente paso de la consolidacion y figura asi a proposito: preferimos decirlo antes que mostrarlo resuelto en una pantalla.",
+                  "Not built yet. It is the next step of the consolidation and is marked that way on purpose: we would rather say so than show it solved on a screen.",
+                  "Ainda nao esta feito. E o proximo passo da consolidacao e figura assim de proposito: preferimos dizer antes de mostrar resolvido numa tela."),
+        mapping=[(tx("Geometria de la traza", "Route geometry", "Geometria do tracado"), tx("Tramo de caneria, con su progresiva", "Pipeline section, with its chainage", "Trecho de tubulacao, com seu estaqueamento"))],
+        setup=[tx("Los archivos SHP y el sistema de coordenadas que usan", "The SHP files and the coordinate system they use", "Os arquivos SHP e o sistema de coordenadas que usam")],
     ),
     dict(
-        key="project_online", name="Microsoft Project Online", category="schedules", status="available", direction="in", every_minutes=60, phase="pilot",
-        summary=tx("Lee los cronogramas directamente desde Project Online, sin tener que exportar archivos.", "Reads schedules directly from Project Online, with no files to export.", "Lê os cronogramas direto do Project Online, sem exportar arquivos."),
-        reads=[tx("Tareas, fechas de línea base y reales, avance", "Tasks, baseline and actual dates, progress", "Tarefas, datas de linha de base e reais, avanço")],
-        method=tx("Conexión directa de solo lectura a los proyectos publicados.", "Direct read-only connection to published projects.", "Conexão direta somente leitura aos projetos publicados."),
-        mapping=[(tx("Tarea del proyecto publicado", "Task in a published project", "Tarefa do projeto publicado"), tx("Tarea con fechas planificadas y reales", "Task with planned and actual dates", "Tarefa com datas previstas e reais"))],
-        setup=[tx("Confirmar si Montamar usa Project Online o solo archivos de escritorio", "Confirm whether Montamar uses Project Online or only desktop files", "Confirmar se a Montamar usa o Project Online ou só arquivos locais")],
-    ),
-    dict(
-        key="primavera", name="Oracle Primavera P6", category="schedules", status="available", direction="in", every_minutes=1440, phase="pilot",
-        summary=tx("Si un cliente o país exige Primavera, sus cronogramas se leen igual que los de Microsoft Project.", "If a client or country requires Primavera, its schedules are read just like Microsoft Project ones.", "Se um cliente ou país exigir Primavera, seus cronogramas são lidos como os do Microsoft Project."),
-        reads=[tx("Actividades, fechas y avance", "Activities, dates and progress", "Atividades, datas e avanço")],
-        method=tx("Archivos de exportación de Primavera o consulta de solo lectura a su base de datos.", "Primavera export files or a read-only query to its database.", "Arquivos de exportação do Primavera ou consulta somente leitura ao banco."),
-        mapping=[(tx("Actividad de Primavera", "Primavera activity", "Atividade do Primavera"), tx("Tarea con fechas planificadas y reales", "Task with planned and actual dates", "Tarefa com datas previstas e reais"))],
-        setup=[tx("Saber qué proyectos o clientes usan Primavera", "Know which projects or clients use Primavera", "Saber quais projetos ou clientes usam Primavera")],
-    ),
-    dict(
-        key="email", name="Microsoft Outlook", category="email", status="available", direction="in", every_minutes=15, phase="pilot",
-        summary=tx("Las órdenes de cambio e informes que llegan a un buzón de proyectos pasan directo a «Cargar datos».", "Change orders and reports sent to a project mailbox go straight to “Load data”.", "Ordens de alteração e relatórios enviados a uma caixa de projetos vão direto para «Carregar dados»."),
-        reads=[tx("Archivos adjuntos (Excel, PDF, cronogramas)", "Attachments (Excel, PDF, schedules)", "Anexos (Excel, PDF, cronogramas)")],
-        method=tx("Lectura de un buzón dedicado, con permisos solo sobre ese buzón.", "Reads one dedicated mailbox, with permissions on that mailbox only.", "Leitura de uma caixa dedicada, com permissões só nessa caixa."),
-        mapping=[(tx("Adjunto de correo", "Email attachment", "Anexo de e-mail"), tx("Archivo en espera de revisión en «Cargar datos»", "File waiting for review in “Load data”", "Arquivo aguardando revisão em «Carregar dados»"))],
-        setup=[tx("Un buzón dedicado (por ejemplo, proyectos@conduto)", "A dedicated mailbox (for example, projects@conduto)", "Uma caixa dedicada (por exemplo, projetos@conduto)")],
-    ),
-    dict(
-        key="power_bi", name="Power BI", category="reporting", status="available", direction="out", every_minutes=1440, phase="pilot",
-        summary=tx("Publica el modelo consolidado para que finanzas y gerencia armen sus propios reportes. Hoy se puede descargar el Excel consolidado.",
-                   "Publishes the consolidated model so finance and management can build their own reports. Today the consolidated Excel can be downloaded.",
-                   "Publica o modelo consolidado para que finanças e gerência montem seus próprios relatórios. Hoje é possível baixar o Excel consolidado."),
-        reads=[tx("Envía: proyectos, costos, avance, órdenes de cambio, ofertas", "Sends: projects, costs, progress, change orders, bids", "Envia: projetos, custos, avanço, ordens de alteração, propostas")],
-        method=tx("Actualización diaria de un conjunto de datos, con el origen de cada valor.", "Daily refresh of a dataset, with each value's source.", "Atualização diária de um conjunto de dados, com a origem de cada valor."),
-        mapping=[(tx("Modelo común", "Common model", "Modelo comum"), tx("Tablas de Power BI listas para reportes", "Power BI tables ready for reports", "Tabelas do Power BI prontas para relatórios"))],
-        setup=[tx("Un espacio de trabajo de Power BI de Montamar", "A Montamar Power BI workspace", "Um espaço de trabalho do Power BI da Montamar")],
-    ),
-    dict(
-        key="field_app", name=tx("Partes diarios de obra", "Daily site reports", "Diários de obra"), category="field", status="planned", direction="in", every_minutes=60, phase="rollout",
-        summary=tx("Una aplicación móvil para registrar avance, soldaduras y eventos en obra el mismo día, sin esperar el informe mensual en PDF.",
-                   "A mobile app to record progress, welds and site events the same day, without waiting for the monthly PDF report.",
-                   "Um aplicativo para registrar avanço, soldas e ocorrências no mesmo dia, sem esperar o relatório mensal em PDF."),
-        reads=[tx("Avance diario, soldaduras y reparaciones, eventos con fotos", "Daily progress, welds and repairs, events with photos", "Avanço diário, soldas e reparos, ocorrências com fotos")],
-        method=tx("Formularios simples en el teléfono del supervisor, que funcionan sin señal y se envían al volver a tenerla.", "Simple forms on the supervisor's phone that work offline and send when back in coverage.", "Formulários simples no celular do supervisor, que funcionam sem sinal e enviam quando voltar a ter."),
-        mapping=[(tx("Parte diario", "Daily report", "Diário de obra"), tx("Avance, producción y eventos del día", "Progress, production and events of the day", "Avanço, produção e ocorrências do dia"))],
-        setup=[tx("Elegir un proyecto piloto y sus supervisores", "Choose a pilot project and its supervisors", "Escolher um projeto piloto e seus supervisores")],
+        key="field_app", name=tx("Mediciones de campo", "Field measurements", "Medicoes de campo"), category="field", status="planned", direction="in", every_minutes=60, phase="rollout",
+        summary=tx("Que las lecturas de campo lleguen el mismo dia: potenciales, relevamientos CIPS y DCVG, y la salida de los rectificadores.",
+                   "Get the field readings in the same day: potentials, CIPS and DCVG surveys, and rectifier output.",
+                   "Que as leituras de campo cheguem no mesmo dia: potenciais, levantamentos CIPS e DCVG, e a saida dos retificadores."),
+        reads=[tx("Potenciales y criterios de proteccion", "Potentials and protection criteria", "Potenciais e criterios de protecao"),
+               tx("Salida de rectificadores (tension y corriente)", "Rectifier output (voltage and current)", "Saida de retificadores (tensao e corrente)")],
+        method=tx("Todavia no esta hecho. Depende de como se registren hoy las mediciones en obra, que es una de las cosas a mirar en el diagnostico.",
+                  "Not built yet. It depends on how measurements are recorded on site today, which is one of the things to look at in discovery.",
+                  "Ainda nao esta feito. Depende de como as medicoes sao registradas hoje em obra, que e uma das coisas a ver no diagnostico."),
+        mapping=[(tx("Lectura de campo", "Field reading", "Leitura de campo"), tx("Medicion con fecha, punto y responsable", "Measurement with date, point and who took it", "Medicao com data, ponto e responsavel"))],
+        setup=[tx("Como se registran hoy las mediciones", "How measurements are recorded today", "Como as medicoes sao registradas hoje")],
     ),
 ]
+
 BY_KEY = {c["key"]: c for c in CATALOG}
 STAGE_PROBABILITY = {"prospecting": 0.1, "preparing": 0.25, "submitted": 0.4, "negotiation": 0.6, "won": 1.0, "lost": 0.0}
 
@@ -365,8 +333,31 @@ def _sync_bejerman(db: Session, when: datetime) -> dict:
     )
 
 
-SYNC = {"files": _sync_files, "dynamics_gp": _sync_gp, "sales": _sync_sales,
-        "bejerman": _sync_bejerman}
+def _sync_email(db: Session, when: datetime) -> dict:
+    """What came in as an attachment, and what it turned into.
+
+    Most invoices arrive this way, so this is the connector somebody
+    actually watches. It reports what was read and what is still waiting
+    for a person, because a mailbox connector that only says "12 new
+    messages" tells nobody anything useful.
+    """
+    from ..models import SupplierInvoice
+
+    by_mail = list(db.scalars(
+        select(SupplierInvoice).where(SupplierInvoice.channel.in_(("email", "portal")))
+    ))
+    waiting = [i for i in by_mail if i.status in ("read", "checked", "approved")]
+    held = [i for i in by_mail if i.status == "held"]
+    return dict(
+        read=len(by_mail), new=0, updated=0, issues=len(held),
+        status="attention" if held else "ok",
+        details=dict(attachments=len(by_mail), waiting=len(waiting),
+                     needs_a_person=len(held)),
+    )
+
+
+SYNC = {"files": _sync_files, "dynamics_gp": _sync_gp,
+        "bejerman": _sync_bejerman, "email": _sync_email}
 
 
 class ConnectorError(RuntimeError):
@@ -411,7 +402,11 @@ def test_connection(db: Session, key: str) -> dict:
         ) or 0
         detail = dict(route="screen", approved_and_waiting=waiting)
     else:
-        detail = dict(records=len(read_sales_source()))
+        from ..models import SupplierInvoice
+        detail = dict(mailbox="facturas@montamar.example", attachments=db.scalar(
+            select(func.count()).select_from(SupplierInvoice)
+            .where(SupplierInvoice.channel.in_(("email", "portal")))
+        ) or 0)
     return dict(ok=True, key=key, ms=int((time.perf_counter() - t0) * 1000) + 1, details=detail)
 
 
@@ -434,8 +429,12 @@ def _records(db: Session, key: str) -> int:
         return db.scalar(select(func.count()).select_from(Document).where(Document.doc_type.not_in(("erp_export", "sales_export")))) or 0
     if key == "dynamics_gp":
         return db.scalar(select(func.count()).select_from(ErpTransaction)) or 0
-    if key == "sales":
-        return db.scalar(select(func.count()).select_from(Opportunity)) or 0
+    if key == "email":
+        from ..models import SupplierInvoice
+        return db.scalar(
+            select(func.count()).select_from(SupplierInvoice)
+            .where(SupplierInvoice.channel.in_(("email", "portal")))
+        ) or 0
     if key == "bejerman":
         from ..models import SupplierInvoice
         return db.scalar(select(func.count()).select_from(SupplierInvoice)) or 0

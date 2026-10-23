@@ -232,7 +232,7 @@ export default function DataPage() {
           <button className={chip} onClick={() => docs(t("dh.chip.excel"), "doc_type=cost_workbook,legacy_workbook")}><FileSpreadsheet className="h-3.5 w-3.5" /> Excel · {excel}</button>
           <button className={chip} onClick={() => docs(t("doc.schedule"), "doc_type=schedule")}><GanttChart className="h-3.5 w-3.5" /> Microsoft Project · {bt.schedule ?? 0}</button>
           <button className={chip} onClick={() => docs(t("dh.chip.pdf"), "doc_type=contract,change_order,progress_report,closeout_report")}><FileText className="h-3.5 w-3.5" /> PDF · {pdfs}</button>
-          <button className={chip} onClick={() => docs(t("doc.erp_export"), "doc_type=erp_export")}><Landmark className="h-3.5 w-3.5" /> Dynamics GP · {bt.erp_export ?? 0}</button>
+          <button className={chip} onClick={() => docs(t("doc.erp_export"), "doc_type=erp_export")}><Landmark className="h-3.5 w-3.5" /> Bejerman · {bt.erp_export ?? 0}</button>
           {!!bt.sales_export && <button className={chip} onClick={() => docs(t("doc.sales_export"), "doc_type=sales_export")}><Handshake className="h-3.5 w-3.5" /> {t("dh.chip.sales")} · {bt.sales_export}</button>}
           <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1"><Layers className="h-3.5 w-3.5" /> {t("dh.langs")}</span>
           <a href={`${API_URL}/api/export/consolidated.xlsx?lang=${lang}`} className="ml-auto inline-flex items-center gap-2 rounded-lg bg-white px-3.5 py-2 text-[13px] font-semibold text-[#132a45] hover:bg-sky-50" title={t("dh.export_hint")}>
