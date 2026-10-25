@@ -12,16 +12,10 @@ const tx = (es: string, en: string, pt: string): L3 => ({ es, en, pt });
 const C = {
   title: tx("Cómo lo hacemos", "How we do it", "Como fazemos"),
   sub: tx(
-    "Las otras pantallas muestran qué hace el sistema con datos de ejemplo. Esta explica cómo lo construiríamos con los datos reales de Montamar: el problema, cómo funciona, las reglas que sigue, los pasos para ponerlo en marcha y qué necesitamos para empezar.",
-    "The other screens show what the system does with example data. This one explains how we would build it with Montamar's real data: the problem, how it works, the rules it follows, the steps to put it into service and what we need to start.",
-    "As outras telas mostram o que o sistema faz com dados de exemplo. Esta explica como o construiríamos com os dados reais da Montamar: o problema, como funciona, as regras que segue, os passos para colocá-lo em operação e o que precisamos para começar.",
+    "Las otras pantallas muestran qué hace el sistema con datos de ejemplo. Esta explica cómo lo construiríamos con los datos reales de Montamar: cómo funciona, las reglas que sigue, los pasos para ponerlo en marcha y las pocas cosas que necesitamos para empezar.",
+    "The other screens show what the system does with example data. This one explains how we would build it with Montamar's real data: how it works, the rules it follows, the steps to put it into service, and the few things we need to start.",
+    "As outras telas mostram o que o sistema faz com dados de exemplo. Esta explica como o construiríamos com os dados reais da Montamar: como funciona, as regras que segue, os passos para colocá-lo em operação e as poucas coisas que precisamos para começar.",
   ),
-  problemTitle: tx("El punto de partida", "Where we start", "O ponto de partida"),
-  problems: [
-    tx("El control de proyectos existe como proceso, pero vive en Excel y tablas dinámicas, con formatos distintos por país.", "Project control exists as a process, but lives in Excel and pivot tables, with different formats per country.", "O controle de projetos existe como processo, mas vive em Excel e tabelas dinâmicas, com formatos diferentes por país."),
-    tx("Costos, cronogramas (Microsoft Project) y documentos (PDF) no están conectados: la rentabilidad se conoce tarde, al cierre.", "Costs, schedules (Microsoft Project) and documents (PDF) are not connected: profitability is known late, at close-out.", "Custos, cronogramas (Microsoft Project) e documentos (PDF) não estão conectados: a rentabilidade é conhecida tarde, no encerramento."),
-    tx("La experiencia de proyectos cerrados no se puede consultar, así que no alimenta las nuevas ofertas.", "Experience from closed projects cannot be queried, so it does not feed new bids.", "A experiência de projetos encerrados não pode ser consultada, então não alimenta novas propostas."),
-  ],
   flowTitle: tx("Arquitectura", "Architecture", "Arquitetura"),
   flow: [
     [tx("Fuentes", "Sources", "Fontes"), tx("Correo y adjuntos · carpetas compartidas · Excel y CSV · PDF y escaneos · Bejerman · plataformas de proveedores externos", "Email and attachments · shared folders · Excel and CSV · PDF and scans · Bejerman · external providers' platforms", "E-mail e anexos · pastas compartilhadas · Excel e CSV · PDF e digitalizações · Bejerman · plataformas de fornecedores externos")],
@@ -46,15 +40,44 @@ const C = {
     [tx("Fase 2 · 6–8 semanas", "Phase 2 · 6–8 weeks", "Fase 2 · 6–8 semanas"), tx("Piloto en una zona", "Pilot in one zone", "Piloto numa zona"), tx("Datos reales de una zona, conexion de solo lectura a Bejerman, tablero y preguntas en produccion para gerencia.", "Real data from one zone, read-only connection to Bejerman, dashboard and questions live for management.", "Dados reais de uma zona, conexao somente leitura ao Bejerman, painel e perguntas em producao para a gerencia.")],
     [tx("Fase 3", "Phase 3", "Fase 3"), tx("Escala al resto", "Roll out to the rest", "Escala para o resto"), tx("Las demás zonas, la lectura de archivos geoespaciales (SHP) y las mediciones de campo del mismo día.", "The remaining zones, reading geospatial files (SHP), and same-day field measurements.", "As demais zonas, a leitura de arquivos geoespaciais (SHP) e as medições de campo no mesmo dia.")],
   ],
-  dataTitle: tx("Qué necesitamos para el diagnóstico", "What we need for discovery", "O que precisamos para o diagnóstico"),
-  dataCols: [tx("Fuente", "Source", "Fonte"), tx("Mínimo", "Minimum", "Mínimo"), tx("Ideal", "Ideal", "Ideal")],
+  dataTitle: tx("Qué necesitamos para empezar", "What we need to start", "O que precisamos para começar"),
+  dataIntro: tx(
+    "Son pocas cosas, y casi todas son números. Con eso ya se puede calcular el ahorro con cifras de ustedes en vez de las nuestras.",
+    "It is a short list, and most of it is numbers. With those we can work out the saving using your figures instead of ours.",
+    "São poucas coisas, e quase todas são números. Com isso já dá para calcular a economia com números de vocês em vez dos nossos.",
+  ),
+  dataCols: [tx("Qué", "What", "O quê"), tx("Por qué lo necesitamos", "Why we need it", "Por que precisamos")],
   data: [
-    [tx("Control de costos (Excel)", "Cost control (Excel)", "Controle de custos (Excel)"), tx("2–3 proyectos: al menos uno cerrado y uno activo", "2–3 projects: at least one closed and one active", "2–3 projetos: ao menos um encerrado e um ativo"), tx("Todos los proyectos de los últimos 5 años", "All projects from the last 5 years", "Todos os projetos dos últimos 5 anos")],
-    [tx("Facturas de proveedores", "Supplier invoices", "Faturas de fornecedores"), tx("Un mes de facturas como llegan hoy: correo, escaneos y fotos", "One month of invoices exactly as they arrive today: email, scans and photos", "Um mês de faturas como chegam hoje: e-mail, digitalizações e fotos"), tx("Tres meses, y cuántos minutos lleva cargar una", "Three months, and how many minutes one takes to type in", "Três meses, e quantos minutos leva lançar uma")],
-    [tx("Contratos y órdenes de cambio (PDF)", "Contracts and change orders (PDF)", "Contratos e ordens de alteração (PDF)"), tx("Contrato y órdenes de cambio de los proyectos de muestra", "Contract and change orders for the sample projects", "Contrato e ordens de alteração dos projetos de amostra"), tx("Historial completo de órdenes de cambio y reclamos", "Full history of change orders and claims", "Histórico completo de ordens de alteração e pleitos")],
-    [tx("Informes mensuales", "Monthly reports", "Relatórios mensais"), tx("Últimos 6 informes de un proyecto activo", "Last 6 reports of an active project", "Últimos 6 relatórios de um projeto ativo"), tx("Todos los informes e informes de cierre", "All reports and close-out reports", "Todos os relatórios e relatórios de encerramento")],
-    [tx("Bejerman", "Bejerman", "Bejerman"), tx("Saber si tiene interfaz de importación, y una exportación de los comprobantes del último mes", "Whether it has an import interface, and an export of last month's documents", "Se tem interface de importação, e uma exportação dos documentos do último mês"), tx("Un usuario de solo lectura, y uno de carga para el piloto", "A read-only user, and one with posting rights for the pilot", "Um usuário somente leitura, e um com permissão de lançamento para o piloto")],
-    [tx("Personas", "People", "Pessoas"), tx("2 horas con quien carga las facturas hoy, 1 hora con tecnología, 1 hora con administración", "2 hours with whoever types the invoices today, 1 hour with technology, 1 hour with administration", "2 horas com quem lança as faturas hoje, 1 hora com tecnologia, 1 hora com administração"), tx("Un responsable de datos por zona", "One data owner per zone", "Um responsável de dados por zona")],
+    [tx("Cuántas facturas de proveedores reciben por mes (o por día)",
+        "How many supplier invoices you receive per month (or per day)",
+        "Quantas faturas de fornecedores recebem por mês (ou por dia)"),
+     tx("Es el número que multiplica todo lo demás. Sin él, cualquier ahorro que mostremos es el nuestro, no el de ustedes.",
+        "It is the number everything else multiplies. Without it, any saving we show is ours, not yours.",
+        "É o número que multiplica todo o resto. Sem ele, qualquer economia que mostremos é nossa, não de voces.")],
+    [tx("Cuántos minutos lleva cargar una",
+        "How many minutes it takes to enter one",
+        "Quantos minutos leva lançar uma"),
+     tx("Medido, no estimado: cronometren tres o cuatro. Es lo que convierte facturas en horas.",
+        "Measured, not estimated: time three or four of them. It is what turns invoices into hours.",
+        "Medido, não estimado: cronometrem três ou quatro. É o que transforma faturas em horas.")],
+    [tx("Cuánto cuesta una hora de trabajo",
+        "What an hour of that work costs",
+        "Quanto custa uma hora desse trabalho"),
+     tx("Para que el ahorro se pueda presentar en plata y no solo en tiempo. Un valor aproximado alcanza.",
+        "So the saving can be put in money, not only in time. A rough figure is enough.",
+        "Para que a economia possa ser apresentada em dinheiro, não só em tempo. Um valor aproximado basta.")],
+    [tx("Un mes de facturas, como llegan hoy",
+        "One month of invoices, exactly as they arrive today",
+        "Um mês de faturas, como chegam hoje"),
+     tx("Correo, escaneos y fotos incluidos, con los proveedores habituales. Es la unica forma de medir el porcentaje sobre sus documentos y no sobre los de la demostracion.",
+        "Email, scans and photos included, from the usual suppliers. It is the only way to measure the percentage on your documents rather than on the demonstration's.",
+        "E-mail, digitalizações e fotos incluídos, dos fornecedores habituais. É a única forma de medir a porcentagem nos documentos de vocês e não nos da demonstração.")],
+    [tx("Si Bejerman tiene interfaz de importación",
+        "Whether Bejerman has an import interface",
+        "Se o Bejerman tem interface de importação"),
+     tx("Es la única duda técnica que quedó abierta en la reunión. El sistema funciona de las dos maneras; saberlo solo decide cuál usamos.",
+        "It is the one technical question left open in the meeting. The system works either way; knowing only decides which route we use.",
+        "É a única dúvida técnica que ficou aberta na reunião. O sistema funciona das duas formas; saber apenas decide qual caminho usamos.")],
   ],
   connectorsLink: tx("Ver los conectores", "See the connectors", "Ver os conectores"),
   note: tx("Todos los datos de esta demo son sintéticos: proyectos, clientes y cifras son ficticios y fueron generados para ilustrar el método.", "All data in this demo is synthetic: projects, clients and figures are fictitious and were generated to illustrate the method.", "Todos os dados desta demo são sintéticos: projetos, clientes e números são fictícios e foram gerados para ilustrar o método."),
@@ -67,12 +90,6 @@ export default function MethodPage() {
     <>
       <PageHeader title={L(C.title)} subtitle={L(C.sub)} />
       <div className="space-y-6">
-        <Card title={L(C.problemTitle)}>
-          <ul className="grid gap-3 md:grid-cols-3">
-            {C.problems.map((p, i) => <li key={i} className="rounded-lg bg-slate-50 p-4 text-[13.5px] leading-relaxed text-slate-700 ring-1 ring-slate-100">{L(p)}</li>)}
-          </ul>
-        </Card>
-
         <Card title={L(C.flowTitle)} actions={<Link href="/connectors" className="inline-flex items-center gap-1 text-[13px] font-medium text-[#2a78d6] hover:underline">{L(C.connectorsLink)} <ArrowRight className="h-3.5 w-3.5" /></Link>}>
           <div className="flex flex-col gap-2 xl:flex-row xl:items-stretch">
             {C.flow.map(([h, d], i) => (
@@ -111,7 +128,7 @@ export default function MethodPage() {
           </ol>
         </Card>
 
-        <Card title={L(C.dataTitle)} bodyClass="px-0 pb-2">
+        <Card title={L(C.dataTitle)} subtitle={L(C.dataIntro)} bodyClass="px-0 pb-2">
           <table className="min-w-full text-[13px]">
             <thead className="border-y border-slate-100 bg-slate-50/60">
               <tr>{C.dataCols.map((c, i) => <th key={i} className="px-5 py-2 text-left text-[11px] font-semibold uppercase tracking-wide text-slate-500">{L(c)}</th>)}</tr>

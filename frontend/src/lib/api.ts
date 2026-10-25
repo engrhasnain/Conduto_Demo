@@ -39,7 +39,7 @@ export type Health = "red" | "amber" | "green";
 export interface ProjectRow {
   code: string;
   name: string;
-  country: "EC" | "PE" | "BR";
+  country: "NQ" | "BA" | "PS";
   client: string;
   kind: "pipeline" | "civil";
   status: "active" | "closed";
@@ -414,7 +414,7 @@ export interface Bid extends SourceRef {
   crm_id: string;
   name: string;
   client: string;
-  country: "EC" | "PE" | "BR";
+  country: "NQ" | "BA" | "PS";
   kind: "pipeline" | "civil";
   terrain: "coast" | "highlands" | "rainforest";
   region: string;

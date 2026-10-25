@@ -176,7 +176,7 @@ type Panel =
 export default function DataPage() {
   const { t, lang, country, label } = useApp();
   const { data, error, loading, reload } = useApi<Datahub>("/api/datahub");
-  const [ctry, setCtry] = useState<"all" | "EC" | "PE" | "BR">("all");
+  const [ctry, setCtry] = useState<"all" | "NQ" | "BA" | "PS">("all");
   const [panel, setPanel] = useState<Panel>(null);
 
   const inCountry = useMemo(() => {
@@ -209,7 +209,7 @@ export default function DataPage() {
       <PageHeader title={t("dh.title")} subtitle={t("dh.sub")}>
         <div className="flex items-center gap-2">
           <Select label={t("pf.f.country")} value={ctry} onChange={setCtry} options={[
-            { value: "all", label: t("common.all") }, { value: "EC", label: country("EC") }, { value: "PE", label: country("PE") }, { value: "BR", label: country("BR") }]} />
+            { value: "all", label: t("common.all") }, { value: "NQ", label: country("NQ") }, { value: "BA", label: country("BA") }, { value: "PS", label: country("PS") }]} />
         </div>
       </PageHeader>
 
@@ -222,7 +222,7 @@ export default function DataPage() {
           <Counter value={data.records_total} label={t("dh.records")} onClick={() => setPanel({ kind: "records" })} />
           <ArrowRight className="hidden h-5 w-5 text-sky-300/70 lg:block" />
           <Link href="/" className="group -m-1 rounded-lg p-1 hover:bg-white/5">
-            <p className="text-[34px] font-semibold leading-none tracking-tight">{data.projects}<span className="text-sky-300/80"> · </span>{data.countries}</p>
+            <p className="text-[34px] font-semibold leading-none tracking-tight">{data.projects}</p>
             <p className="mt-2 flex items-center gap-1 text-[12.5px] text-sky-200/80 group-hover:text-white">{t("dh.projects")} <ChevronRight className="h-3 w-3 opacity-60" /></p>
           </Link>
           <ArrowRight className="hidden h-5 w-5 text-sky-300/70 lg:block" />

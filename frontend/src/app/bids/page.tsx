@@ -120,7 +120,7 @@ function BidDetail({ id }: { id: string }) {
 export default function BidsPage() {
   const { t, lang, country, label } = useApp();
   const { data, error, loading, reload } = useApi<BidsResp>("/api/bids");
-  const [ctry, setCtry] = useState<"all" | "EC" | "PE" | "BR">("all");
+  const [ctry, setCtry] = useState<"all" | "NQ" | "BA" | "PS">("all");
   const [stage, setStage] = useState<"all" | Bid["stage"]>("all");
   const [risk, setRisk] = useState<"all" | Risk>("all");
   const [open, setOpen] = useState<string | null>(null);
@@ -148,7 +148,7 @@ export default function BidsPage() {
       <PageHeader title={t("bid.title")} subtitle={t("bid.sub")}>
         <div className="flex flex-wrap items-center gap-2">
           <Select label={t("pf.f.country")} value={ctry} onChange={setCtry} options={[
-            { value: "all", label: t("common.all") }, { value: "EC", label: country("EC") }, { value: "PE", label: country("PE") }, { value: "BR", label: country("BR") }]} />
+            { value: "all", label: t("common.all") }, { value: "NQ", label: country("NQ") }, { value: "BA", label: country("BA") }, { value: "PS", label: country("PS") }]} />
           <Select label={t("bid.f.stage")} value={stage} onChange={setStage} options={[
             { value: "all", label: t("common.all") }, ...OPEN.map((s) => ({ value: s, label: t(`bid.stage.${s}`) }))]} />
           <Select label={t("bid.f.risk")} value={risk} onChange={setRisk} options={[
