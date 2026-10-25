@@ -494,7 +494,11 @@ function JobView({ job, onImported, onDiscard }: { job: Job; onImported: (j: Job
 
 function Done({ res, onNew }: { res: Preview; onNew: () => void }) {
   const { t, lang } = useApp();
-  const keys = ["forecast_margin_pct", "pending_co_usd", "delay_months", "eac_usd", "health"];
+  // Margin forecasts and pending change orders are contract-construction
+  // measures. This business installs and maintains cathodic protection, and
+  // the discovery call never mentioned either, so the panel shows what the
+  // import actually moved: the cost on the job and whether it is on track.
+  const keys = ["eac_usd", "delay_months", "health"];
   const fmtK = (k: string, v: any) => k === "forecast_margin_pct" ? pct(v, lang) : k.endsWith("_usd") ? money(v, lang) : k === "health" ? t(`health.${v}`) : String(v ?? "–");
   return (
     <Card>
@@ -527,14 +531,12 @@ function Done({ res, onNew }: { res: Preview; onNew: () => void }) {
           </div>
         )}
         {res.after && !res.before && (
-          <p className="text-[13px] text-slate-700">{res.project_code} · {t("in.kpi.forecast_margin_pct")}: <b>{pct(res.after.forecast_margin_pct, lang)}</b></p>
+          <p className="text-[13px] text-slate-700">{res.project_code} · {t("in.kpi.eac_usd")}: <b>{money(res.after.eac_usd, lang)}</b></p>
         )}
-        {res.benchmark_projects && <p className="text-[13px] text-slate-700">{t("in.bench_count", res.benchmark_projects)}</p>}
         {res.template?.created && <p className="rounded-lg bg-emerald-50 p-2.5 text-[13px] text-emerald-900 ring-1 ring-emerald-200">{t("in.template_saved")}</p>}
         {res.template && !res.template.created && res.template.name && <p className="text-[13px] text-slate-600">{t("in.template_used", { name: res.template.name, n: res.template.times_used })}</p>}
         <div className="flex flex-wrap gap-2">
-          <Link href={`/projects/${res.project_code}`} className="inline-flex items-center gap-1.5 rounded-lg bg-[#132a45] px-3 py-1.5 text-[13px] font-medium text-white">{t("in.goto_project")} <ArrowRight className="h-3.5 w-3.5" /></Link>
-          {res.benchmark_projects && <Link href="/benchmarks" className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[13px] font-medium text-[#2a78d6] ring-1 ring-slate-200">{t("in.goto_bench")}</Link>}
+          <Link href="/data" className="inline-flex items-center gap-1.5 rounded-lg bg-[#132a45] px-3 py-1.5 text-[13px] font-medium text-white">{t("in.goto_project")} <ArrowRight className="h-3.5 w-3.5" /></Link>
           <button onClick={onNew} className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[13px] text-slate-600 ring-1 ring-slate-200 hover:bg-slate-50"><RotateCcw className="h-3.5 w-3.5" /> {t("in.another")}</button>
         </div>
       </div>

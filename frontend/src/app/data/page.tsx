@@ -73,7 +73,7 @@ function ErpFinding({ d }: { d: Discrepancy }) {
       <div className="min-w-[240px] flex-1">
         <p className="text-[13.5px] font-medium text-slate-900">{t(`dh.f.${d.kind}`)}</p>
         <p className="text-[12.5px] text-slate-500">
-          <Link href={`/projects/${d.project}`} className="font-semibold text-[#2a78d6] hover:underline">{d.project}</Link> · {period(d.period, lang)} · {label("cost_types", d.cost_type)} ·{" "}
+          <span className="font-semibold text-slate-700">{d.project}</span> · {period(d.period, lang)} · {label("cost_types", d.cost_type)} ·{" "}
           {t("dh.f.erp_detail", { erp: money(d.erp_amount, lang, d.currency), excel: money(d.excel_amount, lang, d.currency) })}
           {d.erp_rows[0] && d.kind !== "missing_in_erp" ? ` · ${d.erp_rows[0].reference}${d.erp_rows[0].vendor ? ` (${d.erp_rows[0].vendor})` : ""}` : ""}
         </p>
@@ -91,7 +91,7 @@ function AnomalyRow({ a, max }: { a: Anomaly; max: number }) {
   const { t, lang, label } = useApp();
   return (
     <div className="grid grid-cols-[88px_minmax(0,1fr)_120px] items-center gap-3 px-5 py-2.5 text-[13px]">
-      <Link href={`/projects/${a.project}`} className="font-semibold text-[#2a78d6] hover:underline">{a.project}</Link>
+      <span className="font-semibold text-slate-700">{a.project}</span>
       <div className="min-w-0">
         <p className="truncate text-slate-800">{period(a.period, lang)} · {label("activities", a.activity)}</p>
         <div className="mt-1 flex items-center gap-2">
@@ -230,7 +230,7 @@ export default function DataPage() {
         </div>
         <div className="mt-6 flex flex-wrap items-center gap-2 text-[12.5px]">
           <button className={chip} onClick={() => docs(t("dh.chip.excel"), "doc_type=cost_workbook,legacy_workbook")}><FileSpreadsheet className="h-3.5 w-3.5" /> Excel · {excel}</button>
-          <button className={chip} onClick={() => docs(t("doc.schedule"), "doc_type=schedule")}><GanttChart className="h-3.5 w-3.5" /> Microsoft Project · {bt.schedule ?? 0}</button>
+          <button className={chip} onClick={() => docs(t("doc.schedule"), "doc_type=schedule")}><GanttChart className="h-3.5 w-3.5" /> {t("doc.schedule")} · {bt.schedule ?? 0}</button>
           <button className={chip} onClick={() => docs(t("dh.chip.pdf"), "doc_type=contract,change_order,progress_report,closeout_report")}><FileText className="h-3.5 w-3.5" /> PDF · {pdfs}</button>
           <button className={chip} onClick={() => docs(t("doc.erp_export"), "doc_type=erp_export")}><Landmark className="h-3.5 w-3.5" /> Bejerman · {bt.erp_export ?? 0}</button>
           {!!bt.sales_export && <button className={chip} onClick={() => docs(t("doc.sales_export"), "doc_type=sales_export")}><Handshake className="h-3.5 w-3.5" /> {t("dh.chip.sales")} · {bt.sales_export}</button>}
@@ -263,7 +263,7 @@ export default function DataPage() {
               <div className="min-w-[240px] flex-1">
                 <p className="text-[13.5px] font-medium text-slate-900">{t("dh.f.stale_report")}</p>
                 <p className="text-[12.5px] text-slate-500">
-                  <Link href={`/projects/${m.project}`} className="font-semibold text-[#2a78d6] hover:underline">{m.project}</Link> · {period(m.period, lang)} ·{" "}
+                  <span className="font-semibold text-slate-700">{m.project}</span> · {period(m.period, lang)} ·{" "}
                   {t("dh.f.report_detail", { reported: money(m.reported, lang, m.currency), workbook: money(m.workbook, lang, m.currency) })}
                 </p>
               </div>
@@ -280,7 +280,7 @@ export default function DataPage() {
               <div className="min-w-[240px] flex-1">
                 <p className="text-[13.5px] font-medium text-slate-900">{t("dh.f.unexplained")}</p>
                 <p className="text-[12.5px] text-slate-500">
-                  <Link href={`/projects/${a.project}`} className="font-semibold text-[#2a78d6] hover:underline">{a.project}</Link> · {period(a.period, lang)} ·{" "}
+                  <span className="font-semibold text-slate-700">{a.project}</span> · {period(a.period, lang)} ·{" "}
                   {t("dh.f.anomaly_detail", { act: label("activities", a.activity), excess: money(a.excess, lang, a.currency) })}
                 </p>
               </div>
@@ -357,7 +357,7 @@ export default function DataPage() {
             <tbody className="divide-y divide-slate-100">
               {coverage.map((c) => (
                 <tr key={c.project} className="hover:bg-slate-50">
-                  <Td className="min-w-[240px]"><Link href={`/projects/${c.project}`} className="font-semibold text-[#2a78d6] hover:underline">{c.project}</Link> <span className="text-slate-500">{c.name}</span>
+                  <Td className="min-w-[240px]"><span className="font-semibold text-slate-700">{c.project}</span> <span className="text-slate-500">{c.name}</span>
                     {c.origin === "upload" && <Badge tone="violet" className="ml-1.5">{t("pj.uploaded")}</Badge>}</Td>
                   {DOC_COLS.map(([k]) => (
                     <Td key={k} className="text-center">

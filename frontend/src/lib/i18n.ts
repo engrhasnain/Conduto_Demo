@@ -190,7 +190,7 @@ const D: Record<string, [string, string, string]> = {
 
   // portfolio
   "pf.title": ["Portafolio de proyectos", "Project portfolio", "Portfólio de projetos"],
-  "pf.subtitle": ["{n} proyectos consolidados de Ecuador, Perú y Brasil · corte {period}", "{n} projects consolidated from Ecuador, Peru and Brazil · cut-off {period}", "{n} projetos consolidados do Equador, Peru e Brasil · corte {period}"],
+  "pf.subtitle": ["{n} obras consolidadas · corte {period}", "{n} jobs consolidated · cut-off {period}", "{n} obras consolidadas · corte {period}"],
   "pf.kpi.active": ["Proyectos activos", "Active projects", "Projetos ativos"],
   "pf.kpi.active_sub": ["{n} cerrados en el histórico", "{n} closed in the history", "{n} encerrados no histórico"],
   "pf.kpi.contract": ["Valor contratado", "Contract value", "Valor contratado"],
@@ -300,7 +300,7 @@ const D: Record<string, [string, string, string]> = {
   "pj.none": ["Sin registros", "No records", "Sem registros"],
   "pj.notfound": ["Proyecto no encontrado", "Project not found", "Projeto não encontrado"],
   "doc.cost_workbook": ["Control de costos (Excel)", "Cost control (Excel)", "Controle de custos (Excel)"],
-  "doc.schedule": ["Cronograma (Microsoft Project)", "Schedule (Microsoft Project)", "Cronograma (Microsoft Project)"],
+  "doc.schedule": ["Cronograma de obra", "Work schedule", "Cronograma de obra"],
   "doc.contract": ["Contrato", "Contract", "Contrato"],
   "doc.change_order": ["Orden de cambio", "Change order", "Ordem de alteração"],
   "doc.progress_report": ["Informe mensual", "Monthly report", "Relatório mensal"],
@@ -345,12 +345,12 @@ const D: Record<string, [string, string, string]> = {
 
   // ingest
   "in.title": ["Cargar datos nuevos", "Load new data", "Carregar dados novos"],
-  "in.sub": ["Así entran al sistema los archivos que hoy llegan por correo: Excel de costos, órdenes de cambio en PDF y cronogramas de Microsoft Project. El sistema lee el archivo, le muestra lo que entendió y solo guarda cuando usted confirma.", "This is how the files that arrive by email today get into the system: cost Excel files, change orders in PDF and Microsoft Project schedules. The system reads the file, shows you what it understood and only saves once you confirm.", "É assim que os arquivos que hoje chegam por e-mail entram no sistema: Excel de custos, ordens de alteração em PDF e cronogramas do Microsoft Project. O sistema lê o arquivo, mostra o que entendeu e só salva quando você confirma."],
+  "in.sub": ["Así entran al sistema los archivos que hoy llegan sueltos: facturas en PDF o escaneadas, planillas de costos y mediciones en Excel o CSV. El sistema lee el archivo, le muestra lo que entendió y solo guarda cuando usted confirma.", "This is how the files that arrive loose today get into the system: invoices as PDF or scans, cost spreadsheets and measurements in Excel or CSV. The system reads the file, shows you what it understood, and only saves once you confirm.", "É assim que os arquivos que hoje chegam soltos entram no sistema: faturas em PDF ou digitalizadas, planilhas de custos e medições em Excel ou CSV. O sistema lê o arquivo, mostra o que entendeu e só salva quando você confirma."],
   "in.samples": ["Pruebe con un archivo de ejemplo", "Try an example file", "Teste com um arquivo de exemplo"],
   "in.analyze": ["Leer este archivo", "Read this file", "Ler este arquivo"],
   "in.download": ["Ver el original", "See the original", "Ver o original"],
   "in.drop": ["Arrastre un archivo aquí o haga clic para elegirlo", "Drag a file here or click to choose it", "Arraste um arquivo aqui ou clique para escolhê-lo"],
-  "in.drop_types": ["Excel, PDF o Microsoft Project (formato XML) · hasta 4 megabytes", "Excel, PDF or Microsoft Project (XML format) · up to 4 megabytes", "Excel, PDF ou Microsoft Project (formato XML) · até 4 megabytes"],
+  "in.drop_types": ["Excel, CSV, PDF o escaneos · hasta 4 megabytes", "Excel, CSV, PDF or scans · up to 4 megabytes", "Excel, CSV, PDF ou digitalizações · até 4 megabytes"],
   "in.step.upload": ["Archivo recibido", "File received", "Arquivo recebido"],
   "in.step.read": ["Lectura y mapeo", "Read & map", "Leitura e mapeamento"],
   "in.step.review": ["Revisión humana", "Human review", "Revisão humana"],
@@ -361,7 +361,7 @@ const D: Record<string, [string, string, string]> = {
   "in.kind.legacy_workbook": ["Liquidación de un proyecto antiguo (Excel)", "Close-out of an old project (Excel)", "Liquidação de um projeto antigo (Excel)"],
   "in.kind.change_order_pdf": ["Orden de cambio (PDF)", "Change order (PDF)", "Ordem de alteração (PDF)"],
   "in.kind.document_pdf": ["Documento PDF", "PDF document", "Documento PDF"],
-  "in.kind.schedule_xml": ["Cronograma de Microsoft Project", "Microsoft Project schedule", "Cronograma do Microsoft Project"],
+  "in.kind.schedule_xml": ["Cronograma de obra (XML)", "Work schedule (XML)", "Cronograma de obra (XML)"],
   "in.kind.unknown_workbook": ["Excel no reconocido", "Unrecognized workbook", "Planilha não reconhecida"],
   "in.kind.unsupported": ["Formato no soportado", "Unsupported format", "Formato não suportado"],
   "in.kind.error": ["Error al leer", "Read error", "Erro de leitura"],
@@ -448,10 +448,10 @@ const D: Record<string, [string, string, string]> = {
   "in.discard": ["Descartar", "Discard", "Descartar"],
   "in.not_ready": ["Resuelva los puntos marcados arriba para poder guardar.", "Resolve the points marked above to be able to save.", "Resolva os pontos marcados acima para poder salvar."],
   "in.done": ["Guardado", "Saved", "Salvo"],
-  "in.impact": ["Qué cambió en {code}", "What changed in {code}", "O que mudou em {code}"],
+  "in.impact": ["Qué cambió en {code} al cargar este archivo", "What this file changed in {code}", "O que este arquivo mudou em {code}"],
   "in.before_lbl": ["Antes", "Before", "Antes"],
   "in.after_lbl": ["Después", "After", "Depois"],
-  "in.goto_project": ["Abrir proyecto", "Open project", "Abrir projeto"],
+  "in.goto_project": ["Ver las verificaciones", "See the checks", "Ver as verificações"],
   "in.goto_bench": ["Ver benchmarks", "See benchmarks", "Ver benchmarks"],
   "in.template_saved": ["Formato nuevo guardado como plantilla: la próxima vez se reconocerá automáticamente.", "New format saved as a template: next time it will be recognized automatically.", "Formato novo salvo como modelo: da próxima vez será reconhecido automaticamente."],
   "in.template_used": ["Plantilla «{name}» reutilizada ({n} usos).", "Template “{name}” reused ({n} uses).", "Modelo «{name}» reutilizado ({n} usos)."],
@@ -463,7 +463,7 @@ const D: Record<string, [string, string, string]> = {
   "in.kpi.forecast_margin_pct": ["Margen pronosticado", "Forecast margin", "Margem prevista"],
   "in.kpi.pending_co_usd": ["Órdenes de cambio pendientes (dólares)", "Pending change orders (US dollars)", "Ordens de alteração pendentes (dólares)"],
   "in.kpi.delay_months": ["Atraso (meses)", "Delay (months)", "Atraso (meses)"],
-  "in.kpi.eac_usd": ["Costo estimado al cierre (dólares)", "Estimated final cost (US dollars)", "Custo estimado no término (dólares)"],
+  "in.kpi.eac_usd": ["Costo proyectado de la obra", "Projected cost of the job", "Custo projetado da obra"],
   "in.kpi.health": ["Estado", "Health", "Situação"],
 
   // benchmarks
@@ -564,7 +564,7 @@ const D: Record<string, [string, string, string]> = {
   "dh.r.issues": ["Eventos (lluvias, comunidades, permisos…)", "Events (rain, communities, permits…)", "Ocorrências (chuvas, comunidades, licenças…)"],
   "dh.r.issues_from": ["Páginas de los informes mensuales", "Pages of the monthly reports", "Páginas dos relatórios mensais"],
   "dh.r.schedule_tasks": ["Tareas del cronograma", "Schedule tasks", "Tarefas do cronograma"],
-  "dh.r.schedule_tasks_from": ["Archivos de Microsoft Project", "Microsoft Project files", "Arquivos do Microsoft Project"],
+  "dh.r.schedule_tasks_from": ["Archivos de cronograma", "Schedule files", "Arquivos de cronograma"],
   "dh.r.erp_transactions": ["Transacciones contables", "Accounting transactions", "Transações contábeis"],
   "dh.r.erp_transactions_from": ["Exportaciones de Bejerman", "Bejerman exports", "Exportações do Bejerman"],
   "dh.r.document_pages": ["Páginas de texto para búsqueda", "Text pages for search", "Páginas de texto para busca"],
@@ -589,7 +589,7 @@ const D: Record<string, [string, string, string]> = {
 
   // guided ingestion
   "in.g1.title": ["Elija un archivo", "Choose a file", "Escolha um arquivo"],
-  "in.g1.body": ["Un ejemplo de abajo o uno suyo: Excel, PDF o Microsoft Project.", "An example below or one of yours: Excel, PDF or Microsoft Project.", "Um exemplo abaixo ou um seu: Excel, PDF ou Microsoft Project."],
+  "in.g1.body": ["Un ejemplo de abajo o uno suyo: Excel, CSV, PDF o un escaneo.", "An example below or one of yours: Excel, CSV, PDF or a scan.", "Um exemplo abaixo ou um seu: Excel, CSV, PDF ou uma digitalização."],
   "in.g2.title": ["El sistema lo lee", "The system reads it", "O sistema lê"],
   "in.g2.body": ["Encuentra el proyecto, las filas y los montos. Todavía no se guarda nada.", "It finds the project, the rows and the amounts. Nothing is saved yet.", "Encontra o projeto, as linhas e os valores. Nada é salvo ainda."],
   "in.g3.title": ["Usted revisa", "You check", "Você revisa"],
@@ -657,7 +657,7 @@ const D: Record<string, [string, string, string]> = {
   "pf.kpi.pending_sub1": ["1 orden sin aprobar", "1 order awaiting approval", "1 ordem sem aprovação"],
 
   // schedule format
-  "in.engine.xml": ["Formato estándar de Microsoft Project", "Standard Microsoft Project format", "Formato padrão do Microsoft Project"],
+  "in.engine.xml": ["Formato XML de cronograma", "Schedule XML format", "Formato XML de cronograma"],
 
   // benchmark wording
   "bm.click_dot": ["Haga clic en un punto para abrir el proyecto", "Click a dot to open the project", "Clique num ponto para abrir o projeto"],

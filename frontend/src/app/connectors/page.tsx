@@ -185,7 +185,6 @@ function ConnectorDetail({ id }: { id: string }) {
                 <>
                   {!result.run.new && !result.run.updated && <p className="mt-1 text-slate-600">{t("con.no_changes")}</p>}
                   <ChangeList run={result.run} />
-                  <Link href="/bids" className="mt-2 inline-flex items-center gap-1 font-medium text-[#2a78d6] hover:underline">{t("con.go.bids")} <ArrowRight className="h-3.5 w-3.5" /></Link>
                 </>
               )}
             </div>
